@@ -44,7 +44,11 @@ const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="it" className={`${plexSans.variable} ${plexMono.variable} bg-background`}>
+    <html
+      lang="it"
+      className={`${plexSans.variable} ${plexMono.variable} bg-background`}
+      suppressHydrationWarning
+    >
       <body className="flex min-h-dvh flex-col pb-[calc(3.5rem+env(safe-area-inset-bottom))] antialiased lg:pb-0">
         <SiteHeader />
         <main className="flex-1">{children}</main>
