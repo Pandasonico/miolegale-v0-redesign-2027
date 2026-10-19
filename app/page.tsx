@@ -8,11 +8,10 @@ import { MATERIE, SOURCE_ARCHIVES } from '@/lib/site'
 import { getCategories, getPosts } from '@/lib/wp'
 
 export default async function HomePage() {
-  const [categories, massime, sentenze, norme, notizie, guide, brocardi] = await Promise.all([
+  const [categories, massime, norme, notizie, guide, brocardi] = await Promise.all([
     getCategories(),
     getPosts({ categorySlug: 'massime', perPage: 5 }),
-    getPosts({ categorySlug: 'sentenze', perPage: 4 }),
-    getPosts({ categorySlug: 'norme', perPage: 4 }),
+    getPosts({ categorySlug: 'norme', perPage: 6 }),
     getPosts({ categorySlug: 'notizie', perPage: 10, withImages: true }),
     getPosts({ categorySlug: 'guide', perPage: 4, withImages: true }),
     getPosts({ categorySlug: 'brocardi', perPage: 1 }),
@@ -113,25 +112,29 @@ export default async function HomePage() {
         <div className="flex flex-col gap-8">
           <SectionBlock title="Ultime massime" href="/massime" posts={massime.posts} description="Principi di diritto dalla giurisprudenza." />
           <AdSlot variant="in-feed" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_FEED} />
-          <div className="grid gap-8 md:grid-cols-2">
-            <SectionBlock title="Sentenze" href="/sentenze" posts={sentenze.posts} />
-            <SectionBlock title="Norme" href="/norme" posts={norme.posts} />
+          <div className="grid gap-8 md:grid-cols-3">
+            <div className="md:col-span-2">
+              <SectionBlock title="Notizie giuridiche" href="/notizie" posts={sideNews} />
+            </div>
+            <div className="flex flex-col">
+              <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_FEED_SIDE} />
+            </div>
           </div>
         </div>
 
         <aside className="flex flex-col gap-8" aria-label="Barra laterale">
           <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR} />
-          <section aria-labelledby="news-title" className="rounded-lg border border-border bg-card p-5">
-            <h2 id="news-title" className="font-sans tracking-tight text-xl font-semibold">
-              Notizie giuridiche
+          <section aria-labelledby="norme-side-title" className="rounded-lg border border-border bg-card p-5">
+            <h2 id="norme-side-title" className="font-sans tracking-tight text-xl font-semibold">
+              Norme
             </h2>
             <div className="divide-y divide-border">
-              {sideNews.map((p) => (
+              {norme.posts.map((p) => (
                 <PostRow key={p.id} post={p} showExcerpt={false} />
               ))}
             </div>
-            <Link href="/notizie" className="mt-2 inline-block text-sm font-medium text-primary hover:underline">
-              Tutte le notizie
+            <Link href="/norme" className="mt-2 inline-block text-sm font-medium text-primary hover:underline">
+              Tutte le norme
             </Link>
           </section>
           {brocardo && (
@@ -141,9 +144,6 @@ export default async function HomePage() {
               <p className="mt-2 line-clamp-3 text-sm">{brocardo.excerpt}</p>
             </Link>
           )}
-          <div className="sticky top-24">
-            <AdSlot variant="skyscraper" slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_STICKY} />
-          </div>
         </aside>
       </div>
 
