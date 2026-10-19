@@ -49,7 +49,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       className={`${plexSans.variable} ${plexMono.variable} bg-background`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-dvh flex-col pb-[calc(3.5rem+env(safe-area-inset-bottom))] antialiased lg:pb-0">
+      <body
+        className="flex min-h-dvh flex-col pb-[calc(3.5rem+env(safe-area-inset-bottom))] antialiased lg:pb-0"
+        suppressHydrationWarning
+      >
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
