@@ -64,7 +64,7 @@ export function AdSlot({
         className,
       )}
     >
-      <span className="text-[11px] font-mono font-medium uppercase tracking-wide text-muted-foreground">Annuncio</span>
+      <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Annuncio</span>
       {live ? (
         <ins
           ref={ref}

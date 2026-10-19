@@ -18,7 +18,7 @@ export async function ArchiveIndex({ archive }: { archive: Archive }) {
         <span aria-hidden> / </span>
         <span className="text-foreground">{archive.short}</span>
       </nav>
-      <h1 className="mt-3 text-4xl font-semibold text-balance">{archive.label}</h1>
+      <h1 className="mt-3 font-serif text-4xl font-semibold text-balance">{archive.label}</h1>
       <p className="mt-3 max-w-2xl leading-relaxed text-muted-foreground">{archive.description}</p>
 
       <ul className="mt-6 flex flex-wrap gap-2" aria-label="Altre raccolte">
@@ -66,7 +66,7 @@ export async function ArchiveIndex({ archive }: { archive: Archive }) {
 function ArticleGrid({ title, entries }: { title: string; entries: ArchiveEntry[] }) {
   return (
     <section>
-      <h2 className="text-2xl font-semibold">
+      <h2 className="font-serif text-2xl font-semibold">
         {title} <span className="text-base font-normal text-muted-foreground">({entries.length})</span>
       </h2>
       <ul className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-10">

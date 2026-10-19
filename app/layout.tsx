@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { IBM_Plex_Mono, IBM_Plex_Sans } from 'next/font/google'
+import { Inter, Source_Serif_4 } from 'next/font/google'
 import Script from 'next/script'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SiteFooter } from '@/components/layout/site-footer'
@@ -8,18 +8,8 @@ import { MobileTabBar } from '@/components/layout/mobile-tab-bar'
 import { SITE } from '@/lib/site'
 import './globals.css'
 
-const plexSans = IBM_Plex_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-plex-sans',
-  display: 'swap',
-})
-const plexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-plex-mono',
-  display: 'swap',
-})
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const serif = Source_Serif_4({ subsets: ['latin'], variable: '--font-serif-display' })
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -44,7 +34,7 @@ const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="it" className={`${plexSans.variable} ${plexMono.variable} bg-background`}>
+    <html lang="it" className={`${inter.variable} ${serif.variable} bg-background`}>
       <body className="flex min-h-dvh flex-col pb-[calc(3.5rem+env(safe-area-inset-bottom))] antialiased lg:pb-0">
         <SiteHeader />
         <main className="flex-1">{children}</main>

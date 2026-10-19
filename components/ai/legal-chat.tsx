@@ -84,7 +84,7 @@ export function LegalChat({ initialQuestion = '' }: { initialQuestion?: string }
                       if (sources.length === 0) return null
                       return (
                         <div key={i} className="rounded-lg border border-border bg-card p-4">
-                          <p className="flex items-center gap-2 text-xs font-mono font-medium uppercase tracking-wide text-muted-foreground">
+                          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             <BookOpen className="size-4" aria-hidden /> Fonti dalla banca dati
                           </p>
                           <ul className="mt-2 divide-y divide-border">
