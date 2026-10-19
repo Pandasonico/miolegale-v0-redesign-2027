@@ -27,10 +27,10 @@ export default async function HomePage() {
     <>
       <section className="bg-ink text-ink-foreground">
         <div className="mx-auto max-w-7xl px-4 pb-14 pt-14 text-center lg:pt-20">
-          <h1 className="font-sans tracking-tight text-4xl font-semibold leading-tight text-balance md:text-5xl xl:whitespace-nowrap xl:text-[2.75rem] 2xl:text-5xl">
+          <h1 className="font-sans tracking-tight text-4xl font-semibold leading-tight text-balance md:text-5xl xl:whitespace-nowrap xl:text-4xl">
             Trova la norma, la sentenza o la risposta che ti serve.
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-pretty text-ink-foreground/75">
+          <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-pretty text-ink-foreground/75 lg:max-w-none lg:whitespace-nowrap lg:text-[17px]">
             La banca dati giuridica gratuita con massime, sentenze e norme, calcolatori legali e un Avvocato AI che cita le fonti.
           </p>
           <div className="mx-auto mt-8 max-w-[950px] text-left">
