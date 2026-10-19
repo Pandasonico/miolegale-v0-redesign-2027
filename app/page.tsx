@@ -39,7 +39,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section aria-labelledby="fonti-title" className="mx-auto max-w-7xl px-4 pt-12">
+      <div className="mx-auto max-w-7xl px-4 pt-6">
+        <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_TOP} />
+      </div>
+
+      <section aria-labelledby="fonti-title" className="mx-auto max-w-7xl px-4 pt-10">
         <h2 id="fonti-title" className="font-sans tracking-tight text-3xl font-semibold">
           Fonti del diritto
         </h2>
@@ -81,7 +85,7 @@ export default async function HomePage() {
       </section>
 
       <div className="mx-auto max-w-7xl px-4 pt-12">
-        <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_TOP} />
+        <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_MIDDLE} />
       </div>
 
       {leadNews && (

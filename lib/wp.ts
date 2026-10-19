@@ -60,6 +60,31 @@ async function wpFetch<T>(path: string, revalidate = 600): Promise<{ data: T; to
   }
 }
 
+export type UtilityPage = { id: number; title: string; excerpt: string; href: string; modified: string }
+
+const UTILITY_PARENT_SLUG = 'utilita'
+
+export async function getUtilityPages(): Promise<UtilityPage[]> {
+  try {
+    const { data: parents } = await wpFetch<{ id: number }[]>(`/pages?slug=${UTILITY_PARENT_SLUG}&_fields=id`, 86400)
+    const parentId = parents[0]?.id
+    if (!parentId) return []
+    const { data } = await wpFetch<{ id: number; link: string; modified: string; title: { rendered: string }; excerpt: { rendered: string } }[]>(
+      `/pages?parent=${parentId}&per_page=100&orderby=title&order=asc&_fields=id,link,modified,title,excerpt`,
+      3600,
+    )
+    return data.map((p) => ({
+      id: p.id,
+      title: decodeEntities(p.title.rendered),
+      excerpt: decodeEntities(p.excerpt.rendered),
+      href: p.link,
+      modified: p.modified,
+    }))
+  } catch {
+    return []
+  }
+}
+
 export function decodeEntities(html: string) {
   return html
     .replace(/<[^>]+>/g, '')

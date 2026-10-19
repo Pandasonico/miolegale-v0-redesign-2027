@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calculator, Search, Sparkles } from 'lucide-react'
+import { Calculator, Search, Sparkles, Table2 } from 'lucide-react'
 import { DATABASE_MENU } from '@/lib/site'
 import { NavLink } from './nav-link'
 
@@ -49,6 +49,13 @@ export function SiteHeader() {
             >
               <Calculator className="size-4" aria-hidden />
               Calcolatori
+            </Link>
+            <Link
+              href="/utilita"
+              className="hidden items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-ink-foreground/85 hover:bg-ink-foreground/10 hover:text-ink-foreground lg:flex"
+            >
+              <Table2 className="size-4" aria-hidden />
+              Utilità legali
             </Link>
             <Link
               href="/assistente-ai"
