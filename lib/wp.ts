@@ -182,6 +182,16 @@ export async function getPostBySlug(slug: string) {
   }
 }
 
+export async function getLongExcerpt(href: string, maxChars = 560) {
+  const slug = href.split('/').filter(Boolean).pop()
+  if (!slug) return null
+  const post = await getPostBySlug(slug)
+  const text = post?.content?.rendered ? decodeEntities(post.content.rendered) : ''
+  if (!text) return null
+  if (text.length <= maxChars) return text
+  return `${text.slice(0, text.lastIndexOf(' ', maxChars))}…`
+}
+
 /** Divide l'HTML a metà dei paragrafi per inserire un annuncio in-article. */
 export function splitContent(html: string): [string, string] {
   const parts = html.split('</p>')

@@ -2,7 +2,7 @@ export const SITE = {
   name: 'MioLegale',
   domain: 'miolegale.it',
   url: 'https://miolegale.it',
-  tagline: 'Banca dati giuridica, calcolatori legali e assistente AI',
+  tagline: 'Banca dati giuridica, calcolatori, consulenza legale e assistente AI',
 }
 
 export const STUDIO = {

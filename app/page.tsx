@@ -6,7 +6,7 @@ import { Omnibox } from '@/components/home/omnibox'
 import { ConsulenzaBand } from '@/components/studio/consulenza-cta'
 import { ToolsGrid } from '@/components/tools/tools-grid'
 import { MATERIE, SOURCE_ARCHIVES } from '@/lib/site'
-import { getCategories, getPosts } from '@/lib/wp'
+import { getCategories, getLongExcerpt, getPosts } from '@/lib/wp'
 
 export default async function HomePage() {
   const [categories, massime, norme, notizie, guide, brocardi] = await Promise.all([
@@ -22,8 +22,10 @@ export default async function HomePage() {
   const candidates = [...notizie.posts.slice(0, 5), ...massime.posts.slice(0, 4), ...norme.posts.slice(0, 4)]
     .filter((p, i, all) => all.findIndex((q) => q.id === p.id) === i)
     .sort(byDateDesc)
-  const leadNews = candidates.find((p) => p.image) ?? candidates[0]
-  const otherNews = candidates.filter((p) => p !== leadNews).slice(0, 4)
+  const leadBase = candidates.find((p) => p.image) ?? candidates[0]
+  const leadExcerpt = leadBase ? await getLongExcerpt(leadBase.href) : null
+  const leadNews = leadBase && leadExcerpt ? { ...leadBase, excerpt: leadExcerpt } : leadBase
+  const otherNews = candidates.filter((p) => p !== leadBase).slice(0, 4)
   const featuredIds = new Set([leadNews, ...otherNews].filter(Boolean).map((p) => p.id))
   const notFeatured = (p: { id: number }) => !featuredIds.has(p.id)
 
@@ -106,13 +108,11 @@ export default async function HomePage() {
               In primo piano
             </h2>
           </div>
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <ImageCard post={leadNews} featured />
-            <div className="grid gap-4 sm:grid-cols-2">
-              {otherNews.map((p) => (
-                <ImageCard key={p.id} post={p} />
-              ))}
-            </div>
+            {otherNews.map((p) => (
+              <ImageCard key={p.id} post={p} />
+            ))}
           </div>
         </section>
       )}

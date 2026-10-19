@@ -7,8 +7,12 @@ import { sectionBySlug } from '@/lib/site'
 export function ImageCard({ post, featured = false }: { post: PostCard; featured?: boolean }) {
   const section = sectionBySlug(post.section)
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card">
-      <div className={`relative overflow-hidden bg-secondary ${featured ? 'aspect-[16/9]' : 'aspect-[16/10]'}`}>
+    <article
+      className={`group relative flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card ${
+        featured ? 'sm:col-span-2 lg:row-span-2 lg:grid lg:grid-rows-subgrid' : ''
+      }`}
+    >
+      <div className={`relative overflow-hidden bg-secondary ${featured ? 'aspect-[16/9] lg:aspect-auto' : 'aspect-[16/10]'}`}>
         {post.image && (
           <Image
             src={post.image}
@@ -34,7 +38,7 @@ export function ImageCard({ post, featured = false }: { post: PostCard; featured
             {post.title}
           </Link>
         </h3>
-        {featured && post.excerpt && <p className="mt-3 line-clamp-6 leading-relaxed text-muted-foreground">{post.excerpt}</p>}
+        {featured && post.excerpt && <p className="mt-3 line-clamp-6 leading-relaxed text-muted-foreground lg:line-clamp-none lg:text-lg">{post.excerpt}</p>}
       </div>
     </article>
   )
