@@ -15,7 +15,7 @@ export function SiteHeader() {
     <>
       <header className="sticky top-0 z-40 bg-ink text-ink-foreground">
         <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4 lg:gap-8">
-          <Link href="/" className="font-serif text-xl font-semibold tracking-tight lg:text-2xl" aria-label="MioLegale, home">
+          <Link href="/" className="font-sans tracking-tight text-xl font-semibold tracking-tight lg:text-2xl" aria-label="MioLegale, home">
             MioLegale
           </Link>
 

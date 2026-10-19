@@ -20,7 +20,7 @@ export function ToolShell({
         </Link>{' '}
         / <span>{tool.title}</span>
       </nav>
-      <h1 className="mt-3 font-serif text-4xl font-semibold text-balance">{tool.title}</h1>
+      <h1 className="mt-3 font-sans tracking-tight text-4xl font-semibold text-balance">{tool.title}</h1>
       <p className="mt-2 max-w-2xl text-muted-foreground">{tool.description}</p>
 
       <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_TOP} className="my-6" />
@@ -34,7 +34,7 @@ export function ToolShell({
         <aside className="flex flex-col gap-8" aria-label="Altri strumenti">
           <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR} />
           <nav className="rounded-lg border border-border bg-card p-5" aria-labelledby="other-tools">
-            <p id="other-tools" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <p id="other-tools" className="text-xs font-mono font-medium uppercase tracking-wider text-muted-foreground">
               Altri calcolatori
             </p>
             <ul className="mt-3 space-y-1">
@@ -79,8 +79,8 @@ export const inputCls =
 export function ResultCard({ label, value, children }: { label: string; value: string; children?: React.ReactNode }) {
   return (
     <div className="rounded-lg bg-ink p-6 text-ink-foreground" aria-live="polite">
-      <p className="text-xs font-semibold uppercase tracking-wider text-accent">{label}</p>
-      <p className="mt-2 font-serif text-3xl font-semibold capitalize tabular-nums md:text-4xl">{value}</p>
+      <p className="text-xs font-mono font-medium uppercase tracking-wider text-accent">{label}</p>
+      <p className="mt-2 font-sans tracking-tight text-3xl font-semibold capitalize tabular-nums md:text-4xl">{value}</p>
       {children}
     </div>
   )

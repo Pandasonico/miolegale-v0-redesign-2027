@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 export default function CalcolatoriPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
-      <p className="text-sm font-semibold uppercase tracking-widest text-primary">Strumenti</p>
-      <h1 className="mt-2 font-serif text-4xl font-semibold">Calcolatori legali</h1>
+      <p className="text-sm font-mono font-medium uppercase tracking-widest text-primary">Strumenti</p>
+      <h1 className="mt-2 font-sans tracking-tight text-4xl font-semibold">Calcolatori legali</h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">
         Strumenti gratuiti e aggiornati alla normativa vigente. I risultati hanno valore indicativo: verifica sempre i casi particolari.
       </p>

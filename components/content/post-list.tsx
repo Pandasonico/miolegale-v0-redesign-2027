@@ -20,7 +20,7 @@ export function ImageCard({ post, featured = false }: { post: PostCard; featured
           />
         )}
         {section && (
-          <span className="absolute left-3 top-3 rounded bg-primary px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-primary-foreground">
+          <span className="absolute left-3 top-3 rounded bg-primary px-2 py-0.5 text-xs font-mono font-medium uppercase tracking-wider text-primary-foreground">
             {section.short}
           </span>
         )}
@@ -29,7 +29,7 @@ export function ImageCard({ post, featured = false }: { post: PostCard; featured
         <time dateTime={post.date} className="text-xs text-muted-foreground">
           {formatDate(post.date)}
         </time>
-        <h3 className={`mt-1 font-serif font-semibold leading-snug text-pretty ${featured ? 'text-2xl md:text-3xl' : 'line-clamp-3 text-lg'}`}>
+        <h3 className={`mt-1 font-sans tracking-tight font-semibold leading-snug text-pretty ${featured ? 'text-2xl md:text-3xl' : 'line-clamp-3 text-lg'}`}>
           <Link href={post.href} className="after:absolute after:inset-0 group-hover:text-primary">
             {post.title}
           </Link>
@@ -45,10 +45,10 @@ export function PostRow({ post, showExcerpt = true }: { post: PostCard; showExce
   return (
     <article className="group py-4">
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
-        {section && <span className="font-semibold uppercase tracking-wider text-primary">{section.short}</span>}
+        {section && <span className="font-mono font-medium uppercase tracking-wider text-primary">{section.short}</span>}
         <time dateTime={post.date}>{formatDate(post.date)}</time>
       </div>
-      <h3 className="mt-1 font-serif text-lg font-semibold leading-snug text-pretty">
+      <h3 className="mt-1 font-sans tracking-tight text-lg font-semibold leading-snug text-pretty">
         <Link href={post.href} className="hover:text-primary">
           {post.title}
         </Link>
@@ -75,7 +75,7 @@ export function SectionBlock({
     <section aria-labelledby={`h-${href}`} className="rounded-lg border border-border bg-card p-5">
       <div className="flex items-end justify-between gap-4 border-b border-border pb-3">
         <div>
-          <h2 id={`h-${href}`} className="font-serif text-2xl font-semibold">
+          <h2 id={`h-${href}`} className="font-sans tracking-tight text-2xl font-semibold">
             {title}
           </h2>
           {description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}

@@ -15,15 +15,15 @@ export default async function BancaDatiPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
-      <p className="text-sm font-semibold uppercase tracking-widest text-primary">Banca dati</p>
-      <h1 className="mt-2 font-serif text-4xl font-semibold">Tutta la banca dati giuridica</h1>
+      <p className="text-sm font-mono font-medium uppercase tracking-widest text-primary">Banca dati</p>
+      <h1 className="mt-2 font-sans tracking-tight text-4xl font-semibold">Tutta la banca dati giuridica</h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">Consulta i contenuti per tipologia o per materia.</p>
 
       <ul className="mt-8 grid gap-4 md:grid-cols-3">
         {ARCHIVES.map((a) => (
           <li key={a.slug}>
             <Link href={`/${a.slug}`} className="flex h-full flex-col rounded-lg bg-primary p-5 text-primary-foreground hover:bg-primary/90">
-              <span className="font-serif text-2xl font-semibold">{a.label}</span>
+              <span className="font-sans tracking-tight text-2xl font-semibold">{a.label}</span>
               <span className="mt-2 text-sm leading-relaxed text-primary-foreground/80">{a.description}</span>
             </Link>
           </li>
@@ -34,7 +34,7 @@ export default async function BancaDatiPage() {
         {SECTIONS.map((s) => (
           <li key={s.slug}>
             <Link href={`/${s.slug}`} className="flex h-full flex-col rounded-lg border border-border bg-card p-5 hover:border-primary">
-              <span className="font-serif text-3xl font-semibold tabular-nums text-primary">
+              <span className="font-sans tracking-tight text-3xl font-semibold tabular-nums text-primary">
                 {count(s.slug) ? count(s.slug).toLocaleString('it-IT') : '—'}
               </span>
               <span className="mt-2 font-semibold">{s.label}</span>
@@ -46,7 +46,7 @@ export default async function BancaDatiPage() {
 
       <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_LIST_TOP} className="my-10" />
 
-      <h2 className="font-serif text-3xl font-semibold">Per materia</h2>
+      <h2 className="font-sans tracking-tight text-3xl font-semibold">Per materia</h2>
       <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {MATERIE.map((m) => (
           <li key={m.slug}>
