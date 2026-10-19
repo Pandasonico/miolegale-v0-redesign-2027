@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AdSlot } from '@/components/ads/ad-slot'
-import { ARCHIVES, MATERIE, SECTIONS } from '@/lib/site'
+import { MATERIE, SECTIONS, SOURCE_ARCHIVES } from '@/lib/site'
 import { getCategories } from '@/lib/wp'
 
 export const metadata: Metadata = {
@@ -19,8 +19,8 @@ export default async function BancaDatiPage() {
       <h1 className="mt-2 font-sans tracking-tight text-4xl font-semibold">Tutta la banca dati giuridica</h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">Consulta i contenuti per tipologia o per materia.</p>
 
-      <ul className="mt-8 grid gap-4 md:grid-cols-3">
-        {ARCHIVES.map((a) => (
+      <ul className="mt-8 grid gap-4 md:grid-cols-2">
+        {SOURCE_ARCHIVES.map((a) => (
           <li key={a.slug}>
             <Link href={`/${a.slug}`} className="flex h-full flex-col rounded-lg bg-primary p-5 text-primary-foreground hover:bg-primary/90">
               <span className="font-sans tracking-tight text-2xl font-semibold">{a.label}</span>

@@ -1,10 +1,10 @@
 import Link from 'next/link'
-import { ArrowRight, Calculator, Landmark } from 'lucide-react'
+import { ArrowRight, Landmark } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { ImageCard, PostRow, SectionBlock } from '@/components/content/post-list'
 import { Omnibox } from '@/components/home/omnibox'
 import { ToolsGrid } from '@/components/tools/tools-grid'
-import { ARCHIVES, MATERIE, TOOLS } from '@/lib/site'
+import { MATERIE, SOURCE_ARCHIVES } from '@/lib/site'
 import { getCategories, getPosts } from '@/lib/wp'
 
 export default async function HomePage() {
@@ -21,64 +21,20 @@ export default async function HomePage() {
   const sideNews = otherNews.slice(4)
 
   const count = (slug: string) => categories.find((c) => c.slug === slug)?.count ?? 0
-  const stats = [
-    { label: 'Massime', slug: 'massime', value: count('massime') },
-    { label: 'Sentenze', slug: 'sentenze', value: count('sentenze') },
-    { label: 'Norme', slug: 'norme', value: count('norme') },
-    { label: 'Brocardi', slug: 'brocardi', value: count('brocardi') },
-  ]
   const brocardo = brocardi.posts[0]
 
   return (
     <>
       <section className="bg-ink text-ink-foreground">
-        <div className="mx-auto max-w-4xl px-4 pb-10 pt-14 text-center lg:pt-20">
-          <h1 className="font-sans tracking-tight text-4xl font-semibold leading-tight text-balance md:text-5xl">
+        <div className="mx-auto max-w-7xl px-4 pb-14 pt-14 text-center lg:pt-20">
+          <h1 className="font-sans tracking-tight text-4xl font-semibold leading-tight text-balance md:text-5xl xl:whitespace-nowrap xl:text-[2.75rem] 2xl:text-5xl">
             Trova la norma, la sentenza o la risposta che ti serve.
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-pretty text-ink-foreground/75">
             La banca dati giuridica gratuita con massime, sentenze e norme, calcolatori legali e un Avvocato AI che cita le fonti.
           </p>
-          <div className="mt-8 text-left">
+          <div className="mx-auto mt-8 max-w-4xl text-left">
             <Omnibox />
-          </div>
-        </div>
-
-        <div className="border-t border-ink-foreground/10">
-          <div className="mx-auto grid max-w-7xl gap-px px-4 sm:grid-cols-2 lg:grid-cols-[repeat(4,1fr)_1.6fr]">
-            {stats.map((s) => (
-              <Link
-                key={s.label}
-                href={`/${s.slug}`}
-                className="group flex items-baseline justify-between gap-3 px-2 py-5 hover:bg-ink-foreground/5 lg:flex-col lg:items-start lg:justify-center lg:gap-1 lg:px-4"
-              >
-                <span className="font-sans tracking-tight text-3xl font-semibold tabular-nums">
-                  {s.value ? s.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') : '—'}
-                </span>
-                <span className="flex items-center gap-1 text-sm text-ink-foreground/70 group-hover:text-ink-foreground">
-                  {s.label} <ArrowRight className="size-3.5" aria-hidden />
-                </span>
-              </Link>
-            ))}
-            <div className="flex flex-col justify-center gap-2 px-2 py-5 lg:px-4">
-              <span className="flex items-center gap-1.5 text-xs font-mono font-medium uppercase tracking-wider text-accent">
-                <Calculator className="size-3.5" aria-hidden /> Calcolatori rapidi
-              </span>
-              <div className="flex flex-wrap gap-2">
-                {TOOLS.slice(0, 4).map((t) => (
-                  <Link
-                    key={t.slug}
-                    href={`/calcolatori/${t.slug}`}
-                    className="rounded-md bg-ink-foreground/10 px-3 py-1.5 text-sm font-medium hover:bg-ink-foreground/20"
-                  >
-                    {t.title}
-                  </Link>
-                ))}
-                <Link href="/calcolatori" className="rounded-md px-3 py-1.5 text-sm font-medium text-accent hover:bg-ink-foreground/10">
-                  +{TOOLS.length - 4} altri
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -88,8 +44,8 @@ export default async function HomePage() {
           Fonti del diritto
         </h2>
         <p className="mt-1 text-muted-foreground">Testi vigenti consultabili articolo per articolo.</p>
-        <ul className="mt-6 grid gap-4 md:grid-cols-3">
-          {ARCHIVES.map((a) => (
+        <ul className="mt-6 grid gap-4 md:grid-cols-2">
+          {SOURCE_ARCHIVES.map((a) => (
             <li key={a.slug}>
               <Link
                 href={`/${a.slug}`}

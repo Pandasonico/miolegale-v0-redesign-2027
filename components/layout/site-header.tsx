@@ -15,7 +15,7 @@ export function SiteHeader() {
   return (
     <>
       <header className="sticky top-0 z-40 bg-ink text-ink-foreground">
-        <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4 lg:gap-8">
+        <div className="mx-auto flex h-16 max-w-7xl lg:h-20 items-center gap-4 px-4 lg:gap-8">
           <Link href="/" className="shrink-0" aria-label="MioLegale, home">
             <Image
               src="/images/logo-miolegale.webp"
@@ -23,7 +23,7 @@ export function SiteHeader() {
               width={475}
               height={100}
               priority
-              className="h-7 w-auto lg:h-8"
+              className="h-9 w-auto lg:h-11"
             />
           </Link>
 

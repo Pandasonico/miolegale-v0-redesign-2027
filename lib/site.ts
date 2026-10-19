@@ -39,9 +39,9 @@ export const ARCHIVES: Archive[] = [
   },
   {
     slug: 'codici',
-    label: 'Codici italiani',
+    label: 'Costituzione e codici',
     short: 'Codici',
-    description: 'Codice civile, penale, di procedura, della strada e tutti gli altri codici vigenti.',
+    description: 'La Costituzione italiana, il codice civile, penale, di procedura, della strada e tutti gli altri codici vigenti.',
   },
   {
     slug: 'testi-unici',
@@ -51,8 +51,9 @@ export const ARCHIVES: Archive[] = [
   },
 ]
 
+export const SOURCE_ARCHIVES = ARCHIVES.filter((a) => a.slug !== 'costituzione')
+
 export const DATABASE_MENU = [
-  { href: '/costituzione', label: 'Costituzione italiana' },
   { href: '/codici', label: 'Codici italiani' },
   { href: '/norme', label: 'Leggi e decreti' },
   { href: '/testi-unici', label: 'Testi unici' },
@@ -60,7 +61,7 @@ export const DATABASE_MENU = [
   { href: '/sentenze', label: 'Sentenze complete' },
   { href: '/guide', label: 'Guide di diritto' },
   { href: '/notizie', label: 'Notizie giuridiche' },
-  { href: '/brocardi', label: 'Brocardi latini' },
+  { href: '/brocardi', label: 'Brocardi' },
 ]
 
 export const MATERIE = [
