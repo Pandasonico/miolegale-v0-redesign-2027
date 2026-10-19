@@ -33,7 +33,7 @@ export default async function HomePage() {
     <>
       <section className="bg-ink text-ink-foreground">
         <div className="mx-auto max-w-4xl px-4 pb-10 pt-14 text-center lg:pt-20">
-          <h1 className="font-serif text-4xl font-semibold leading-tight text-balance md:text-5xl">
+          <h1 className="text-4xl font-semibold leading-tight text-balance md:text-5xl">
             Trova la norma, la sentenza o la risposta che ti serve.
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-pretty text-ink-foreground/75">
@@ -52,7 +52,7 @@ export default async function HomePage() {
                 href={`/${s.slug}`}
                 className="group flex items-baseline justify-between gap-3 px-2 py-5 hover:bg-ink-foreground/5 lg:flex-col lg:items-start lg:justify-center lg:gap-1 lg:px-4"
               >
-                <span className="font-serif text-3xl font-semibold tabular-nums">
+                <span className="text-3xl font-semibold tabular-nums">
                   {s.value ? s.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') : '—'}
                 </span>
                 <span className="flex items-center gap-1 text-sm text-ink-foreground/70 group-hover:text-ink-foreground">
@@ -61,7 +61,7 @@ export default async function HomePage() {
               </Link>
             ))}
             <div className="flex flex-col justify-center gap-2 px-2 py-5 lg:px-4">
-              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-accent">
+              <span className="flex items-center gap-1.5 text-xs font-mono font-medium uppercase tracking-wide text-accent">
                 <Calculator className="size-3.5" aria-hidden /> Calcolatori rapidi
               </span>
               <div className="flex flex-wrap gap-2">
@@ -84,7 +84,7 @@ export default async function HomePage() {
       </section>
 
       <section aria-labelledby="fonti-title" className="mx-auto max-w-7xl px-4 pt-12">
-        <h2 id="fonti-title" className="font-serif text-3xl font-semibold">
+        <h2 id="fonti-title" className="text-3xl font-semibold">
           Fonti del diritto
         </h2>
         <p className="mt-1 text-muted-foreground">Testi vigenti consultabili articolo per articolo.</p>
@@ -95,7 +95,7 @@ export default async function HomePage() {
                 href={`/${a.slug}`}
                 className="flex h-full flex-col gap-2 rounded-lg border border-border bg-card p-5 hover:border-primary"
               >
-                <span className="flex items-center gap-2 font-serif text-xl font-semibold">
+                <span className="flex items-center gap-2 text-xl font-semibold">
                   <Landmark className="size-5 text-primary" aria-hidden />
                   {a.label}
                 </span>
@@ -112,7 +112,7 @@ export default async function HomePage() {
       <section aria-labelledby="tools-title" className="mx-auto max-w-7xl px-4 pt-12">
         <div className="mb-6 flex items-end justify-between">
           <div>
-            <h2 id="tools-title" className="font-serif text-3xl font-semibold">
+            <h2 id="tools-title" className="text-3xl font-semibold">
               Calcolatori e strumenti
             </h2>
             <p className="mt-1 text-muted-foreground">Gratuiti, aggiornati e pronti per lo studio legale.</p>
@@ -131,7 +131,7 @@ export default async function HomePage() {
       {leadNews && (
         <section aria-labelledby="featured-title" className="mx-auto max-w-7xl px-4 pt-14">
           <div className="mb-6 flex items-end justify-between">
-            <h2 id="featured-title" className="font-serif text-3xl font-semibold">
+            <h2 id="featured-title" className="text-3xl font-semibold">
               In primo piano
             </h2>
             <Link href="/notizie" className="text-sm font-medium text-primary hover:underline">
@@ -162,7 +162,7 @@ export default async function HomePage() {
         <aside className="flex flex-col gap-8" aria-label="Barra laterale">
           <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR} />
           <section aria-labelledby="news-title" className="rounded-lg border border-border bg-card p-5">
-            <h2 id="news-title" className="font-serif text-xl font-semibold">
+            <h2 id="news-title" className="text-xl font-semibold">
               Notizie giuridiche
             </h2>
             <div className="divide-y divide-border">
@@ -176,8 +176,8 @@ export default async function HomePage() {
           </section>
           {brocardo && (
             <Link href={brocardo.href} className="block rounded-lg bg-accent p-5 text-accent-foreground hover:bg-accent/90">
-              <p className="text-xs font-semibold uppercase tracking-wider">Brocardo del giorno</p>
-              <p className="mt-2 font-serif text-2xl font-semibold italic">{brocardo.title}</p>
+              <p className="text-xs font-mono font-medium uppercase tracking-wide">Brocardo del giorno</p>
+              <p className="mt-2 text-2xl font-semibold italic">{brocardo.title}</p>
               <p className="mt-2 line-clamp-3 text-sm">{brocardo.excerpt}</p>
             </Link>
           )}
@@ -191,7 +191,7 @@ export default async function HomePage() {
         <section aria-labelledby="guide-title" className="mx-auto max-w-7xl px-4 pt-14">
           <div className="mb-6 flex items-end justify-between">
             <div>
-              <h2 id="guide-title" className="font-serif text-3xl font-semibold">
+              <h2 id="guide-title" className="text-3xl font-semibold">
                 Guide pratiche
               </h2>
               <p className="mt-1 text-muted-foreground">Il diritto spiegato in modo chiaro, per cittadini e professionisti.</p>
@@ -209,7 +209,7 @@ export default async function HomePage() {
       )}
 
       <section aria-labelledby="materie-title" className="mx-auto max-w-7xl px-4 pt-14">
-        <h2 id="materie-title" className="font-serif text-3xl font-semibold">
+        <h2 id="materie-title" className="text-3xl font-semibold">
           Sfoglia per materia
         </h2>
         <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">

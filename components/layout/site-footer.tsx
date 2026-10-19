@@ -6,7 +6,7 @@ export function SiteFooter() {
     <footer className="mt-16 bg-ink text-ink-foreground">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-4">
         <div>
-          <p className="font-serif text-2xl font-semibold">MioLegale</p>
+          <p className="text-2xl font-semibold">MioLegale</p>
           <p className="mt-3 text-sm leading-relaxed text-ink-foreground/70">{SITE.tagline}.</p>
         </div>
         <FooterCol title="Banca dati" items={DATABASE_MENU} />
@@ -32,7 +32,7 @@ export function SiteFooter() {
 function FooterCol({ title, items }: { title: string; items: { href: string; label: string }[] }) {
   return (
     <div>
-      <p className="text-xs font-semibold uppercase tracking-wider text-accent">{title}</p>
+      <p className="text-xs font-mono font-medium uppercase tracking-wide text-accent">{title}</p>
       <ul className="mt-4 space-y-2 text-sm">
         {items.map((i) => (
           <li key={i.href}>

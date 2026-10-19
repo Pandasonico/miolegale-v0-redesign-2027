@@ -31,8 +31,8 @@ export function Listing({
     <>
       <header className="border-b border-border bg-card">
         <div className="mx-auto max-w-7xl px-4 py-10">
-          <p className="text-sm font-semibold uppercase tracking-widest text-primary">{eyebrow}</p>
-          <h1 className="mt-2 font-serif text-4xl font-semibold text-balance">{title}</h1>
+          <p className="text-sm font-mono font-medium uppercase tracking-wide text-primary">{eyebrow}</p>
+          <h1 className="mt-2 text-4xl font-semibold text-balance">{title}</h1>
           {description && <p className="mt-3 max-w-2xl text-muted-foreground">{description}</p>}
           {total > 0 && (
             <p className="mt-3 text-sm text-muted-foreground tabular-nums">{total.toLocaleString('it-IT')} contenuti</p>
@@ -75,7 +75,7 @@ export function ListingSidebar() {
     <aside className="flex flex-col gap-8" aria-label="Barra laterale">
       <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR} />
       <nav aria-labelledby="sb-sections" className="rounded-lg border border-border bg-card p-5">
-        <p id="sb-sections" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <p id="sb-sections" className="text-xs font-mono font-medium uppercase tracking-wide text-muted-foreground">
           Banca dati
         </p>
         <ul className="mt-3 space-y-1">
@@ -89,7 +89,7 @@ export function ListingSidebar() {
         </ul>
       </nav>
       <nav aria-labelledby="sb-tools" className="rounded-lg bg-secondary p-5">
-        <p id="sb-tools" className="text-xs font-semibold uppercase tracking-wider text-secondary-foreground">
+        <p id="sb-tools" className="text-xs font-mono font-medium uppercase tracking-wide text-secondary-foreground">
           Calcolatori
         </p>
         <ul className="mt-3 space-y-1">

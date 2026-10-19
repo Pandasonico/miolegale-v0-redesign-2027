@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-serif-display), ui-serif, Georgia, serif;
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, 'SFMono-Regular', monospace;
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -77,10 +77,10 @@
   @apply mt-5;
 }
 .wp-content h2 {
-  @apply font-serif text-2xl font-semibold leading-snug text-balance mt-10;
+  @apply text-2xl font-semibold leading-snug text-balance mt-10;
 }
 .wp-content h3 {
-  @apply font-serif text-xl font-semibold leading-snug mt-8;
+  @apply text-xl font-semibold leading-snug mt-8;
 }
 .wp-content h4 {
   @apply text-lg font-semibold mt-6;

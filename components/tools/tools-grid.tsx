@@ -29,8 +29,8 @@ export function ToolsGrid({ withAi = true }: { withAi?: boolean }) {
               </span>
               <ArrowUpRight className="size-4 text-muted-foreground group-hover:text-primary" aria-hidden />
             </div>
-            <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{tool.category}</p>
-            <h3 className="mt-1 font-serif text-lg font-semibold leading-snug">{tool.title}</h3>
+            <p className="mt-4 text-xs font-mono font-medium uppercase tracking-wide text-muted-foreground">{tool.category}</p>
+            <h3 className="mt-1 text-lg font-semibold leading-snug">{tool.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{tool.description}</p>
           </Link>
         )
@@ -46,8 +46,8 @@ export function ToolsGrid({ withAi = true }: { withAi?: boolean }) {
             </span>
             <ArrowUpRight className="size-4 opacity-70 group-hover:opacity-100" aria-hidden />
           </div>
-          <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-primary-foreground/70">Intelligenza artificiale</p>
-          <h3 className="mt-1 font-serif text-lg font-semibold leading-snug">Assistente AI giuridico</h3>
+          <p className="mt-4 text-xs font-mono font-medium uppercase tracking-wide text-primary-foreground/70">Intelligenza artificiale</p>
+          <h3 className="mt-1 text-lg font-semibold leading-snug">Assistente AI giuridico</h3>
           <p className="mt-2 text-sm leading-relaxed text-primary-foreground/80">
             Fai una domanda: l&apos;AI risponde citando massime e norme della banca dati.
           </p>
