@@ -6,7 +6,7 @@ export function SiteFooter() {
     <footer className="mt-16 bg-ink text-ink-foreground">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-4">
         <div>
-          <p className="font-sans tracking-tight text-2xl font-semibold">MioLegale</p>
+          <p className="font-serif text-2xl font-semibold tracking-tight">MioLegale</p>
           <p className="mt-3 text-sm leading-relaxed text-ink-foreground/70">{SITE.tagline}.</p>
         </div>
         <FooterCol title="Banca dati" items={DATABASE_MENU} />

@@ -58,7 +58,7 @@ export default async function ArticlePage({ params }: Props) {
         </nav>
 
         <header className="mt-4 border-b border-border pb-6">
-          <h1 className="font-serif tracking-tight text-3xl font-semibold leading-tight text-balance md:text-4xl">{title}</h1>
+          <h1 className="font-sans tracking-tight text-3xl font-semibold leading-tight text-balance md:text-4xl">{title}</h1>
           <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
             <time dateTime={post.date}>Pubblicato il {formatDate(post.date)}</time>
             {post.modified !== post.date && <span>Aggiornato il {formatDate(post.modified)}</span>}

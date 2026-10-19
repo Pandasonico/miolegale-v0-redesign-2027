@@ -20,7 +20,7 @@ export function ToolShell({
         </Link>{' '}
         / <span>{tool.title}</span>
       </nav>
-      <h1 className="mt-3 font-serif tracking-tight text-4xl font-semibold text-balance">{tool.title}</h1>
+      <h1 className="mt-3 font-sans tracking-tight text-4xl font-semibold text-balance">{tool.title}</h1>
       <p className="mt-2 max-w-2xl text-muted-foreground">{tool.description}</p>
 
       <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_TOP} className="my-6" />
