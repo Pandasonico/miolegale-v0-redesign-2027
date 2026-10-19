@@ -48,7 +48,8 @@ export function Omnibox() {
             )}
           >
             {m === 'cerca' ? <Search className="size-4" aria-hidden /> : <Sparkles className="size-4" aria-hidden />}
-            {MODES[m].label}
+            <span className="hidden sm:inline">{MODES[m].label}</span>
+            <span className="sm:hidden">{m === 'cerca' ? 'Cerca' : "Chiedi all'AI"}</span>
           </button>
         ))}
       </div>
@@ -65,7 +66,7 @@ export function Omnibox() {
           required
           maxLength={500}
           placeholder={current.placeholder}
-          className="h-14 flex-1 rounded-md border border-input bg-background px-4 text-base outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring/30"
+          className="h-14 w-full shrink-0 rounded-md sm:flex-1 sm:shrink border border-input bg-background px-4 text-base outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring/30"
         />
         <button
           type="submit"

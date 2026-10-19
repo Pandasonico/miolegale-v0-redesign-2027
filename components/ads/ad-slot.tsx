@@ -13,11 +13,12 @@ const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT
 
 type Variant = 'leaderboard' | 'rectangle' | 'skyscraper' | 'in-article' | 'in-feed'
 
+// Altezze riservate in anticipo: l'annuncio non sposta il contenuto quando arriva (CLS = 0).
 const SIZES: Record<Variant, string> = {
-  leaderboard: 'min-h-[90px] md:min-h-[90px]',
+  leaderboard: 'min-h-[100px] md:min-h-[90px]',
   rectangle: 'min-h-[250px]',
   skyscraper: 'min-h-[600px]',
-  'in-article': 'min-h-[280px]',
+  'in-article': 'min-h-[250px]',
   'in-feed': 'min-h-[120px]',
 }
 
@@ -35,36 +36,47 @@ export function AdSlot({
   const live = Boolean(ADSENSE_CLIENT && slot)
 
   useEffect(() => {
-    if (!live || !ref.current || ref.current.dataset.adsbygoogleStatus) return
-    try {
-      ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-    } catch {
-      // AdSense può rifiutare il push se lo slot non è ancora visibile.
-    }
+    const el = ref.current
+    if (!live || !el) return
+    // Richiede l'annuncio solo quando lo slot si avvicina allo schermo: pagina iniziale più leggera.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || el.dataset.adsbygoogleStatus) return
+        observer.disconnect()
+        try {
+          ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+        } catch {
+          // AdSense può rifiutare il push se lo slot ha larghezza zero.
+        }
+      },
+      { rootMargin: '400px 0px' },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
   }, [live])
 
   return (
-    <aside aria-label="Pubblicità" className={cn('flex w-full flex-col items-center gap-1', className)}>
-      <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Pubblicità</span>
+    <aside
+      aria-label="Annuncio"
+      className={cn(
+        'flex w-full flex-col gap-2 border-y border-border py-3',
+        variant === 'skyscraper' && 'hidden lg:flex',
+        className,
+      )}
+    >
+      <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Annuncio</span>
       {live ? (
         <ins
           ref={ref}
           className={cn('adsbygoogle block w-full', SIZES[variant])}
           data-ad-client={ADSENSE_CLIENT}
           data-ad-slot={slot}
-          data-ad-format={variant === 'in-article' ? 'fluid' : 'auto'}
+          data-ad-format={variant === 'in-article' || variant === 'in-feed' ? 'fluid' : 'auto'}
           data-ad-layout={variant === 'in-article' ? 'in-article' : undefined}
           data-full-width-responsive="true"
         />
       ) : (
-        <div
-          className={cn(
-            'flex w-full items-center justify-center rounded-md border border-dashed border-input bg-muted text-xs text-muted-foreground',
-            SIZES[variant],
-          )}
-        >
-          Spazio AdSense · {variant}
-        </div>
+        <div className={cn('w-full rounded-md bg-muted', SIZES[variant])} aria-hidden />
       )}
     </aside>
   )

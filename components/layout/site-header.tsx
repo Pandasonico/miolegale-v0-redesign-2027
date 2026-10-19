@@ -1,31 +1,41 @@
 import Link from 'next/link'
-import { ChevronDown, Search, Sparkles } from 'lucide-react'
-import { DATABASE_MENU, TOOLS } from '@/lib/site'
-import { MobileMenu } from './mobile-menu'
+import { Search, Sparkles } from 'lucide-react'
+import { DATABASE_MENU } from '@/lib/site'
+import { NavLink } from './nav-link'
 
-type Item = { href: string; label: string }
-
-const TOOLS_MENU: Item[] = [
-  ...TOOLS.map((t) => ({ href: `/calcolatori/${t.slug}`, label: t.title })),
-  { href: '/calcolatori', label: 'Tutti i calcolatori' },
-]
-
-const LINKS: Item[] = [
-  { href: '/assistente-ai', label: 'Avvocato AI' },
+const PRIMARY = [
+  { href: '/banca-dati', label: 'Banca dati' },
+  { href: '/calcolatori', label: 'Calcolatori' },
   { href: '/notizie', label: 'Notizie' },
   { href: '/guide', label: 'Guide' },
 ]
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 shadow-sm">
-      <div className="bg-ink text-ink-foreground">
-        <div className="mx-auto flex h-16 max-w-7xl items-center gap-6 px-4">
-          <Link href="/" className="font-serif text-2xl font-semibold tracking-tight" aria-label="MioLegale, home">
+    <>
+      <header className="sticky top-0 z-40 bg-ink text-ink-foreground">
+        <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4 lg:gap-8">
+          <Link href="/" className="font-serif text-xl font-semibold tracking-tight lg:text-2xl" aria-label="MioLegale, home">
             MioLegale
           </Link>
 
-          <form action="/cerca" className="relative ml-auto hidden w-full max-w-md md:block" role="search">
+          <nav aria-label="Principale" className="hidden lg:block">
+            <ul className="flex items-center gap-1">
+              {PRIMARY.map((item) => (
+                <li key={item.href}>
+                  <NavLink
+                    href={item.href}
+                    className="rounded-md px-3 py-2 text-sm font-medium text-ink-foreground/80 hover:bg-ink-foreground/10 hover:text-ink-foreground"
+                    activeClassName="bg-ink-foreground/10 text-ink-foreground"
+                  >
+                    {item.label}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <form action="/cerca" role="search" className="relative ml-auto hidden w-full max-w-sm md:block">
             <label htmlFor="header-search" className="sr-only">
               Cerca nella banca dati
             </label>
@@ -34,56 +44,45 @@ export function SiteHeader() {
               id="header-search"
               name="q"
               type="search"
-              placeholder="Cerca massime, sentenze, norme…"
-              className="h-10 w-full rounded-md border border-ink-foreground/15 bg-ink-foreground/10 pl-9 pr-3 text-sm text-ink-foreground placeholder:text-ink-foreground/60 outline-none focus-visible:ring-2 focus-visible:ring-ink-foreground/40"
+              placeholder="Cerca norme, sentenze, massime…"
+              className="h-9 w-full rounded-md border border-ink-foreground/15 bg-ink-foreground/10 pl-9 pr-3 text-sm text-ink-foreground placeholder:text-ink-foreground/60 outline-none focus-visible:ring-2 focus-visible:ring-ink-foreground/40"
             />
           </form>
 
           <div className="ml-auto flex items-center gap-2 md:ml-0">
             <Link
+              href="/cerca"
+              className="flex size-9 items-center justify-center rounded-md hover:bg-ink-foreground/10 md:hidden"
+              aria-label="Cerca"
+            >
+              <Search className="size-5" aria-hidden />
+            </Link>
+            <Link
               href="/assistente-ai"
-              className="flex items-center gap-1.5 rounded-md bg-ink-foreground px-3 py-2 text-sm font-semibold text-ink hover:bg-ink-foreground/90"
+              className="hidden items-center gap-1.5 rounded-md bg-ink-foreground px-3 py-2 text-sm font-semibold text-ink hover:bg-ink-foreground/90 sm:flex"
             >
               <Sparkles className="size-4" aria-hidden />
-              <span className="hidden sm:inline">Chiedi all&apos;AI</span>
-              <span className="sm:hidden">AI</span>
+              Avvocato AI
             </Link>
-            <MobileMenu database={DATABASE_MENU} tools={TOOLS_MENU} links={LINKS} />
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="hidden bg-primary text-primary-foreground lg:block">
-        <nav aria-label="Principale" className="mx-auto flex h-11 max-w-7xl items-stretch gap-1 px-4">
-          <Dropdown label="Banca dati giuridica" href="/banca-dati" items={DATABASE_MENU} />
-          <Dropdown label="Calcolatori" href="/calcolatori" items={TOOLS_MENU} />
-          {LINKS.map((item) => (
-            <Link key={item.href} href={item.href} className="flex items-center px-3 text-sm font-semibold hover:bg-primary-foreground/10">
-              {item.label}
-            </Link>
+      <nav aria-label="Sezioni della banca dati" className="border-b border-border bg-card">
+        <ul className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {DATABASE_MENU.map((item) => (
+            <li key={item.href} className="shrink-0">
+              <NavLink
+                href={item.href}
+                className="block whitespace-nowrap rounded-full border border-border px-3 py-1.5 text-sm font-medium text-foreground/80 hover:border-primary hover:text-primary"
+                activeClassName="border-primary bg-primary text-primary-foreground hover:text-primary-foreground"
+              >
+                {item.label}
+              </NavLink>
+            </li>
           ))}
-        </nav>
-      </div>
-    </header>
-  )
-}
-
-function Dropdown({ label, href, items }: { label: string; href: string; items: Item[] }) {
-  return (
-    <div className="group relative flex">
-      <Link href={href} aria-haspopup="true" className="flex items-center gap-1 px-3 text-sm font-semibold hover:bg-primary-foreground/10">
-        {label}
-        <ChevronDown className="size-4" aria-hidden />
-      </Link>
-      <ul className="invisible absolute left-0 top-full z-50 w-72 border border-border bg-card text-card-foreground shadow-lg group-focus-within:visible group-hover:visible">
-        {items.map((item) => (
-          <li key={item.href} className="border-b border-border last:border-b-0">
-            <Link href={item.href} className="block px-4 py-2.5 text-sm hover:bg-secondary hover:text-primary focus-visible:bg-secondary">
-              {item.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+        </ul>
+      </nav>
+    </>
   )
 }

@@ -4,6 +4,7 @@ import { Inter, Source_Serif_4 } from 'next/font/google'
 import Script from 'next/script'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SiteFooter } from '@/components/layout/site-footer'
+import { MobileTabBar } from '@/components/layout/mobile-tab-bar'
 import { SITE } from '@/lib/site'
 import './globals.css'
 
@@ -34,15 +35,16 @@ const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="it" className={`${inter.variable} ${serif.variable} bg-background`}>
-      <body className="flex min-h-dvh flex-col antialiased">
+      <body className="flex min-h-dvh flex-col pb-[calc(3.5rem+env(safe-area-inset-bottom))] antialiased lg:pb-0">
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <MobileTabBar />
         {ADSENSE_CLIENT && (
           <Script
             id="adsense"
             async
-            strategy="afterInteractive"
+            strategy="lazyOnload"
             crossOrigin="anonymous"
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
           />

@@ -1,10 +1,10 @@
 import Link from 'next/link'
-import { ArrowRight, Calculator } from 'lucide-react'
+import { ArrowRight, Calculator, Landmark } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { ImageCard, PostRow, SectionBlock } from '@/components/content/post-list'
 import { Omnibox } from '@/components/home/omnibox'
 import { ToolsGrid } from '@/components/tools/tools-grid'
-import { MATERIE, TOOLS } from '@/lib/site'
+import { ARCHIVES, MATERIE, TOOLS } from '@/lib/site'
 import { getCategories, getPosts } from '@/lib/wp'
 
 export default async function HomePage() {
@@ -83,9 +83,31 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 pt-8">
-        <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_TOP} />
-      </div>
+      <section aria-labelledby="fonti-title" className="mx-auto max-w-7xl px-4 pt-12">
+        <h2 id="fonti-title" className="font-serif text-3xl font-semibold">
+          Fonti del diritto
+        </h2>
+        <p className="mt-1 text-muted-foreground">Testi vigenti consultabili articolo per articolo.</p>
+        <ul className="mt-6 grid gap-4 md:grid-cols-3">
+          {ARCHIVES.map((a) => (
+            <li key={a.slug}>
+              <Link
+                href={`/${a.slug}`}
+                className="flex h-full flex-col gap-2 rounded-lg border border-border bg-card p-5 hover:border-primary"
+              >
+                <span className="flex items-center gap-2 font-serif text-xl font-semibold">
+                  <Landmark className="size-5 text-primary" aria-hidden />
+                  {a.label}
+                </span>
+                <span className="text-sm leading-relaxed text-muted-foreground">{a.description}</span>
+                <span className="mt-auto flex items-center gap-1 pt-2 text-sm font-medium text-primary">
+                  Consulta <ArrowRight className="size-3.5" aria-hidden />
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <section aria-labelledby="tools-title" className="mx-auto max-w-7xl px-4 pt-12">
         <div className="mb-6 flex items-end justify-between">
@@ -101,6 +123,10 @@ export default async function HomePage() {
         </div>
         <ToolsGrid />
       </section>
+
+      <div className="mx-auto max-w-7xl px-4 pt-12">
+        <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_TOP} />
+      </div>
 
       {leadNews && (
         <section aria-labelledby="featured-title" className="mx-auto max-w-7xl px-4 pt-14">
