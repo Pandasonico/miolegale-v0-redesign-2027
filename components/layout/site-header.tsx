@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calculator, Search, Sparkles, Table2 } from 'lucide-react'
-import { DATABASE_MENU } from '@/lib/site'
+import { Calculator, Scale, Search, Sparkles, Table2 } from 'lucide-react'
+import { DATABASE_MENU, STUDIO } from '@/lib/site'
 import { NavLink } from './nav-link'
 
 export function SiteHeader() {
@@ -21,7 +21,7 @@ export function SiteHeader() {
             />
           </Link>
 
-          <form action="/cerca" role="search" className="relative ml-auto hidden w-full max-w-sm md:block">
+          <form action="/cerca" role="search" className="relative ml-auto hidden w-full max-w-sm md:block lg:hidden xl:block">
             <label htmlFor="header-search" className="sr-only">
               Cerca nella banca dati
             </label>
@@ -38,7 +38,7 @@ export function SiteHeader() {
           <div className="ml-auto flex items-center gap-2 md:ml-0">
             <Link
               href="/cerca"
-              className="flex size-9 items-center justify-center rounded-md hover:bg-ink-foreground/10 md:hidden"
+              className="flex size-9 items-center justify-center rounded-md hover:bg-ink-foreground/10 md:hidden lg:flex xl:hidden"
               aria-label="Cerca"
             >
               <Search className="size-5" aria-hidden />
@@ -57,6 +57,13 @@ export function SiteHeader() {
               <Table2 className="size-4" aria-hidden />
               Utilità legali
             </Link>
+            <a
+              href={STUDIO.consulenzaUrl}
+              className="hidden items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-ink-foreground/85 hover:bg-ink-foreground/10 hover:text-ink-foreground lg:flex"
+            >
+              <Scale className="size-4" aria-hidden />
+              Consulenza legale
+            </a>
             <Link
               href="/assistente-ai"
               className="hidden items-center gap-1.5 rounded-md bg-ink-foreground px-3 py-2 text-sm font-semibold text-ink hover:bg-ink-foreground/90 sm:flex"

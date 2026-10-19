@@ -6,6 +6,7 @@ import { Sparkles } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { ListingSidebar } from '@/components/content/listing'
 import { PostRow } from '@/components/content/post-list'
+import { ConsulenzaArticleBox } from '@/components/studio/consulenza-cta'
 import { sectionBySlug } from '@/lib/site'
 import { decodeEntities, featuredImage, formatDate, getPostBySlug, getPosts, splitContent } from '@/lib/wp'
 
@@ -104,6 +105,7 @@ export default async function ArticlePage({ params }: Props) {
             <span className="block text-sm text-primary-foreground/80">Chiedi all&apos;assistente AI una spiegazione semplificata.</span>
           </span>
         </Link>
+        <ConsulenzaArticleBox />
 
         <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_ARTICLE_BOTTOM} className="my-10" />
 

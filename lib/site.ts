@@ -5,6 +5,17 @@ export const SITE = {
   tagline: 'Banca dati giuridica, calcolatori legali e assistente AI',
 }
 
+export const STUDIO = {
+  lawyer: 'Avv. Gianluca Lanciano',
+  name: 'Studio Legale Avv. Gianluca Lanciano',
+  profileUrl: 'https://miolegale.it/author/avv-gianluca-lanciano/',
+  consulenzaUrl: 'https://miolegale.it/consulenza-legale/',
+  priceFrom: '143,44',
+  responseTime: '24 ore',
+}
+
+export const NEWSLETTER_ENDPOINT = 'https://miolegale.it/wp-admin/admin-ajax.php?action=tnp&na=s'
+
 export type Section = {
   slug: string
   label: string

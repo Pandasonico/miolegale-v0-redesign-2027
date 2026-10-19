@@ -1,14 +1,45 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { DATABASE_MENU, MATERIE, SITE, TOOLS } from '@/lib/site'
+import { ArrowUpRight } from 'lucide-react'
+import { NewsletterForm } from '@/components/newsletter/newsletter-form'
+import { DATABASE_MENU, MATERIE, SITE, STUDIO, TOOLS } from '@/lib/site'
 
 export function SiteFooter() {
   return (
     <footer className="mt-16 bg-ink text-ink-foreground">
+      <section aria-labelledby="newsletter-title" className="border-b border-ink-foreground/10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+          <div className="max-w-xl">
+            <p className="text-xs font-mono font-medium uppercase tracking-wider text-accent">Newsletter giuridica</p>
+            <h2 id="newsletter-title" className="mt-2 font-sans tracking-tight text-2xl font-semibold text-balance">
+              Novità normative e giurisprudenziali, direttamente nella tua email.
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-ink-foreground/70">
+              Le ultime massime, norme e notizie selezionate dalla redazione. Gratuita.
+            </p>
+          </div>
+          <div className="w-full lg:max-w-md">
+            <NewsletterForm />
+          </div>
+        </div>
+      </section>
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-4">
         <div>
           <Image src="/images/logo-miolegale.webp" alt="MioLegale" width={475} height={100} unoptimized className="h-9 w-auto" />
           <p className="mt-3 text-sm leading-relaxed text-ink-foreground/70">{SITE.tagline}.</p>
+          <div className="mt-6 border-t border-ink-foreground/10 pt-5 text-sm">
+            <p className="text-ink-foreground/60">Un progetto dello</p>
+            <a href={STUDIO.profileUrl} className="font-semibold hover:underline">
+              {STUDIO.name}
+            </a>
+            <a
+              href={STUDIO.consulenzaUrl}
+              className="mt-4 flex w-fit items-center gap-1.5 rounded-md border border-ink-foreground/25 px-3 py-2 font-medium hover:bg-ink-foreground/10"
+            >
+              Richiedi una consulenza legale
+              <ArrowUpRight className="size-4" aria-hidden />
+            </a>
+          </div>
         </div>
         <FooterCol title="Banca dati" items={DATABASE_MENU} />
         <FooterCol
@@ -22,7 +53,9 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-ink-foreground/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-6 text-xs text-ink-foreground/60 md:flex-row md:justify-between">
-          <p>© {new Date().getFullYear()} {SITE.domain}. I contenuti hanno finalità informativa e non costituiscono consulenza legale.</p>
+          <p>
+            © {new Date().getFullYear()} {SITE.domain} · {STUDIO.lawyer}. I contenuti hanno finalità informativa e non costituiscono consulenza legale.
+          </p>
           <p>Privacy · Cookie policy · Contatti</p>
         </div>
       </div>

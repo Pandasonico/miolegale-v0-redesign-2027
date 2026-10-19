@@ -3,6 +3,7 @@ import { ArrowRight, Landmark } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { ImageCard, PostRow, SectionBlock } from '@/components/content/post-list'
 import { Omnibox } from '@/components/home/omnibox'
+import { ConsulenzaBand } from '@/components/studio/consulenza-cta'
 import { ToolsGrid } from '@/components/tools/tools-grid'
 import { MATERIE, SOURCE_ARCHIVES } from '@/lib/site'
 import { getCategories, getPosts } from '@/lib/wp'
@@ -175,6 +176,8 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      <ConsulenzaBand />
 
       <section aria-labelledby="materie-title" className="mx-auto max-w-7xl px-4 pt-14">
         <h2 id="materie-title" className="font-sans tracking-tight text-3xl font-semibold">
