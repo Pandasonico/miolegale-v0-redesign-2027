@@ -9,13 +9,13 @@ export function SiteFooter() {
     <footer className="mt-16 bg-ink text-ink-foreground">
       <section aria-labelledby="newsletter-title" className="border-b border-ink-foreground/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
-          <div className="max-w-xl">
+          <div className="max-w-xl text-sm">
             <p className="text-xs font-mono font-medium uppercase tracking-wider text-accent">Newsletter giuridica</p>
             <h2 id="newsletter-title" className="mt-2 font-sans tracking-tight text-2xl font-semibold text-balance">
-              Novità normative e giurisprudenziali, direttamente nella tua email.
+              Novità normative e giurisprudenziali nella tua email
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-ink-foreground/70">
-              Le ultime massime, norme e notizie selezionate dalla redazione. Gratuita.
+              Le ultime massime, norme e notizie selezionate dalla redazione. Gratis per te.
             </p>
           </div>
           <div className="w-full lg:w-auto lg:min-w-xl lg:shrink-0">
