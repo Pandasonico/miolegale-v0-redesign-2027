@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { Search, Sparkles } from 'lucide-react'
 import { DATABASE_MENU } from '@/lib/site'
@@ -15,8 +16,15 @@ export function SiteHeader() {
     <>
       <header className="sticky top-0 z-40 bg-ink text-ink-foreground">
         <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4 lg:gap-8">
-          <Link href="/" className="font-serif text-xl font-semibold tracking-tight lg:text-2xl" aria-label="MioLegale, home">
-            MioLegale
+          <Link href="/" className="shrink-0" aria-label="MioLegale, home">
+            <Image
+              src="/images/logo-miolegale.webp"
+              alt="MioLegale"
+              width={475}
+              height={100}
+              priority
+              className="h-7 w-auto lg:h-8"
+            />
           </Link>
 
           <nav aria-label="Principale" className="hidden lg:block">

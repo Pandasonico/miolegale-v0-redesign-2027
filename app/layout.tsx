@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { IBM_Plex_Sans, IBM_Plex_Serif, IBM_Plex_Mono } from 'next/font/google'
+import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google'
 import Script from 'next/script'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SiteFooter } from '@/components/layout/site-footer'
@@ -12,12 +12,6 @@ const plexSans = IBM_Plex_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-plex-sans',
-  display: 'swap',
-})
-const plexSerif = IBM_Plex_Serif({
-  subsets: ['latin'],
-  weight: '600',
-  variable: '--font-plex-serif',
   display: 'swap',
 })
 const plexMono = IBM_Plex_Mono({
@@ -50,7 +44,7 @@ const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="it" className={`${plexSans.variable} ${plexSerif.variable} ${plexMono.variable} bg-background`}>
+    <html lang="it" className={`${plexSans.variable} ${plexMono.variable} bg-background`}>
       <body className="flex min-h-dvh flex-col pb-[calc(3.5rem+env(safe-area-inset-bottom))] antialiased lg:pb-0">
         <SiteHeader />
         <main className="flex-1">{children}</main>

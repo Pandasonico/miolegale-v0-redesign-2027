@@ -6,7 +6,6 @@
 
 @theme inline {
   --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-plex-serif), ui-serif, Georgia, serif;
   --font-mono: var(--font-plex-mono), ui-monospace, 'SFMono-Regular', monospace;
   --color-ring: var(--ring);
   --color-input: var(--input);
