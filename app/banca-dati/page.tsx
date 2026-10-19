@@ -16,7 +16,7 @@ export default async function BancaDatiPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
       <p className="text-sm font-mono font-medium uppercase tracking-widest text-primary">Banca dati</p>
-      <h1 className="mt-2 font-sans tracking-tight text-4xl font-semibold">Tutta la banca dati giuridica</h1>
+      <h1 className="mt-2 font-serif tracking-tight text-4xl font-semibold">Tutta la banca dati giuridica</h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">Consulta i contenuti per tipologia o per materia.</p>
 
       <ul className="mt-8 grid gap-4 md:grid-cols-3">

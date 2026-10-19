@@ -16,7 +16,7 @@ export default async function AssistentePage({ searchParams }: Props) {
     <div className="mx-auto grid max-w-7xl gap-10 px-4 py-8 lg:grid-cols-[1fr_320px]">
       <div className="min-w-0">
         <p className="text-sm font-mono font-medium uppercase tracking-widest text-primary">Assistente AI</p>
-        <h1 className="mt-2 font-sans tracking-tight text-4xl font-semibold text-balance">Chiedi all&apos;assistente giuridico</h1>
+        <h1 className="mt-2 font-serif tracking-tight text-4xl font-semibold text-balance">Chiedi all&apos;assistente giuridico</h1>
         <p className="mt-3 max-w-2xl text-muted-foreground">
           Risposte in linguaggio semplice, con i riferimenti alla nostra banca dati di massime, sentenze e norme.
         </p>

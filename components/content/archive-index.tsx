@@ -18,7 +18,7 @@ export async function ArchiveIndex({ archive }: { archive: Archive }) {
         <span aria-hidden> / </span>
         <span className="text-foreground">{archive.short}</span>
       </nav>
-      <h1 className="mt-3 font-sans tracking-tight text-4xl font-semibold text-balance">{archive.label}</h1>
+      <h1 className="mt-3 font-serif tracking-tight text-4xl font-semibold text-balance">{archive.label}</h1>
       <p className="mt-3 max-w-2xl leading-relaxed text-muted-foreground">{archive.description}</p>
 
       <ul className="mt-6 flex flex-wrap gap-2" aria-label="Altre raccolte">

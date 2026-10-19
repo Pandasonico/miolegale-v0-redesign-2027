@@ -32,7 +32,7 @@ export function Listing({
       <header className="border-b border-border bg-card">
         <div className="mx-auto max-w-7xl px-4 py-10">
           <p className="text-sm font-mono font-medium uppercase tracking-widest text-primary">{eyebrow}</p>
-          <h1 className="mt-2 font-sans tracking-tight text-4xl font-semibold text-balance">{title}</h1>
+          <h1 className="mt-2 font-serif tracking-tight text-4xl font-semibold text-balance">{title}</h1>
           {description && <p className="mt-3 max-w-2xl text-muted-foreground">{description}</p>}
           {total > 0 && (
             <p className="mt-3 text-sm text-muted-foreground tabular-nums">{total.toLocaleString('it-IT')} contenuti</p>

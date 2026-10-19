@@ -33,7 +33,7 @@ export default async function HomePage() {
     <>
       <section className="bg-ink text-ink-foreground">
         <div className="mx-auto max-w-4xl px-4 pb-10 pt-14 text-center lg:pt-20">
-          <h1 className="font-sans tracking-tight text-4xl font-semibold leading-tight text-balance md:text-5xl">
+          <h1 className="font-serif tracking-tight text-4xl font-semibold leading-tight text-balance md:text-5xl">
             Trova la norma, la sentenza o la risposta che ti serve.
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-pretty text-ink-foreground/75">
