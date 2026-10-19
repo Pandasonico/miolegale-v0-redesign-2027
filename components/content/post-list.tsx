@@ -29,16 +29,17 @@ export function ImageCard({ post, featured = false }: { post: PostCard; featured
           </span>
         )}
       </div>
-      <div className="flex flex-1 flex-col p-4">
+      {/* lg:h-0 + min-h-full: the featured text fills the second row without making it taller than the side cards */}
+      <div className={`flex flex-1 flex-col p-4 ${featured ? 'lg:h-0 lg:min-h-full lg:overflow-hidden' : ''}`}>
         <time dateTime={post.date} className="text-xs text-muted-foreground">
           {formatDate(post.date)}
         </time>
-        <h3 className={`mt-1 font-sans tracking-tight font-semibold leading-snug text-pretty ${featured ? 'text-2xl md:text-3xl' : 'line-clamp-3 text-lg'}`}>
+        <h3 className={`mt-1 font-sans tracking-tight font-semibold leading-snug text-pretty ${featured ? 'line-clamp-2 text-2xl' : 'line-clamp-3 text-lg'}`}>
           <Link href={post.href} className="after:absolute after:inset-0 group-hover:text-primary">
             {post.title}
           </Link>
         </h3>
-        {featured && post.excerpt && <p className="mt-3 line-clamp-6 leading-relaxed text-muted-foreground lg:line-clamp-none lg:text-lg">{post.excerpt}</p>}
+        {featured && post.excerpt && <p className="mt-2 line-clamp-6 leading-relaxed text-muted-foreground">{post.excerpt}</p>}
       </div>
     </article>
   )
