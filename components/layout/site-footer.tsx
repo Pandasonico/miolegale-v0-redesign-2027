@@ -7,7 +7,7 @@ export function SiteFooter() {
     <footer className="mt-16 bg-ink text-ink-foreground">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-4">
         <div>
-          <Image src="/images/logo-miolegale.webp" alt="MioLegale" width={475} height={100} className="h-9 w-auto" />
+          <Image src="/images/logo-miolegale.webp" alt="MioLegale" width={475} height={100} unoptimized className="h-9 w-auto" />
           <p className="mt-3 text-sm leading-relaxed text-ink-foreground/70">{SITE.tagline}.</p>
         </div>
         <FooterCol title="Banca dati" items={DATABASE_MENU} />

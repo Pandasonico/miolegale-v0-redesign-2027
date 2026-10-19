@@ -23,6 +23,7 @@ export function SiteHeader() {
               width={475}
               height={100}
               priority
+              unoptimized
               className="h-9 w-auto lg:h-11"
             />
           </Link>
