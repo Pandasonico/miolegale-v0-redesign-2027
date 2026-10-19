@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { MATERIE, SECTIONS, SITE, TOOLS } from '@/lib/site'
+import { DATABASE_MENU, MATERIE, SITE, TOOLS } from '@/lib/site'
 
 export function SiteFooter() {
   return (
@@ -9,7 +9,7 @@ export function SiteFooter() {
           <p className="font-serif text-2xl font-semibold">MioLegale</p>
           <p className="mt-3 text-sm leading-relaxed text-ink-foreground/70">{SITE.tagline}.</p>
         </div>
-        <FooterCol title="Banca dati" items={SECTIONS.map((s) => ({ href: `/${s.slug}`, label: s.short }))} />
+        <FooterCol title="Banca dati" items={DATABASE_MENU} />
         <FooterCol
           title="Strumenti"
           items={[

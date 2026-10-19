@@ -23,6 +23,46 @@ export const SECTIONS: Section[] = [
   { slug: 'formulario-penale', label: 'Formulario penale', short: 'Formulario penale', description: 'Modelli di atti penali pronti all’uso.' },
 ]
 
+export type Archive = {
+  slug: 'costituzione' | 'codici' | 'testi-unici'
+  label: string
+  short: string
+  description: string
+}
+
+export const ARCHIVES: Archive[] = [
+  {
+    slug: 'costituzione',
+    label: 'Costituzione italiana',
+    short: 'Costituzione',
+    description: 'I 139 articoli e le disposizioni transitorie e finali, aggiornati al 2026.',
+  },
+  {
+    slug: 'codici',
+    label: 'Codici italiani',
+    short: 'Codici',
+    description: 'Codice civile, penale, di procedura, della strada e tutti gli altri codici vigenti.',
+  },
+  {
+    slug: 'testi-unici',
+    label: 'Testi unici',
+    short: 'Testi unici',
+    description: 'Testi unici in materia fiscale, edilizia, bancaria, enti locali e altro.',
+  },
+]
+
+export const DATABASE_MENU = [
+  { href: '/costituzione', label: 'Costituzione italiana' },
+  { href: '/codici', label: 'Codici italiani' },
+  { href: '/norme', label: 'Leggi e decreti' },
+  { href: '/testi-unici', label: 'Testi unici' },
+  { href: '/massime', label: 'Massime giurisprudenziali' },
+  { href: '/sentenze', label: 'Sentenze complete' },
+  { href: '/guide', label: 'Guide di diritto' },
+  { href: '/notizie', label: 'Notizie giuridiche' },
+  { href: '/brocardi', label: 'Brocardi latini' },
+]
+
 export const MATERIE = [
   { slug: 'diritto-civile-procedura-civile', label: 'Civile e procedura civile' },
   { slug: 'diritto-penale-procedura-penale', label: 'Penale e procedura penale' },

@@ -16,7 +16,7 @@ export function ImageCard({ post, featured = false }: { post: PostCard; featured
             fill
             priority={featured}
             sizes={featured ? '(min-width: 1024px) 50vw, 100vw' : '(min-width: 1024px) 25vw, 50vw'}
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover"
           />
         )}
         {section && (

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { PostRow } from '@/components/content/post-list'
 import { Pager } from '@/components/content/pager'
-import { SECTIONS, TOOLS } from '@/lib/site'
+import { DATABASE_MENU, SECTIONS, TOOLS } from '@/lib/site'
 import type { PostCard } from '@/lib/wp'
 
 export function Listing({
@@ -79,9 +79,9 @@ export function ListingSidebar() {
           Banca dati
         </p>
         <ul className="mt-3 space-y-1">
-          {SECTIONS.map((s) => (
-            <li key={s.slug}>
-              <Link href={`/${s.slug}`} className="block rounded px-2 py-1.5 text-sm hover:bg-muted hover:text-primary">
+          {DATABASE_MENU.map((s) => (
+            <li key={s.href}>
+              <Link href={s.href} className="block rounded px-2 py-1.5 text-sm hover:bg-muted hover:text-primary">
                 {s.label}
               </Link>
             </li>

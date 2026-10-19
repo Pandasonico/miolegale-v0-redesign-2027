@@ -21,13 +21,13 @@ export function ToolsGrid({ withAi = true }: { withAi?: boolean }) {
           <Link
             key={tool.slug}
             href={`/calcolatori/${tool.slug}`}
-            className="group flex flex-col rounded-lg border border-border bg-card p-5 transition-shadow hover:shadow-md"
+            className="group flex flex-col rounded-lg border border-border bg-card p-5 hover:shadow-md"
           >
             <div className="flex items-center justify-between">
               <span className="flex size-10 items-center justify-center rounded-md bg-secondary text-primary">
                 <Icon className="size-5" aria-hidden />
               </span>
-              <ArrowUpRight className="size-4 text-muted-foreground transition-colors group-hover:text-primary" aria-hidden />
+              <ArrowUpRight className="size-4 text-muted-foreground group-hover:text-primary" aria-hidden />
             </div>
             <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{tool.category}</p>
             <h3 className="mt-1 font-serif text-lg font-semibold leading-snug">{tool.title}</h3>
@@ -38,7 +38,7 @@ export function ToolsGrid({ withAi = true }: { withAi?: boolean }) {
       {withAi && (
         <Link
           href="/assistente-ai"
-          className="group flex flex-col rounded-lg bg-primary p-5 text-primary-foreground transition-shadow hover:shadow-md"
+          className="group flex flex-col rounded-lg bg-primary p-5 text-primary-foreground hover:shadow-md"
         >
           <div className="flex items-center justify-between">
             <span className="flex size-10 items-center justify-center rounded-md bg-accent text-accent-foreground">
