@@ -33,7 +33,7 @@ export default async function HomePage() {
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-pretty text-ink-foreground/75">
             La banca dati giuridica gratuita con massime, sentenze e norme, calcolatori legali e un Avvocato AI che cita le fonti.
           </p>
-          <div className="mx-auto mt-8 max-w-4xl text-left">
+          <div className="mx-auto mt-8 max-w-[950px] text-left">
             <Omnibox />
           </div>
         </div>
@@ -44,7 +44,7 @@ export default async function HomePage() {
           Fonti del diritto
         </h2>
         <p className="mt-1 text-muted-foreground">Testi vigenti consultabili articolo per articolo.</p>
-        <ul className="mt-6 grid gap-4 md:grid-cols-2">
+        <ul className="mt-6 grid gap-4 md:grid-cols-3">
           {SOURCE_ARCHIVES.map((a) => (
             <li key={a.slug}>
               <Link

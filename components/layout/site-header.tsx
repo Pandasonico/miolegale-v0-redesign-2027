@@ -1,15 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Search, Sparkles } from 'lucide-react'
+import { Calculator, Search, Sparkles } from 'lucide-react'
 import { DATABASE_MENU } from '@/lib/site'
 import { NavLink } from './nav-link'
-
-const PRIMARY = [
-  { href: '/banca-dati', label: 'Banca dati' },
-  { href: '/calcolatori', label: 'Calcolatori' },
-  { href: '/notizie', label: 'Notizie' },
-  { href: '/guide', label: 'Guide' },
-]
 
 export function SiteHeader() {
   return (
@@ -27,22 +20,6 @@ export function SiteHeader() {
               className="h-9 w-auto lg:h-11"
             />
           </Link>
-
-          <nav aria-label="Principale" className="hidden lg:block">
-            <ul className="flex items-center gap-1">
-              {PRIMARY.map((item) => (
-                <li key={item.href}>
-                  <NavLink
-                    href={item.href}
-                    className="rounded-md px-3 py-2 text-sm font-medium text-ink-foreground/80 hover:bg-ink-foreground/10 hover:text-ink-foreground"
-                    activeClassName="bg-ink-foreground/10 text-ink-foreground"
-                  >
-                    {item.label}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
 
           <form action="/cerca" role="search" className="relative ml-auto hidden w-full max-w-sm md:block">
             <label htmlFor="header-search" className="sr-only">
@@ -65,6 +42,13 @@ export function SiteHeader() {
               aria-label="Cerca"
             >
               <Search className="size-5" aria-hidden />
+            </Link>
+            <Link
+              href="/calcolatori"
+              className="hidden items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-ink-foreground/85 hover:bg-ink-foreground/10 hover:text-ink-foreground lg:flex"
+            >
+              <Calculator className="size-4" aria-hidden />
+              Calcolatori
             </Link>
             <Link
               href="/assistente-ai"

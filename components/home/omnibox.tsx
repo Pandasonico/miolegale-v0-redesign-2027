@@ -34,7 +34,7 @@ export function Omnibox() {
 
   return (
     <div className="rounded-xl bg-card p-2 text-card-foreground shadow-2xl shadow-ink/30">
-      <div role="tablist" aria-label="Modalità di ricerca" className="flex gap-1 p-1">
+      <div role="tablist" aria-label="Modalità di ricerca" className="flex h-[46px] gap-6 p-1">
         {(Object.keys(MODES) as Mode[]).map((m) => (
           <button
             key={m}

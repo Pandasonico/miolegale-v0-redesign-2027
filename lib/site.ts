@@ -51,7 +51,15 @@ export const ARCHIVES: Archive[] = [
   },
 ]
 
-export const SOURCE_ARCHIVES = ARCHIVES.filter((a) => a.slug !== 'costituzione')
+export const SOURCE_ARCHIVES: { slug: string; label: string; description: string }[] = [
+  ARCHIVES[1],
+  {
+    slug: 'norme',
+    label: 'Leggi e decreti',
+    description: 'Leggi, decreti legislativi e decreti-legge con il testo vigente e le ultime modifiche.',
+  },
+  ARCHIVES[2],
+]
 
 export const DATABASE_MENU = [
   { href: '/codici', label: 'Codici italiani' },
@@ -84,6 +92,7 @@ export const MATERIE = [
   { slug: 'europa-affari-esteri', label: 'Europa e affari esteri' },
   { slug: 'ambiente-protezione-civile', label: 'Ambiente' },
   { slug: 'diritto-costituzionale', label: 'Affari costituzionali' },
+  { slug: 'diritto-nuove-tecnologie', label: 'Diritto e nuove tecnologie' },
 ]
 
 export type Tool = {
