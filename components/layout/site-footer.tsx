@@ -18,7 +18,7 @@ export function SiteFooter() {
               Le ultime massime, norme e notizie selezionate dalla redazione. Gratuita.
             </p>
           </div>
-          <div className="w-full lg:max-w-md">
+          <div className="w-full lg:w-auto lg:min-w-xl lg:shrink-0">
             <NewsletterForm />
           </div>
         </div>
@@ -52,11 +52,23 @@ export function SiteFooter() {
         <FooterCol title="Materie" items={MATERIE.slice(0, 8).map((m) => ({ href: `/${m.slug}`, label: m.label }))} />
       </div>
       <div className="border-t border-ink-foreground/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-6 text-xs text-ink-foreground/60 md:flex-row md:justify-between">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 text-xs leading-relaxed text-ink-foreground/60 md:flex-row md:items-center md:justify-between md:gap-8">
           <p>
-            © {new Date().getFullYear()} {SITE.domain} · {STUDIO.lawyer}. I contenuti hanno finalità informativa e non costituiscono consulenza legale.
+            © 2006–{new Date().getFullYear()} MioLegale.it<sup>®</sup> è un marchio registrato · {STUDIO.lawyer}. I contenuti hanno finalità
+            informativa e non costituiscono consulenza legale.
           </p>
-          <p>Privacy · Cookie policy · Contatti</p>
+          <ul className="flex shrink-0 items-center gap-4">
+            <li>
+              <a href={STUDIO.privacyUrl} className="hover:text-ink-foreground hover:underline">
+                Note legali e privacy
+              </a>
+            </li>
+            <li>
+              <a href={STUDIO.contattiUrl} className="hover:text-ink-foreground hover:underline">
+                Contatti
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </footer>

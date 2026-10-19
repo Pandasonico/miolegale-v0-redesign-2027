@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calculator, Scale, Search, Sparkles, Table2 } from 'lucide-react'
+import { Calculator, Scale, Sparkles, Table2 } from 'lucide-react'
 import { DATABASE_MENU, STUDIO } from '@/lib/site'
+import { HeaderSearch } from './header-search'
 import { NavLink } from './nav-link'
 
 export function SiteHeader() {
@@ -21,28 +22,9 @@ export function SiteHeader() {
             />
           </Link>
 
-          <form action="/cerca" role="search" className="relative ml-auto hidden w-full max-w-sm md:block lg:hidden xl:block">
-            <label htmlFor="header-search" className="sr-only">
-              Cerca nella banca dati
-            </label>
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-foreground/60" aria-hidden />
-            <input
-              id="header-search"
-              name="q"
-              type="search"
-              placeholder="Cerca norme, sentenze, massime…"
-              className="h-9 w-full rounded-md border border-ink-foreground/15 bg-ink-foreground/10 pl-9 pr-3 text-sm text-ink-foreground placeholder:text-ink-foreground/60 outline-none focus-visible:ring-2 focus-visible:ring-ink-foreground/40"
-            />
-          </form>
+          <HeaderSearch />
 
-          <div className="ml-auto flex items-center gap-2 md:ml-0">
-            <Link
-              href="/cerca"
-              className="flex size-9 items-center justify-center rounded-md hover:bg-ink-foreground/10 md:hidden lg:flex xl:hidden"
-              aria-label="Cerca"
-            >
-              <Search className="size-5" aria-hidden />
-            </Link>
+          <div className="flex items-center gap-2">
             <Link
               href="/calcolatori"
               className="hidden items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-ink-foreground/85 hover:bg-ink-foreground/10 hover:text-ink-foreground lg:flex"

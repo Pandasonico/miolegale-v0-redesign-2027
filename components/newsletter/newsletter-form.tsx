@@ -49,9 +49,9 @@ export function NewsletterForm() {
       </div>
       <label className="flex items-start gap-2 text-xs leading-relaxed text-ink-foreground/70">
         <input type="checkbox" name="privacy" required className="mt-0.5 size-4 shrink-0 accent-accent" />
-        <span>
+        <span className="lg:whitespace-nowrap">
           Accetto l&apos;
-          <a href={STUDIO.consulenzaUrl} className="underline hover:text-ink-foreground">
+          <a href={STUDIO.privacyUrl} className="underline hover:text-ink-foreground">
             informativa sul trattamento dei dati
           </a>
           . Puoi cancellarti in qualsiasi momento.
