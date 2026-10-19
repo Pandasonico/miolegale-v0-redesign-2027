@@ -34,7 +34,7 @@ export function ImageCard({ post, featured = false }: { post: PostCard; featured
             {post.title}
           </Link>
         </h3>
-        {featured && post.excerpt && <p className="mt-2 line-clamp-3 leading-relaxed text-muted-foreground">{post.excerpt}</p>}
+        {featured && post.excerpt && <p className="mt-3 line-clamp-6 leading-relaxed text-muted-foreground">{post.excerpt}</p>}
       </div>
     </article>
   )

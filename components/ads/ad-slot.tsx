@@ -26,11 +26,14 @@ export function AdSlot({
   slot,
   variant = 'rectangle',
   className,
+  fill = false,
 }: {
   /** ID dello slot AdSense (data-ad-slot). */
   slot?: string
   variant?: Variant
   className?: string
+  /** Lo spazio annuncio si allunga fino a occupare tutta l'altezza del contenitore. */
+  fill?: boolean
 }) {
   const ref = useRef<HTMLModElement>(null)
   const live = Boolean(ADSENSE_CLIENT && slot)
@@ -61,6 +64,7 @@ export function AdSlot({
       className={cn(
         'flex w-full flex-col gap-2 border-y border-border py-3',
         variant === 'skyscraper' && 'hidden lg:flex',
+        fill && 'flex-1',
         className,
       )}
     >
@@ -68,7 +72,7 @@ export function AdSlot({
       {live ? (
         <ins
           ref={ref}
-          className={cn('adsbygoogle block w-full', SIZES[variant])}
+          className={cn('adsbygoogle block w-full', SIZES[variant], fill && 'flex-1')}
           data-ad-client={ADSENSE_CLIENT}
           data-ad-slot={slot}
           data-ad-format={variant === 'in-article' || variant === 'in-feed' ? 'fluid' : 'auto'}
@@ -76,7 +80,7 @@ export function AdSlot({
           data-full-width-responsive="true"
         />
       ) : (
-        <div className={cn('w-full rounded-md bg-muted', SIZES[variant])} aria-hidden />
+        <div className={cn('w-full rounded-md bg-muted', SIZES[variant], fill && 'flex-1')} aria-hidden />
       )}
     </aside>
   )

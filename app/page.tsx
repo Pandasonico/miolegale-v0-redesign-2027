@@ -10,14 +10,25 @@ import { getCategories, getPosts } from '@/lib/wp'
 export default async function HomePage() {
   const [categories, massime, norme, notizie, guide, brocardi] = await Promise.all([
     getCategories(),
-    getPosts({ categorySlug: 'massime', perPage: 5 }),
-    getPosts({ categorySlug: 'norme', perPage: 6 }),
+    getPosts({ categorySlug: 'massime', perPage: 9, withImages: true }),
+    getPosts({ categorySlug: 'norme', perPage: 10, withImages: true }),
     getPosts({ categorySlug: 'notizie', perPage: 10, withImages: true }),
     getPosts({ categorySlug: 'guide', perPage: 4, withImages: true }),
     getPosts({ categorySlug: 'brocardi', perPage: 1 }),
   ])
-  const [leadNews, ...otherNews] = notizie.posts
-  const sideNews = otherNews.slice(4)
+
+  const byDateDesc = (a: { date: string }, b: { date: string }) => b.date.localeCompare(a.date)
+  const candidates = [...notizie.posts.slice(0, 5), ...massime.posts.slice(0, 4), ...norme.posts.slice(0, 4)]
+    .filter((p, i, all) => all.findIndex((q) => q.id === p.id) === i)
+    .sort(byDateDesc)
+  const leadNews = candidates.find((p) => p.image) ?? candidates[0]
+  const otherNews = candidates.filter((p) => p !== leadNews).slice(0, 4)
+  const featuredIds = new Set([leadNews, ...otherNews].filter(Boolean).map((p) => p.id))
+  const notFeatured = (p: { id: number }) => !featuredIds.has(p.id)
+
+  const latestMassime = massime.posts.filter(notFeatured).slice(0, 5)
+  const latestNorme = norme.posts.filter(notFeatured).slice(0, 6)
+  const sideNews = notizie.posts.filter(notFeatured).slice(0, 5)
 
   const count = (slug: string) => categories.find((c) => c.slug === slug)?.count ?? 0
   const brocardo = brocardi.posts[0]
@@ -93,14 +104,11 @@ export default async function HomePage() {
             <h2 id="featured-title" className="font-sans tracking-tight text-3xl font-semibold">
               In primo piano
             </h2>
-            <Link href="/notizie" className="text-sm font-medium text-primary hover:underline">
-              Tutte le notizie
-            </Link>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
             <ImageCard post={leadNews} featured />
             <div className="grid gap-4 sm:grid-cols-2">
-              {otherNews.slice(0, 4).map((p) => (
+              {otherNews.map((p) => (
                 <ImageCard key={p.id} post={p} />
               ))}
             </div>
@@ -110,26 +118,26 @@ export default async function HomePage() {
 
       <div className="mx-auto grid max-w-7xl gap-8 px-4 pt-12 lg:grid-cols-[1fr_320px]">
         <div className="flex flex-col gap-8">
-          <SectionBlock title="Ultime massime" href="/massime" posts={massime.posts} description="Principi di diritto dalla giurisprudenza." />
+          <SectionBlock title="Ultime massime" href="/massime" posts={latestMassime} description="Principi di diritto dalla giurisprudenza." />
           <AdSlot variant="in-feed" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_FEED} />
           <div className="grid gap-8 md:grid-cols-3">
             <div className="md:col-span-2">
               <SectionBlock title="Notizie giuridiche" href="/notizie" posts={sideNews} />
             </div>
             <div className="flex flex-col">
-              <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_FEED_SIDE} />
+              <AdSlot variant="rectangle" fill slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_FEED_SIDE} />
             </div>
           </div>
         </div>
 
         <aside className="flex flex-col gap-8" aria-label="Barra laterale">
-          <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR} />
+          <AdSlot variant="rectangle" fill slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR} />
           <section aria-labelledby="norme-side-title" className="rounded-lg border border-border bg-card p-5">
             <h2 id="norme-side-title" className="font-sans tracking-tight text-xl font-semibold">
               Norme
             </h2>
             <div className="divide-y divide-border">
-              {norme.posts.map((p) => (
+              {latestNorme.map((p) => (
                 <PostRow key={p.id} post={p} showExcerpt={false} />
               ))}
             </div>
