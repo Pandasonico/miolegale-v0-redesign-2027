@@ -26,14 +26,14 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#1b2541',
+  themeColor: '#173f71',
 }
 
 const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="it" className={`${inter.variable} ${serif.variable}`}>
+    <html lang="it" className={`${inter.variable} ${serif.variable} bg-background`}>
       <body className="flex min-h-dvh flex-col antialiased">
         <SiteHeader />
         <main className="flex-1">{children}</main>

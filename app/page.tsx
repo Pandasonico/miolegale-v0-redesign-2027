@@ -1,16 +1,11 @@
 import Link from 'next/link'
-import { Search, Sparkles } from 'lucide-react'
+import { ArrowRight, Calculator } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { PostRow, SectionBlock } from '@/components/content/post-list'
+import { Omnibox } from '@/components/home/omnibox'
 import { ToolsGrid } from '@/components/tools/tools-grid'
-import { MATERIE } from '@/lib/site'
+import { MATERIE, TOOLS } from '@/lib/site'
 import { getCategories, getPosts } from '@/lib/wp'
-
-const AI_PROMPTS = [
-  'Quali sono i termini per impugnare una sentenza civile?',
-  'Quando scatta la responsabilità del condominio per infiltrazioni?',
-  'Differenza tra licenziamento per giusta causa e giustificato motivo',
-]
 
 export default async function HomePage() {
   const [categories, massime, sentenze, norme, notizie, brocardi] = await Promise.all([
@@ -24,79 +19,60 @@ export default async function HomePage() {
 
   const count = (slug: string) => categories.find((c) => c.slug === slug)?.count ?? 0
   const stats = [
-    { label: 'Massime', value: count('massime') },
-    { label: 'Sentenze', value: count('sentenze') },
-    { label: 'Norme', value: count('norme') },
-    { label: 'Brocardi', value: count('brocardi') },
+    { label: 'Massime', slug: 'massime', value: count('massime') },
+    { label: 'Sentenze', slug: 'sentenze', value: count('sentenze') },
+    { label: 'Norme', slug: 'norme', value: count('norme') },
+    { label: 'Brocardi', slug: 'brocardi', value: count('brocardi') },
   ]
   const brocardo = brocardi.posts[0]
 
   return (
     <>
       <section className="bg-ink text-ink-foreground">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 lg:grid-cols-[1.4fr_1fr] lg:py-20">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-widest text-accent">Banca dati giuridica gratuita</p>
-            <h1 className="mt-4 font-serif text-4xl font-semibold leading-tight text-balance md:text-5xl">
-              Il diritto italiano, consultabile in un attimo.
-            </h1>
-            <p className="mt-4 max-w-xl text-lg leading-relaxed text-ink-foreground/75">
-              Massime, sentenze e norme aggiornate, calcolatori legali e un assistente AI che cita le fonti.
-            </p>
-
-            <form action="/cerca" className="mt-8 flex max-w-xl flex-col gap-2 sm:flex-row" role="search">
-              <label htmlFor="hero-search" className="sr-only">
-                Cerca nella banca dati
-              </label>
-              <div className="relative flex-1">
-                <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" aria-hidden />
-                <input
-                  id="hero-search"
-                  name="q"
-                  type="search"
-                  required
-                  placeholder="Es. usucapione, art. 2051 c.c., licenziamento…"
-                  className="h-12 w-full rounded-md bg-card pl-12 pr-4 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                />
-              </div>
-              <button type="submit" className="h-12 rounded-md bg-accent px-6 font-semibold text-accent-foreground hover:bg-accent/90">
-                Cerca
-              </button>
-            </form>
-
-            <dl className="mt-10 grid max-w-xl grid-cols-2 gap-6 sm:grid-cols-4">
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <dt className="text-xs uppercase tracking-wider text-ink-foreground/60">{s.label}</dt>
-                  <dd className="mt-1 font-serif text-3xl font-semibold tabular-nums">
-                    {s.value ? s.value.toLocaleString('it-IT') : '—'}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+        <div className="mx-auto max-w-4xl px-4 pb-10 pt-14 text-center lg:pt-20">
+          <h1 className="font-serif text-4xl font-semibold leading-tight text-balance md:text-5xl">
+            Trova la norma, la sentenza o la risposta che ti serve.
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-pretty text-ink-foreground/75">
+            La banca dati giuridica gratuita con massime, sentenze e norme, calcolatori legali e un Avvocato AI che cita le fonti.
+          </p>
+          <div className="mt-8 text-left">
+            <Omnibox />
           </div>
+        </div>
 
-          <div className="rounded-lg border border-ink-foreground/15 bg-ink-foreground/5 p-6">
-            <div className="flex items-center gap-2 text-accent">
-              <Sparkles className="size-5" aria-hidden />
-              <p className="text-sm font-semibold uppercase tracking-wider">Assistente AI</p>
-            </div>
-            <p className="mt-3 font-serif text-2xl font-semibold leading-snug">Chiedi in linguaggio naturale.</p>
-            <p className="mt-2 text-sm text-ink-foreground/70">
-              Risposte basate sui contenuti della banca dati, con link alle fonti.
-            </p>
-            <ul className="mt-5 space-y-2">
-              {AI_PROMPTS.map((p) => (
-                <li key={p}>
+        <div className="border-t border-ink-foreground/10">
+          <div className="mx-auto grid max-w-7xl gap-px px-4 sm:grid-cols-2 lg:grid-cols-[repeat(4,1fr)_1.6fr]">
+            {stats.map((s) => (
+              <Link
+                key={s.label}
+                href={`/${s.slug}`}
+                className="group flex items-baseline justify-between gap-3 px-2 py-5 hover:bg-ink-foreground/5 lg:flex-col lg:items-start lg:justify-center lg:gap-1 lg:px-4"
+              >
+                <span className="font-serif text-3xl font-semibold tabular-nums">
+                  {s.value ? s.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') : '—'}
+                </span>
+                <span className="flex items-center gap-1 text-sm text-ink-foreground/70 group-hover:text-ink-foreground">
+                  {s.label} <ArrowRight className="size-3.5" aria-hidden />
+                </span>
+              </Link>
+            ))}
+            <div className="flex flex-col justify-center gap-2 px-2 py-5 lg:px-4">
+              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-accent">
+                <Calculator className="size-3.5" aria-hidden /> Calcolatori rapidi
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {TOOLS.map((t) => (
                   <Link
-                    href={`/assistente-ai?q=${encodeURIComponent(p)}`}
-                    className="block rounded-md bg-ink-foreground/10 px-4 py-3 text-sm hover:bg-ink-foreground/15"
+                    key={t.slug}
+                    href={`/calcolatori/${t.slug}`}
+                    className="rounded-md bg-ink-foreground/10 px-3 py-1.5 text-sm font-medium hover:bg-ink-foreground/20"
                   >
-                    {p}
+                    {t.title}
                   </Link>
-                </li>
-              ))}
-            </ul>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
