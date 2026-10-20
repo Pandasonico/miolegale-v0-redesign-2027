@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { Fragment } from 'react'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { ArticleHeader } from '@/components/article/article-header'
 import { ArticleHelp } from '@/components/article/article-help'
@@ -18,7 +19,7 @@ import {
   getPostTags,
   getRelatedPosts,
   readingMinutes,
-  splitContent,
+  splitContentForAds,
   withHeadingAnchors,
 } from '@/lib/wp'
 
@@ -63,7 +64,7 @@ export default async function ArticlePage({ params }: Props) {
 
   const rawContent = post.content?.rendered ?? ''
   const { html, toc } = withHeadingAnchors(rawContent)
-  const [firstHalf, secondHalf] = splitContent(html)
+  const contentChunks = splitContentForAds(html)
   const minutes = readingMinutes(rawContent)
   const plainContent = decodeEntities(rawContent)
   const lead = excerpt && !plainContent.startsWith(excerpt.replace(/…$/, '').slice(0, 60)) ? excerpt : undefined
@@ -100,13 +101,14 @@ export default async function ArticlePage({ params }: Props) {
 
             {toc.length >= 3 && <ArticleToc items={toc} />}
 
-            <div className="wp-content mt-8" dangerouslySetInnerHTML={{ __html: firstHalf }} />
-            {secondHalf && (
-              <>
-                <AdSlot variant="in-article" slot={process.env.NEXT_PUBLIC_AD_SLOT_IN_ARTICLE} className="my-8" />
-                <div className="wp-content" dangerouslySetInnerHTML={{ __html: secondHalf }} />
-              </>
-            )}
+            {contentChunks.map((chunk, i) => (
+              <Fragment key={i}>
+                {i > 0 && (
+                  <AdSlot variant="in-article" slot={process.env.NEXT_PUBLIC_AD_SLOT_IN_ARTICLE} className="my-8 print:hidden" />
+                )}
+                <div className={i === 0 ? 'wp-content mt-8' : 'wp-content'} dangerouslySetInnerHTML={{ __html: chunk }} />
+              </Fragment>
+            ))}
 
             {tags.length > 0 && (
               <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 print:hidden">

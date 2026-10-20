@@ -327,12 +327,56 @@ export function readingMinutes(html: string) {
   return Math.max(1, Math.round(words / 220))
 }
 
-/** Divide l'HTML a metà dei paragrafi per inserire un annuncio in-article. */
-export function splitContent(html: string): [string, string] {
-  const parts = html.split('</p>')
-  if (parts.length < 6) return [html, '']
-  const mid = Math.floor(parts.length / 2)
-  return [parts.slice(0, mid).join('</p>') + '</p>', parts.slice(mid).join('</p>')]
+export const IN_ARTICLE_ADS = {
+  everyWords: 650,
+  maxAds: 4,
+  minTailWords: 300,
+}
+
+const AD_SAFE_CONTAINERS = new Set(['table', 'ul', 'ol', 'blockquote', 'figure', 'pre', 'details', 'div', 'section'])
+
+function countWords(html: string) {
+  return decodeEntities(html).split(' ').filter(Boolean).length
+}
+
+/**
+ * Taglia l'HTML in blocchi da circa `everyWords` parole: tra un blocco e l'altro la pagina inserisce un annuncio.
+ * Si taglia solo dopo la fine di un paragrafo di primo livello, così un titolo non resta mai separato dal suo testo
+ * e non si entra in tabelle, elenchi o citazioni; mai negli ultimi `minTailWords` parole.
+ */
+export function splitContentForAds(html: string, opts = IN_ARTICLE_ADS): string[] {
+  const totalWords = countWords(html)
+  if (totalWords < opts.everyWords + opts.minTailWords) return [html]
+
+  const chunks: string[] = []
+  const tagRe = /<(\/?)([a-z][a-z0-9]*)\b[^>]*>/gi
+  let depth = 0
+  let lastCut = 0
+  let wordsBeforeChunk = 0
+  let match: RegExpExecArray | null
+
+  while ((match = tagRe.exec(html)) && chunks.length < opts.maxAds) {
+    const closing = match[1] === '/'
+    const tag = match[2].toLowerCase()
+
+    if (AD_SAFE_CONTAINERS.has(tag)) {
+      depth = Math.max(0, depth + (closing ? -1 : 1))
+      continue
+    }
+    if (!closing || tag !== 'p' || depth > 0) continue
+
+    const cut = match.index + match[0].length
+    const chunkWords = countWords(html.slice(lastCut, cut))
+    if (chunkWords < opts.everyWords) continue
+    if (totalWords - wordsBeforeChunk - chunkWords < opts.minTailWords) break
+
+    chunks.push(html.slice(lastCut, cut))
+    lastCut = cut
+    wordsBeforeChunk += chunkWords
+  }
+
+  chunks.push(html.slice(lastCut))
+  return chunks
 }
 
 export function formatDate(iso: string) {
