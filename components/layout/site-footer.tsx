@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { NewsletterForm } from '@/components/newsletter/newsletter-form'
-import { DATABASE_MENU, MATERIE, SITE, STUDIO, TOOLS } from '@/lib/site'
+import { DATABASE_MENU, MATERIE, SITE, STUDIO, AVAILABLE_TOOLS } from '@/lib/site'
 
 export function SiteFooter() {
   return (
@@ -45,7 +45,7 @@ export function SiteFooter() {
         <FooterCol
           title="Strumenti"
           items={[
-            ...TOOLS.map((t) => ({ href: `/calcolo/${t.slug}`, label: t.title })),
+            ...AVAILABLE_TOOLS.map((t) => ({ href: `/calcolo/${t.slug}`, label: t.title })),
             { href: '/assistente-ai', label: 'Assistente AI giuridico' },
           ]}
         />

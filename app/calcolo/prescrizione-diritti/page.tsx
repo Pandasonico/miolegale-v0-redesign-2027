@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <ToolShell
-      slug="prescrizione"
+      slug="prescrizione-diritti"
       guide={
         <>
           <h2>Termini di prescrizione nel codice civile</h2>

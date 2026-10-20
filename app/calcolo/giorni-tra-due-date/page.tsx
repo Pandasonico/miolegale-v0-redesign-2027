@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <ToolShell
-      slug="giorni-tra-date"
+      slug="giorni-tra-due-date"
       guide={
         <>
           <h2>Come vengono contati i giorni</h2>

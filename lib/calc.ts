@@ -289,3 +289,198 @@ export const dataIT = (iso: string) =>
   new Intl.DateTimeFormat('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(
     new Date(`${iso}T00:00:00Z`),
   )
+
+export const parseNum = (s: string) => Number(s.replace(/\./g, '').replace(',', '.')) || 0
+
+export const num = (n: number, digits = 2) => n.toLocaleString('it-IT', { minimumFractionDigits: digits, maximumFractionDigits: digits })
+
+export function aggiungiMesi(iso: string, months: number) {
+  const [y, m, d] = iso.split('-').map(Number)
+  const total = m - 1 + months
+  const year = y + Math.floor(total / 12)
+  const month = ((total % 12) + 12) % 12
+  const lastDay = new Date(Date.UTC(year, month + 1, 0)).getUTCDate()
+  return toISO(Date.UTC(year, month, Math.min(d, lastDay)))
+}
+
+export function aggiungiPeriodo(iso: string, sign: 1 | -1, anni: number, mesi: number, giorni: number) {
+  return toISO(utc(aggiungiMesi(iso, sign * (anni * 12 + mesi))) + sign * giorni * DAY)
+}
+
+export const FASCE_ETA = [
+  { max: 28 / 365, label: 'Neonato' },
+  { max: 1, label: 'Lattante' },
+  { max: 2, label: 'Prima infanzia' },
+  { max: 6, label: 'Seconda infanzia' },
+  { max: 11, label: 'Terza infanzia (età scolare)' },
+  { max: 22, label: 'Pubertà e adolescenza' },
+  { max: 40, label: 'Prima età adulta' },
+  { max: 60, label: 'Seconda età adulta' },
+  { max: 75, label: 'Terza età' },
+  { max: 90, label: 'Quarta età' },
+  { max: Number.POSITIVE_INFINITY, label: 'Quinta età' },
+]
+
+export function fasciaEta(anni: number, giorniTotali: number) {
+  const years = anni + (giorniTotali % 365) / 365
+  return FASCE_ETA.find((f) => (f.max < 1 ? giorniTotali <= 28 : years < f.max))!.label
+}
+
+export type ModoPercentuale = 'di' | 'quale' | 'variazione' | 'aumenta' | 'diminuisci'
+
+export function calcolaPercentuale(modo: ModoPercentuale, a: number, b: number) {
+  switch (modo) {
+    case 'di':
+      return { value: (a * b) / 100, percent: false }
+    case 'quale':
+      return { value: b === 0 ? 0 : (a / b) * 100, percent: true }
+    case 'variazione':
+      return { value: a === 0 ? 0 : ((b - a) / a) * 100, percent: true }
+    case 'aumenta':
+      return { value: b * (1 + a / 100), percent: false }
+    case 'diminuisci':
+      return { value: b * (1 - a / 100), percent: false }
+  }
+}
+
+export function prezzoIniziale(finale: number, percentuale: number, tipo: 'sconto' | 'aumento') {
+  const divisor = tipo === 'sconto' ? 1 - percentuale / 100 : 1 + percentuale / 100
+  return divisor > 0 ? finale / divisor : 0
+}
+
+export function calcolaScontoRicarico(modo: 'sconto' | 'ricarico' | 'margine', prezzo: number, percentuale: number) {
+  if (modo === 'sconto') {
+    const finale = prezzo * (1 - percentuale / 100)
+    return { finale, differenza: prezzo - finale }
+  }
+  if (modo === 'ricarico') {
+    const finale = prezzo * (1 + percentuale / 100)
+    return { finale, differenza: finale - prezzo, margine: finale > 0 ? ((finale - prezzo) / finale) * 100 : 0 }
+  }
+  const finale = percentuale < 100 ? prezzo / (1 - percentuale / 100) : 0
+  return { finale, differenza: finale - prezzo, ricarico: prezzo > 0 ? ((finale - prezzo) / prezzo) * 100 : 0 }
+}
+
+export type FatturaOpts = {
+  aliquota: number
+  cassa: boolean
+  speseGenerali: boolean
+  ritenuta: boolean
+  split: boolean
+  forfettario: boolean
+  bollo: boolean
+  speseEsenti: number
+}
+
+const SOGLIA_BOLLO = 77.47
+
+export function calcolaFattura(compenso: number, o: FatturaOpts) {
+  const sg = o.speseGenerali ? round2(compenso * 0.15) : 0
+  const compute = (bollo: number) => {
+    const base = compenso + sg + bollo
+    const cassa = o.cassa ? round2(base * 0.04) : 0
+    const imponibile = round2(base + cassa)
+    const iva = o.forfettario ? 0 : round2((imponibile * o.aliquota) / 100)
+    const totale = round2(imponibile + iva + o.speseEsenti)
+    const ritenuta = o.ritenuta && !o.forfettario ? round2((compenso + sg) * 0.2) : 0
+    const ivaSplit = o.split && !o.forfettario ? iva : 0
+    return { compenso, sg, bollo, cassa, imponibile, iva, speseEsenti: o.speseEsenti, totale, ritenuta, ivaSplit, netto: round2(totale - ritenuta - ivaSplit) }
+  }
+  const senzaBollo = compute(0)
+  return o.forfettario && o.bollo && senzaBollo.totale > SOGLIA_BOLLO ? compute(2) : senzaBollo
+}
+
+/** Risale al compenso partendo dal totale in fattura o dal netto a pagare. */
+export function calcolaFatturaInversa(target: number, da: 'totale' | 'netto', o: FatturaOpts) {
+  let lo = 0
+  let hi = Math.max(target * 2, 1)
+  for (let i = 0; i < 80; i++) {
+    const mid = (lo + hi) / 2
+    if (calcolaFattura(mid, o)[da] < target) lo = mid
+    else hi = mid
+  }
+  return calcolaFattura(round2((lo + hi) / 2), o)
+}
+
+function tassoMensile(netto: number, pagamento: number, rate: number) {
+  if (netto <= 0 || pagamento <= 0 || rate <= 0) return 0
+  if (pagamento * rate <= netto) return 0
+  const f = (r: number) => (r === 0 ? netto - pagamento * rate : netto - (pagamento * (1 - Math.pow(1 + r, -rate))) / r)
+  let lo = 0
+  let hi = 1
+  for (let i = 0; i < 100; i++) {
+    const mid = (lo + hi) / 2
+    if (f(mid) < 0) lo = mid
+    else hi = mid
+  }
+  return (lo + hi) / 2
+}
+
+export function calcolaTaeg({
+  importo,
+  rata,
+  rate,
+  speseIniziali,
+  speseRata,
+}: {
+  importo: number
+  rata: number
+  rate: number
+  speseIniziali: number
+  speseRata: number
+}) {
+  const rTan = tassoMensile(importo, rata, rate)
+  const rTaeg = tassoMensile(importo - speseIniziali, rata + speseRata, rate)
+  return {
+    tan: rTan * 12 * 100,
+    taeg: (Math.pow(1 + rTaeg, 12) - 1) * 100,
+    costoTotale: (rata + speseRata) * rate + speseIniziali - importo,
+    totaleDaRestituire: (rata + speseRata) * rate + speseIniziali,
+  }
+}
+
+export function valoreUsufruttoTermine(valorePiena: number, anni: number, tassoPercentuale: number) {
+  const i = tassoPercentuale / 100
+  const coefficiente = i > 0 ? 1 - Math.pow(1 + i, -anni) : 0
+  const calcolato = valorePiena * coefficiente
+  const massimo = 20 * valorePiena * i
+  const usufrutto = Math.min(calcolato, massimo)
+  return { coefficiente, usufrutto, nudaProprieta: valorePiena - usufrutto, tettoApplicato: calcolato > massimo, massimo }
+}
+
+export function calcolaImposteCompravendita({
+  venditore,
+  primaCasa,
+  prezzo,
+  rendita,
+  prezzoValore,
+}: {
+  venditore: 'privato' | 'impresa'
+  primaCasa: boolean
+  prezzo: number
+  rendita: number
+  prezzoValore: boolean
+}) {
+  const valoreCatastale = rendita > 0 ? rendita * 1.05 * (primaCasa ? 110 : 120) : 0
+  if (venditore === 'impresa') {
+    const iva = round2(prezzo * (primaCasa ? 0.04 : 0.1))
+    return { base: prezzo, valoreCatastale, registro: 200, ipotecaria: 200, catastale: 200, iva, totale: 600 + iva }
+  }
+  const base = prezzoValore && valoreCatastale > 0 ? valoreCatastale : prezzo
+  const registro = round2(Math.max(base * (primaCasa ? 0.02 : 0.09), 1000))
+  return { base, valoreCatastale, registro, ipotecaria: 50, catastale: 50, iva: 0, totale: registro + 100 }
+}
+
+export function calcolaPatteggiamento(anni: number, mesi: number, giorni: number, riduzione: number) {
+  const mesiTotali = anni * 12 + mesi + giorni / 30
+  const finali = mesiTotali * (1 - Math.min(riduzione, 100 / 3) / 100)
+  const interi = Math.floor(finali + 1e-9)
+  const g = Math.round((finali - interi) * 30)
+  return {
+    mesiTotali: finali,
+    anni: Math.floor(interi / 12),
+    mesi: interi % 12,
+    giorni: g === 30 ? 0 : g,
+    regime: finali <= 24 ? 'ordinario' : finali <= 60 ? 'allargato' : 'non ammesso',
+  } as const
+}

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { AdSlot } from '@/components/ads/ad-slot'
-import { TOOLS } from '@/lib/site'
+import { AVAILABLE_TOOLS, TOOLS } from '@/lib/site'
 
 export function ToolShell({
   slug,
@@ -38,7 +38,7 @@ export function ToolShell({
               Altri calcolatori
             </p>
             <ul className="mt-3 space-y-1">
-              {TOOLS.filter((t) => t.slug !== slug).map((t) => (
+              {AVAILABLE_TOOLS.filter((t) => t.slug !== slug).map((t) => (
                 <li key={t.slug}>
                   <Link href={`/calcolo/${t.slug}`} className="block py-1.5 text-sm font-medium text-primary hover:underline">
                     {t.title}
@@ -84,4 +84,32 @@ export function ResultCard({ label, value, children }: { label: string; value: s
       {children}
     </div>
   )
+}
+
+export function Stats({ items, cols = 3 }: { items: [string, string][]; cols?: 2 | 3 | 4 }) {
+  const colsCls = cols === 2 ? 'sm:grid-cols-2' : cols === 4 ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-3'
+  return (
+    <dl className={`mt-4 grid gap-4 text-sm ${colsCls}`}>
+      {items.map(([label, value]) => (
+        <div key={label}>
+          <dt className="text-ink-foreground/70">{label}</dt>
+          <dd className="mt-0.5 text-lg font-semibold tabular-nums">{value}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+export function Check({ id, label, checked, onChange }: { id: string; label: string; checked: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <label htmlFor={id} className="flex min-h-11 cursor-pointer items-center gap-3 text-sm">
+      <input id={id} type="checkbox" className="size-4 accent-primary" checked={checked} onChange={(e) => onChange(e.target.checked)} />
+      {label}
+    </label>
+  )
+}
+
+export function Panel({ children, cols = 2 }: { children: React.ReactNode; cols?: 1 | 2 | 3 }) {
+  const colsCls = cols === 1 ? '' : cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'
+  return <div className={`grid gap-4 rounded-lg border border-border bg-card p-6 ${colsCls}`}>{children}</div>
 }

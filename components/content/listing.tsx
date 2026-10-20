@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { PostRow } from '@/components/content/post-list'
 import { Pager } from '@/components/content/pager'
-import { DATABASE_MENU, SECTIONS, TOOLS } from '@/lib/site'
+import { DATABASE_MENU, SECTIONS, AVAILABLE_TOOLS } from '@/lib/site'
 import type { PostCard } from '@/lib/wp'
 
 export function Listing({
@@ -95,7 +95,7 @@ export function ListingSidebar({ rectangleAfterDatabase = false }: { rectangleAf
           Calcolatori
         </p>
         <ul className="mt-3 space-y-1">
-          {TOOLS.map((t) => (
+          {AVAILABLE_TOOLS.map((t) => (
             <li key={t.slug}>
               <Link href={`/calcolo/${t.slug}`} className="block py-1.5 text-sm font-medium text-primary hover:underline">
                 {t.title}

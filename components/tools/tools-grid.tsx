@@ -1,18 +1,27 @@
 import Link from 'next/link'
-import { ArrowUpRight, CalendarClock, CalendarRange, Hourglass, Landmark, Percent, Receipt, Scale, Sparkles } from 'lucide-react'
-import { TOOLS, toolCategory, type Tool } from '@/lib/site'
+import { ArrowUpRight, Banknote, CalendarClock, CalendarPlus, CalendarRange, FileText, Gavel, Home, Hourglass, Landmark, Percent, Receipt, Scale, Sparkles, Tag, UserRound } from 'lucide-react'
+import { AVAILABLE_TOOLS, toolCategory, type Tool } from '@/lib/site'
 
 const ICONS: Record<string, typeof Percent> = {
   'interessi-legali': Percent,
   'contributo-unificato': Landmark,
   'termini-processuali': CalendarClock,
   'parcella-avvocato': Receipt,
-  prescrizione: Hourglass,
+  'prescrizione-diritti': Hourglass,
   'scorporo-iva': Scale,
-  'giorni-tra-date': CalendarRange,
+  'giorni-tra-due-date': CalendarRange,
+  'fattura-scorporo': FileText,
+  'eta-anagrafica': UserRound,
+  percentuale: Percent,
+  'tasso-interesse-calcolo-taeg': Banknote,
+  data: CalendarPlus,
+  'prezzo-iniziale': Tag,
+  'sconto-ricarico': Tag,
+  'imposte-compravendita-immobiliare': Home,
+  patteggiamento: Gavel,
 }
 
-export function ToolsGrid({ withAi = true, tools = TOOLS }: { withAi?: boolean; tools?: Tool[] }) {
+export function ToolsGrid({ withAi = true, tools = AVAILABLE_TOOLS }: { withAi?: boolean; tools?: Tool[] }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {tools.map((tool) => {
