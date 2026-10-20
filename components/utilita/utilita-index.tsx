@@ -50,7 +50,7 @@ const POPULAR_UTILITY_MATCHERS = [
   { match: ['coefficienti-calcolo-usufrutto'], icon: Home },
   { match: ['categorie-catastali'], icon: FolderTree },
   { match: ['testimonianza-scritta'], icon: FilePenLine },
-  { match: ['decreto-ingiuntivo'], icon: Gavel },
+  { match: ['tabelle-indennizzo-danno-biologico-inail'], icon: Landmark },
   { match: ['tabelle-tribunale-milano'], icon: Table2 },
   { match: ['tabelle-tribunale-roma'], icon: Scale },
 ] as const

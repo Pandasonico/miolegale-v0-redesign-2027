@@ -127,10 +127,11 @@ export async function getUtilityPages(): Promise<UtilityPage[]> {
       ),
     )
     const data = [first.data, ...remaining].flat()
-    /* Include nested pages too: several utilities live under parametri-forensi, Milano, Roma and alcolemiche. */
+    /* L'indice contiene solo le pagine di primo livello: /utilita/nome, non /utilita/nome/sottopagina. */
     const utilityPages = data.filter((page) => {
       try {
-        return new URL(page.link).pathname.startsWith('/utilita/')
+        const segments = new URL(page.link).pathname.split('/').filter(Boolean)
+        return segments.length === 2 && segments[0] === 'utilita'
       } catch {
         return false
       }
