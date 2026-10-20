@@ -6,6 +6,7 @@ import { AdSlot } from '@/components/ads/ad-slot'
 import { ArticleHeader } from '@/components/article/article-header'
 import { ArticleHelp } from '@/components/article/article-help'
 import { ArticleToc } from '@/components/article/article-toc'
+import { BackToTop } from '@/components/article/back-to-top'
 import { ShareButtons } from '@/components/article/share-buttons'
 import { ListingSidebar } from '@/components/content/listing'
 import { ImageCard, PostRow } from '@/components/content/post-list'
@@ -22,6 +23,8 @@ import {
 } from '@/lib/wp'
 
 type Props = { params: Promise<{ category: string; slug: string }> }
+
+const BACK_TO_TOP_SECTIONS = new Set(['norme', 'notizie', 'guide', 'sentenze', 'massime'])
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category, slug } = await params
@@ -160,6 +163,8 @@ export default async function ArticlePage({ params }: Props) {
           )}
         </section>
       )}
+
+      {BACK_TO_TOP_SECTIONS.has(category) && <BackToTop />}
     </>
   )
 }
