@@ -22,6 +22,37 @@ function matches(tool: Tool, query: string) {
     .every((word) => haystack.includes(word))
 }
 
+/** Altezza stimata di una card: intestazione più una riga per calcolatore (più alta se la descrizione va a capo). */
+function estimateHeight(tools: Tool[]) {
+  return 90 + tools.reduce((sum, t) => sum + (t.description.length > 75 ? 92 : 69), 0)
+}
+
+/**
+ * Divide le categorie in due colonne di altezza quasi uguale, così le card non lasciano spazi vuoti.
+ * Prova tutte le combinazioni (sono poche) e mantiene l'ordine originale dentro ogni colonna.
+ */
+function balanceColumns<T extends { tools: Tool[] }>(items: T[]): { ordered: T[]; firstColumnCount: number } {
+  const n = items.length
+  if (n < 2 || n > 20) return { ordered: items, firstColumnCount: n }
+  const heights = items.map((c) => estimateHeight(c.tools))
+  const total = heights.reduce((a, b) => a + b, 0)
+  let bestMask = 0
+  let bestDiff = Infinity
+  // Si fissa la prima categoria nella colonna di sinistra per non duplicare le soluzioni speculari.
+  for (let mask = 1; mask < 1 << n; mask += 2) {
+    let left = 0
+    for (let i = 0; i < n; i++) if (mask & (1 << i)) left += heights[i]
+    const diff = Math.abs(total - 2 * left)
+    if (diff < bestDiff) {
+      bestDiff = diff
+      bestMask = mask
+    }
+  }
+  const left = items.filter((_, i) => bestMask & (1 << i))
+  const right = items.filter((_, i) => !(bestMask & (1 << i)))
+  return { ordered: [...left, ...right], firstColumnCount: left.length }
+}
+
 function ToolRow({ tool, showCategory = false }: { tool: Tool; showCategory?: boolean }) {
   const body = (
     <>
@@ -46,11 +77,9 @@ function ToolRow({ tool, showCategory = false }: { tool: Tool; showCategory?: bo
   )
 }
 
-export function ToolsIndex({ extraTools = [] }: { extraTools?: Tool[] }) {
+export function ToolsIndex({ tools: allTools = TOOLS }: { tools?: Tool[] }) {
   const [query, setQuery] = useState('')
   const normalized = normalize(query.trim())
-
-  const allTools = useMemo(() => [...TOOLS, ...extraTools], [extraTools])
 
   const results = useMemo(() => (normalized ? allTools.filter((t) => matches(t, normalized)) : []), [normalized, allTools])
 
@@ -61,6 +90,8 @@ export function ToolsIndex({ extraTools = [] }: { extraTools?: Tool[] }) {
       ),
     [allTools],
   )
+
+  const { ordered: balancedCategories, firstColumnCount } = useMemo(() => balanceColumns(categories), [categories])
 
   return (
     <div className="flex flex-col gap-12">
@@ -145,9 +176,16 @@ export function ToolsIndex({ extraTools = [] }: { extraTools?: Tool[] }) {
               </ul>
             </nav>
 
-            <div className="mt-8 grid gap-5 lg:grid-cols-2">
-              {categories.map((c) => (
-                <section key={c.slug} id={c.slug} aria-labelledby={`${c.slug}-title`} className="scroll-mt-28 rounded-lg border border-border bg-card p-3">
+            <div className="mt-8 lg:columns-2 lg:gap-5">
+              {balancedCategories.map((c, index) => (
+                <section
+                  key={c.slug}
+                  id={c.slug}
+                  aria-labelledby={`${c.slug}-title`}
+                  className={`mb-5 scroll-mt-28 break-inside-avoid rounded-lg border border-border bg-card p-3 ${
+                    index === firstColumnCount - 1 ? 'lg:break-after-column' : ''
+                  }`}
+                >
                   <h3
                     id={`${c.slug}-title`}
                     className="border-b border-border px-3 pb-3 pt-2 font-sans tracking-tight text-lg font-semibold"

@@ -113,16 +113,35 @@ type WpCalcPage = {
   meta?: { rank_math_title?: string; rank_math_description?: string }
 }
 
+/** Nome del campo ACF (selezione, anche multipla) con cui si assegna la categoria a un calcolatore. */
+export const CALC_CATEGORY_FIELD = 'categoria_calcolatore'
+
+/** Il campo ACF può restituire una stringa, un array o oggetti {value,label}: li riduco a un elenco di testi. */
+function acfValues(raw: unknown): string[] {
+  if (!raw) return []
+  if (Array.isArray(raw)) return raw.flatMap(acfValues)
+  if (typeof raw === 'string') return [raw]
+  if (typeof raw === 'object') {
+    const { value, label } = raw as { value?: unknown; label?: unknown }
+    return acfValues(value ?? label)
+  }
+  return []
+}
+
 /** Elenco dei calcolatori pubblicati su WordPress: pagine figlie di "Calcolo". */
-export async function getCalcPageList(): Promise<{ slug: string; title: string; excerpt: string }[]> {
+export async function getCalcPageList(): Promise<{ slug: string; title: string; excerpt: string; categories: string[] }[]> {
   try {
     const parentId = await getCalcParentId()
     if (!parentId) return []
-    const { data } = await wpFetch<{ slug: string; title: { rendered: string }; excerpt: { rendered: string } }[]>(
-      `/pages?parent=${parentId}&per_page=100&orderby=title&order=asc&_fields=slug,title,excerpt`,
-      3600,
-    )
-    return data.map((p) => ({ slug: p.slug, title: decodeEntities(p.title.rendered), excerpt: decodeEntities(p.excerpt.rendered) }))
+    const { data } = await wpFetch<
+      { slug: string; title: { rendered: string }; excerpt: { rendered: string }; acf?: Record<string, unknown> | unknown[] }[]
+    >(`/pages?parent=${parentId}&per_page=100&orderby=title&order=asc&_fields=slug,title,excerpt,acf`, 3600)
+    return data.map((p) => ({
+      slug: p.slug,
+      title: decodeEntities(p.title.rendered),
+      excerpt: decodeEntities(p.excerpt.rendered),
+      categories: acfValues(Array.isArray(p.acf) ? undefined : p.acf?.[CALC_CATEGORY_FIELD]),
+    }))
   } catch {
     return []
   }

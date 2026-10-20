@@ -131,6 +131,31 @@ export function toolCategory(slug: string) {
   return TOOL_CATEGORIES.find((c) => c.slug === slug)
 }
 
+const normalizeCategoryKey = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+
+/**
+ * Traduce i valori scritti in WordPress (slug, etichetta completa o breve) in categorie del registro.
+ * La prima è la categoria principale, le altre finiscono in `alsoIn`. Valori sconosciuti vengono ignorati.
+ */
+export function resolveToolCategories(values: string[]): { category: string; alsoIn: string[] } | null {
+  const found: string[] = []
+  for (const value of values) {
+    const key = normalizeCategoryKey(value)
+    const match = TOOL_CATEGORIES.find(
+      (c) => normalizeCategoryKey(c.slug) === key || normalizeCategoryKey(c.label) === key || normalizeCategoryKey(c.short) === key,
+    )
+    if (match && !found.includes(match.slug)) found.push(match.slug)
+  }
+  if (found.length === 0) return null
+  return { category: found[0], alsoIn: found.slice(1) }
+}
+
 export type Tool = {
   slug: string
   title: string
