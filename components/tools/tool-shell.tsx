@@ -15,7 +15,7 @@ export function ToolShell({
   return (
     <div className="mx-auto max-w-7xl px-4 py-8">
       <nav aria-label="Percorso" className="text-sm text-muted-foreground">
-        <Link href="/calcolatori" className="hover:text-primary">
+        <Link href="/calcolo" className="hover:text-primary">
           Calcolatori
         </Link>{' '}
         / <span>{tool.title}</span>
@@ -40,7 +40,7 @@ export function ToolShell({
             <ul className="mt-3 space-y-1">
               {TOOLS.filter((t) => t.slug !== slug).map((t) => (
                 <li key={t.slug}>
-                  <Link href={`/calcolatori/${t.slug}`} className="block py-1.5 text-sm font-medium text-primary hover:underline">
+                  <Link href={`/calcolo/${t.slug}`} className="block py-1.5 text-sm font-medium text-primary hover:underline">
                     {t.title}
                   </Link>
                 </li>

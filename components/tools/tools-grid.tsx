@@ -20,7 +20,7 @@ export function ToolsGrid({ withAi = true }: { withAi?: boolean }) {
         return (
           <Link
             key={tool.slug}
-            href={`/calcolatori/${tool.slug}`}
+            href={`/calcolo/${tool.slug}`}
             className="group flex flex-col rounded-lg border border-border bg-card p-5 hover:shadow-md"
           >
             <div className="flex items-center justify-between">

@@ -97,7 +97,7 @@ export function ListingSidebar({ rectangleAfterDatabase = false }: { rectangleAf
         <ul className="mt-3 space-y-1">
           {TOOLS.map((t) => (
             <li key={t.slug}>
-              <Link href={`/calcolatori/${t.slug}`} className="block py-1.5 text-sm font-medium text-primary hover:underline">
+              <Link href={`/calcolo/${t.slug}`} className="block py-1.5 text-sm font-medium text-primary hover:underline">
                 {t.title}
               </Link>
             </li>

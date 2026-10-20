@@ -90,7 +90,7 @@ export default async function HomePage() {
             </h2>
             <p className="mt-1 text-muted-foreground">Gratuiti, aggiornati e pronti per lo studio legale.</p>
           </div>
-          <Link href="/calcolatori" className="hidden text-sm font-medium text-primary hover:underline sm:block">
+          <Link href="/calcolo" className="hidden text-sm font-medium text-primary hover:underline sm:block">
             Tutti gli strumenti
           </Link>
         </div>

@@ -45,7 +45,7 @@ export function SiteFooter() {
         <FooterCol
           title="Strumenti"
           items={[
-            ...TOOLS.map((t) => ({ href: `/calcolatori/${t.slug}`, label: t.title })),
+            ...TOOLS.map((t) => ({ href: `/calcolo/${t.slug}`, label: t.title })),
             { href: '/assistente-ai', label: 'Assistente AI giuridico' },
           ]}
         />

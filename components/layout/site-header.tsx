@@ -26,7 +26,7 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-2">
             <Link
-              href="/calcolatori"
+              href="/calcolo"
               className="hidden items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-ink-foreground/85 hover:bg-ink-foreground/10 hover:text-ink-foreground lg:flex"
             >
               <Calculator className="size-4" aria-hidden />

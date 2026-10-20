@@ -5,7 +5,7 @@ const TABS = [
   { href: '/', label: 'Home', icon: Home, exact: true },
   { href: '/banca-dati', label: 'Banca dati', icon: BookOpen },
   { href: '/assistente-ai', label: 'AI', icon: Sparkles },
-  { href: '/calcolatori', label: 'Calcolatori', icon: Calculator },
+  { href: '/calcolo', label: 'Calcolatori', icon: Calculator },
   { href: '/notizie', label: 'Notizie', icon: Newspaper },
 ]
 

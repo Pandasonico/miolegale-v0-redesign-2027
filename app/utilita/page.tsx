@@ -26,7 +26,7 @@ export default async function UtilitaPage() {
       <p className="mt-3 max-w-2xl leading-relaxed text-muted-foreground">
         Tabelle, tassi e indici aggiornati da consultare al volo: interessi, usura, ISTAT, parametri forensi, risarcimento del danno e
         adempimenti di cancelleria.{' '}
-        <Link href="/calcolatori" className="font-medium text-primary hover:underline">
+        <Link href="/calcolo" className="font-medium text-primary hover:underline">
           Cerchi un calcolo? Vai ai calcolatori
         </Link>
         .
