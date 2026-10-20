@@ -108,30 +108,21 @@ export const MATERIE = [
   { slug: 'diritto-nuove-tecnologie', label: 'Diritto e nuove tecnologie' },
 ]
 
-export const TOOL_GROUPS = [
-  { slug: 'termini', label: 'Termini e scadenze' },
-  { slug: 'interessi', label: 'Interessi e rivalutazione' },
-  { slug: 'compensi', label: 'Compensi, tasse e costi' },
-  { slug: 'risarcimenti', label: 'Risarcimenti e patrimonio' },
-  { slug: 'procedimenti', label: 'Procedimenti' },
-] as const
-
-export type ToolGroupSlug = (typeof TOOL_GROUPS)[number]['slug']
-
-export const TOOL_CATEGORIES: { slug: string; label: string; group: ToolGroupSlug }[] = [
-  { slug: 'date-scadenze', label: 'Date e scadenze', group: 'termini' },
-  { slug: 'termini-processuali', label: 'Termini processuali', group: 'termini' },
-  { slug: 'interessi-legali-moratori', label: 'Interessi legali e moratori', group: 'interessi' },
-  { slug: 'rivalutazione-istat', label: 'Rivalutazione e devalutazione Istat', group: 'interessi' },
-  { slug: 'interessi-calcoli-finanziari', label: 'Interessi e calcoli finanziari', group: 'interessi' },
-  { slug: 'compensi-professionali', label: 'Compensi professionali', group: 'compensi' },
-  { slug: 'imposte-fatturazione', label: 'Imposte, tasse e fatturazione', group: 'compensi' },
-  { slug: 'contributo-unificato-diritti-copia', label: 'Contributo unificato e diritti di copia', group: 'compensi' },
-  { slug: 'percentuali-sconto-ricarico', label: 'Percentuali, sconto e ricarico', group: 'compensi' },
-  { slug: 'danno-biologico', label: 'Danno biologico e risarcimento del danno', group: 'risarcimenti' },
-  { slug: 'quote-ereditarie-reversibilita', label: 'Quote ereditarie e reversibilità', group: 'risarcimenti' },
-  { slug: 'valore-proprieta-usufrutto', label: 'Valore della proprietà e usufrutto', group: 'risarcimenti' },
-  { slug: 'patteggiamento-mediazione', label: 'Patteggiamento e mediazione', group: 'procedimenti' },
+/** Le 13 categorie della pagina online, nell'ordine in cui compaiono nell'indice. */
+export const TOOL_CATEGORIES: { slug: string; label: string; short: string }[] = [
+  { slug: 'termini-processuali', label: 'Termini processuali', short: 'Termini processuali' },
+  { slug: 'date-scadenze', label: 'Date e scadenze', short: 'Date e scadenze' },
+  { slug: 'interessi-legali-moratori', label: 'Interessi legali e moratori', short: 'Interessi legali e moratori' },
+  { slug: 'rivalutazione-istat', label: 'Rivalutazione e devalutazione monetaria Istat', short: 'Rivalutazione Istat' },
+  { slug: 'interessi-calcoli-finanziari', label: 'Interessi e calcoli finanziari', short: 'Calcoli finanziari' },
+  { slug: 'compensi-professionali', label: 'Compensi professionali', short: 'Compensi professionali' },
+  { slug: 'imposte-fatturazione', label: 'Imposte, tasse e fatturazione', short: 'Imposte e fatturazione' },
+  { slug: 'contributo-unificato-diritti-copia', label: 'Contributo unificato e diritti di copia', short: 'Contributo unificato' },
+  { slug: 'percentuali-sconto-ricarico', label: 'Percentuali, sconto e ricarico', short: 'Percentuali e sconti' },
+  { slug: 'danno-biologico', label: 'Danno biologico e risarcimento del danno', short: 'Danno biologico' },
+  { slug: 'quote-ereditarie-reversibilita', label: 'Quote ereditarie e pensione di reversibilità', short: 'Quote ereditarie' },
+  { slug: 'valore-proprieta-usufrutto', label: 'Valore della proprietà e usufrutto', short: 'Proprietà e usufrutto' },
+  { slug: 'patteggiamento-mediazione', label: 'Patteggiamento e mediazione', short: 'Patteggiamento e mediazione' },
 ]
 
 export function toolCategory(slug: string) {
@@ -158,7 +149,7 @@ export const TOOLS: Tool[] = [
     slug: 'giorni-tra-due-date',
     title: 'Giorni tra due date',
     description: 'Giorni di calendario e giorni lavorativi tra due date, esclusi weekend e festività nazionali.',
-    category: 'termini-processuali',
+    category: 'date-scadenze',
     popular: true,
     keywords: ['differenza', 'lavorativi', 'calendario', 'quanti giorni'],
   },
@@ -175,7 +166,7 @@ export const TOOLS: Tool[] = [
     slug: 'termini-processuali',
     title: 'Scadenza termini processuali',
     description: 'Calcolo della scadenza con sospensione feriale, sabati e festivi (art. 155 c.p.c.).',
-    category: 'date-scadenze',
+    category: 'termini-processuali',
     popular: true,
     keywords: ['sospensione feriale', 'scadenza', 'giorni', 'impugnazione'],
   },

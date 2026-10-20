@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Search, Sparkles } from 'lucide-react'
-import { POPULAR_TOOLS, TOOLS, TOOL_CATEGORIES, TOOL_GROUPS, toolCategory, type Tool } from '@/lib/site'
+import { POPULAR_TOOLS, TOOLS, TOOL_CATEGORIES, toolCategory, type Tool } from '@/lib/site'
 import { ToolsGrid } from './tools-grid'
 
 const normalize = (s: string) =>
@@ -52,14 +52,11 @@ export function ToolsIndex() {
 
   const results = useMemo(() => (normalized ? TOOLS.filter((t) => matches(t, normalized)) : []), [normalized])
 
-  const groups = useMemo(
+  const categories = useMemo(
     () =>
-      TOOL_GROUPS.map((group) => ({
-        ...group,
-        categories: TOOL_CATEGORIES.filter((c) => c.group === group.slug)
-          .map((c) => ({ ...c, tools: TOOLS.filter((t) => t.category === c.slug || t.alsoIn?.includes(c.slug)) }))
-          .filter((c) => c.tools.length > 0),
-      })).filter((g) => g.categories.length > 0),
+      TOOL_CATEGORIES.map((c) => ({ ...c, tools: TOOLS.filter((t) => t.category === c.slug || t.alsoIn?.includes(c.slug)) })).filter(
+        (c) => c.tools.length > 0,
+      ),
     [],
   )
 
@@ -133,38 +130,34 @@ export function ToolsIndex() {
             </h2>
             <nav aria-label="Materie dei calcolatori" className="mt-4">
               <ul className="flex flex-wrap gap-2">
-                {groups.map((g) => (
-                  <li key={g.slug}>
+                {categories.map((c) => (
+                  <li key={c.slug}>
                     <a
-                      href={`#${g.slug}`}
+                      href={`#${c.slug}`}
                       className="inline-flex h-9 items-center rounded-full border border-border bg-card px-4 text-sm font-medium text-primary hover:bg-secondary"
                     >
-                      {g.label}
+                      {c.short}
                     </a>
                   </li>
                 ))}
               </ul>
             </nav>
 
-            <div className="mt-8 flex flex-col gap-10">
-              {groups.map((g) => (
-                <div key={g.slug} id={g.slug} className="scroll-mt-28">
-                  <h3 className="border-b border-border pb-2 font-sans tracking-tight text-xl font-semibold">{g.label}</h3>
-                  <div className="mt-5 grid gap-5 lg:grid-cols-2">
-                    {g.categories.map((c) => (
-                      <div key={c.slug} className="rounded-lg border border-border bg-card p-3">
-                        <h4 className="px-3 pb-1 pt-2 text-xs font-mono font-medium uppercase tracking-wider text-muted-foreground">
-                          {c.label}
-                        </h4>
-                        <ul>
-                          {c.tools.map((tool) => (
-                            <ToolRow key={tool.slug} tool={tool} />
-                          ))}
-                        </ul>
-                      </div>
+            <div className="mt-8 grid gap-5 lg:grid-cols-2">
+              {categories.map((c) => (
+                <section key={c.slug} id={c.slug} aria-labelledby={`${c.slug}-title`} className="scroll-mt-28 rounded-lg border border-border bg-card p-3">
+                  <h3
+                    id={`${c.slug}-title`}
+                    className="border-b border-border px-3 pb-3 pt-2 font-sans tracking-tight text-lg font-semibold"
+                  >
+                    {c.label}
+                  </h3>
+                  <ul className="mt-2">
+                    {c.tools.map((tool) => (
+                      <ToolRow key={tool.slug} tool={tool} />
                     ))}
-                  </div>
-                </div>
+                  </ul>
+                </section>
               ))}
             </div>
           </section>
