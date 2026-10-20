@@ -142,7 +142,7 @@ export default async function ArticlePage({ params }: Props) {
 
       {relatedPosts.length > 0 && (
         <section aria-labelledby="related-title" className="mx-auto max-w-7xl px-4 pt-14">
-          <h2 id="related-title" className="mb-6 font-sans text-3xl font-semibold tracking-tight text-balance">
+          <h2 id="related-title" className="mb-5 font-sans text-xl font-semibold tracking-tight text-primary text-balance">
             {tags.length > 0 ? 'Sullo stesso argomento' : `Altro in ${categoryLabel}`}
           </h2>
           {relatedHaveImages ? (

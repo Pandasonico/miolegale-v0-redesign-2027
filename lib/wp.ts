@@ -210,8 +210,12 @@ export async function getPostsByTag(tagId: number, page = 1, perPage = 15) {
   }
 }
 
+const RELATED_SECTIONS = ['norme', 'notizie', 'guide', 'massime']
+// Un post può stare in più categorie: escludiamo esplicitamente quelle che non devono mai comparire.
+const RELATED_EXCLUDED = ['brocardi', 'formulario-civile', 'formulario-penale']
+
 /**
- * Correlati guidati dai tag, su tutte le sezioni (notizie, massime, norme, guide):
+ * Correlati guidati dai tag, solo da norme, notizie, guide e massime:
  * ordinati per numero di tag in comune, a parità per data. Senza tag, ripiega sulla stessa sezione.
  */
 export async function getRelatedPosts(post: WPPost, sectionSlug: string, limit = 3) {
@@ -231,10 +235,23 @@ export async function getRelatedPosts(post: WPPost, sectionSlug: string, limit =
     }
   }
 
+  const allowed = (await Promise.all(RELATED_SECTIONS.map(getCategoryBySlug))).filter(
+    (c): c is WPCategory => Boolean(c),
+  )
+  const allowedIds = allowed.map((c) => c.id).join(',')
+  const excludedIds = (await Promise.all(RELATED_EXCLUDED.map(getCategoryBySlug)))
+    .filter((c): c is WPCategory => Boolean(c))
+    .map((c) => c.id)
+    .join(',')
+  const sectionFilter: Record<string, string> = {
+    categories: allowedIds,
+    ...(excludedIds ? { categories_exclude: excludedIds } : {}),
+  }
+
   let picked: WPPost[] = []
   if (tagIds.length) {
     const tags = new Set(tagIds)
-    const candidates = await fetchList({ tags: tagIds.join(',') }, 30)
+    const candidates = await fetchList({ ...sectionFilter, tags: tagIds.join(',') }, 30)
     picked = candidates
       .map((p, i) => ({ p, i, score: (p.tags ?? []).filter((t) => tags.has(t)).length }))
       .sort((a, b) => b.score - a.score || a.i - b.i)
@@ -242,11 +259,12 @@ export async function getRelatedPosts(post: WPPost, sectionSlug: string, limit =
       .map((x) => x.p)
   }
   if (picked.length < limit) {
-    const section = await getCategoryBySlug(sectionSlug)
-    if (section) {
-      const fill = await fetchList({ categories: String(section.id) }, limit + 3)
-      picked = [...picked, ...fill.filter((p) => !picked.some((q) => q.id === p.id))].slice(0, limit)
-    }
+    const section = allowed.find((c) => c.slug === sectionSlug)
+    const fill = await fetchList(
+      section ? { ...sectionFilter, categories: String(section.id) } : sectionFilter,
+      limit + 3,
+    )
+    picked = [...picked, ...fill.filter((p) => !picked.some((q) => q.id === p.id))].slice(0, limit)
   }
   return picked.map(toCard)
 }
