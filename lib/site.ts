@@ -145,8 +145,6 @@ export type Tool = {
   category: string
   /** Compare nella riga "I più usati"; l'ordine è quello dell'elenco. */
   popular?: boolean
-  /** Calcolatore non ancora disponibile: compare nell'indice ma senza link. */
-  soon?: boolean
   /** Parole aggiuntive per la ricerca. */
   keywords?: string[]
 }
@@ -182,7 +180,6 @@ export const TOOLS: Tool[] = [
     title: 'Rivalutazione monetaria ISTAT',
     description: 'Rivalutazione di un capitale con l’indice FOI dell’ISTAT dal 1947 a oggi.',
     category: 'rivalutazione-istat',
-    soon: true,
     keywords: ['foi', 'istat', 'indice', 'adeguamento', 'affitto', 'assegno'],
   },
   {
@@ -214,7 +211,6 @@ export const TOOLS: Tool[] = [
     title: 'Lesioni macropermanenti',
     description: 'Danno biologico per invalidità permanente superiore al 9%.',
     category: 'danno-biologico',
-    soon: true,
     keywords: ['invalidità', 'risarcimento', 'sinistro', 'punti'],
   },
   {
@@ -245,7 +241,6 @@ export const TOOLS: Tool[] = [
     title: 'Termini artt. 171-ter, 189 e 275-bis c.p.c.',
     description: 'Scadenze delle memorie e degli atti del processo civile ordinario rispetto alle udienze.',
     category: 'date-scadenze-termini',
-    soon: true,
     keywords: ['memorie', 'precisazione conclusioni', 'comparsa conclusionale', 'cartabia'],
   },
   {
@@ -253,7 +248,6 @@ export const TOOLS: Tool[] = [
     title: 'Pensione di reversibilità',
     description: 'Quota di pensione spettante ai superstiti in base ai familiari e ai redditi.',
     category: 'quote-ereditarie-reversibilita',
-    soon: true,
     keywords: ['superstiti', 'coniuge', 'figli', 'inps'],
   },
   {
@@ -261,7 +255,6 @@ export const TOOLS: Tool[] = [
     title: 'Interessi moratori',
     description: 'Interessi di mora sulle transazioni commerciali (D.Lgs. 231/2002).',
     category: 'interessi-legali-moratori',
-    soon: true,
     keywords: ['ritardo pagamento', 'bce', 'transazioni commerciali', 'mora'],
   },
   {
@@ -269,7 +262,6 @@ export const TOOLS: Tool[] = [
     title: 'Danno biologico, Tabelle di Milano',
     description: 'Risarcimento del danno non patrimoniale per lesioni, invalidità permanente e temporanea.',
     category: 'danno-biologico',
-    soon: true,
     keywords: ['tribunale di milano', 'punto', 'invalidità temporanea', 'personalizzazione'],
   },
   {
@@ -277,7 +269,6 @@ export const TOOLS: Tool[] = [
     title: 'Lesioni micropermanenti',
     description: 'Danno biologico per invalidità permanente fino al 9% (art. 139 Cod. Ass.).',
     category: 'danno-biologico',
-    soon: true,
     keywords: ['colpo di frusta', 'rc auto', 'invalidità', 'sinistro stradale'],
   },
   {
@@ -320,7 +311,6 @@ export const TOOLS: Tool[] = [
     title: 'Svalutazione e devalutazione monetaria',
     description: 'Riporta un importo attuale al suo valore in una data passata con l’indice FOI.',
     category: 'rivalutazione-istat',
-    soon: true,
     keywords: ['devalutazione', 'foi', 'istat', 'potere d’acquisto'],
   },
   {
@@ -353,8 +343,7 @@ export const TOOLS: Tool[] = [
   },
 ]
 
-export const AVAILABLE_TOOLS = TOOLS.filter((t) => !t.soon)
-export const POPULAR_TOOLS = AVAILABLE_TOOLS.filter((t) => t.popular)
+export const POPULAR_TOOLS = TOOLS.filter((t) => t.popular)
 
 export function sectionBySlug(slug: string) {
   return SECTIONS.find((s) => s.slug === slug)

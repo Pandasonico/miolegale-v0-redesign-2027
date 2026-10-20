@@ -26,12 +26,9 @@ function ToolRow({ tool, showCategory = false }: { tool: Tool; showCategory?: bo
   const body = (
     <>
       <span className="flex items-center gap-2">
-        <span className={tool.soon ? 'font-medium text-foreground/70' : 'font-medium text-primary group-hover:underline'}>{tool.title}</span>
+        <span className="font-medium text-primary group-hover:underline">{tool.title}</span>
         {tool.popular && (
           <span className="rounded-full bg-accent px-2 py-0.5 text-[11px] font-medium text-accent-foreground">Più usato</span>
-        )}
-        {tool.soon && (
-          <span className="rounded-full border border-border px-2 py-0.5 text-[11px] font-medium text-muted-foreground">In arrivo</span>
         )}
       </span>
       <span className="mt-0.5 block text-sm leading-relaxed text-muted-foreground">{tool.description}</span>
@@ -42,13 +39,9 @@ function ToolRow({ tool, showCategory = false }: { tool: Tool; showCategory?: bo
   )
   return (
     <li>
-      {tool.soon ? (
-        <div className="block rounded-md px-3 py-2.5">{body}</div>
-      ) : (
-        <Link href={`/calcolo/${tool.slug}`} className="group block rounded-md px-3 py-2.5 hover:bg-secondary">
-          {body}
-        </Link>
-      )}
+      <Link href={`/calcolo/${tool.slug}`} className="group block rounded-md px-3 py-2.5 hover:bg-secondary">
+        {body}
+      </Link>
     </li>
   )
 }

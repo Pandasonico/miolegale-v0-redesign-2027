@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowUpRight, Banknote, CalendarClock, CalendarPlus, CalendarRange, FileText, Gavel, Home, Hourglass, Landmark, Percent, Receipt, Scale, Sparkles, Tag, UserRound } from 'lucide-react'
-import { AVAILABLE_TOOLS, toolCategory, type Tool } from '@/lib/site'
+import { TOOLS, toolCategory, type Tool } from '@/lib/site'
 
 const ICONS: Record<string, typeof Percent> = {
   'interessi-legali': Percent,
@@ -21,7 +21,7 @@ const ICONS: Record<string, typeof Percent> = {
   patteggiamento: Gavel,
 }
 
-export function ToolsGrid({ withAi = true, tools = AVAILABLE_TOOLS }: { withAi?: boolean; tools?: Tool[] }) {
+export function ToolsGrid({ withAi = true, tools = TOOLS }: { withAi?: boolean; tools?: Tool[] }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {tools.map((tool) => {
