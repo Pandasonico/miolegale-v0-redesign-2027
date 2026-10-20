@@ -121,6 +121,63 @@
   scroll-margin-top: 6rem;
 }
 
+/* Calcolatori scritti in WordPress: form, campi, risultati e schede */
+.wp-calc .box-highlight {
+  @apply flex flex-col gap-4 rounded-lg border border-border bg-secondary p-5 text-base sm:flex-row sm:items-start;
+}
+.wp-calc .box-highlight img {
+  @apply h-auto w-full shrink-0 sm:w-56;
+}
+.wp-calc form.calcolatori {
+  @apply flex flex-col gap-5 rounded-lg border border-border bg-card p-5;
+}
+.wp-calc form.calcolatori > * + * {
+  @apply mt-0;
+}
+.wp-calc fieldset {
+  @apply flex flex-col gap-3 rounded-md border border-border p-4;
+}
+.wp-calc legend {
+  @apply px-2 text-sm font-semibold text-primary;
+}
+.wp-calc label {
+  @apply text-sm font-medium;
+}
+.wp-calc :is(input[type='text'], input[type='number'], input[type='date'], input:not([type]), select, textarea) {
+  @apply h-11 w-full max-w-full rounded-md border border-input bg-card px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring;
+}
+.wp-calc :is(input[type='radio'], input[type='checkbox']) {
+  @apply size-4 accent-primary;
+}
+.wp-calc :is(input.medium, select.medium) {
+  @apply sm:max-w-xs;
+}
+.wp-calc :is(input.small, input.short, input.x-small, select.small, select.short) {
+  @apply sm:max-w-40;
+}
+.wp-calc :is(button, input[type='submit'], input[type='button']):not(.tablinks) {
+  @apply inline-flex h-11 w-fit cursor-pointer items-center justify-center rounded-md bg-primary px-5 text-base font-medium text-primary-foreground hover:bg-primary/90;
+}
+.wp-calc .tablinks {
+  @apply cursor-pointer border-b-2 border-transparent px-4 py-2 text-sm font-medium text-muted-foreground hover:text-primary;
+}
+.wp-calc .tablinks.active {
+  @apply border-primary text-primary;
+}
+.wp-calc .tabcontent {
+  display: none;
+}
+.wp-calc .tabcontent:first-of-type {
+  display: block;
+}
+.wp-calc .nomobile {
+  @apply hidden md:table-cell;
+}
+.wp-calc .fonte,
+.wp-calc .correlate {
+  @apply rounded-lg border border-border bg-muted p-4 text-sm;
+}
+
 @media print {
   body > header,
   body > footer,

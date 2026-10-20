@@ -123,6 +123,8 @@ export const TOOL_CATEGORIES: { slug: string; label: string; short: string }[] =
   { slug: 'quote-ereditarie-reversibilita', label: 'Quote ereditarie e pensione di reversibilità', short: 'Quote ereditarie' },
   { slug: 'valore-proprieta-usufrutto', label: 'Valore della proprietà e usufrutto', short: 'Proprietà e usufrutto' },
   { slug: 'patteggiamento-mediazione', label: 'Patteggiamento e mediazione', short: 'Patteggiamento e mediazione' },
+  /** Dove finiscono le pagine create su WordPress che non sono ancora nel registro. */
+  { slug: 'altri-calcolatori', label: 'Altri calcolatori', short: 'Altri calcolatori' },
 ]
 
 export function toolCategory(slug: string) {

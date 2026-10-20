@@ -46,18 +46,20 @@ function ToolRow({ tool, showCategory = false }: { tool: Tool; showCategory?: bo
   )
 }
 
-export function ToolsIndex() {
+export function ToolsIndex({ extraTools = [] }: { extraTools?: Tool[] }) {
   const [query, setQuery] = useState('')
   const normalized = normalize(query.trim())
 
-  const results = useMemo(() => (normalized ? TOOLS.filter((t) => matches(t, normalized)) : []), [normalized])
+  const allTools = useMemo(() => [...TOOLS, ...extraTools], [extraTools])
+
+  const results = useMemo(() => (normalized ? allTools.filter((t) => matches(t, normalized)) : []), [normalized, allTools])
 
   const categories = useMemo(
     () =>
-      TOOL_CATEGORIES.map((c) => ({ ...c, tools: TOOLS.filter((t) => t.category === c.slug || t.alsoIn?.includes(c.slug)) })).filter(
+      TOOL_CATEGORIES.map((c) => ({ ...c, tools: allTools.filter((t) => t.category === c.slug || t.alsoIn?.includes(c.slug)) })).filter(
         (c) => c.tools.length > 0,
       ),
-    [],
+    [allTools],
   )
 
   return (

@@ -1,13 +1,22 @@
 import type { Metadata } from 'next'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { ToolsIndex } from '@/components/tools/tools-index'
+import { TOOLS, type Tool } from '@/lib/site'
+import { getCalcPageList } from '@/lib/wp'
 
 export const metadata: Metadata = {
   title: 'Calcolatori legali gratuiti',
   description: 'Calcolo interessi legali, contributo unificato e scadenza dei termini processuali. Strumenti gratuiti per avvocati e cittadini.',
 }
 
-export default function CalcolatoriPage() {
+export const revalidate = 3600
+
+export default async function CalcolatoriPage() {
+  const known = new Set(TOOLS.map((t) => t.slug))
+  const extraTools: Tool[] = (await getCalcPageList())
+    .filter((p) => !known.has(p.slug))
+    .map((p) => ({ slug: p.slug, title: p.title, description: p.excerpt, category: 'altri-calcolatori' }))
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
       <p className="text-sm font-mono font-medium uppercase tracking-widest text-primary">Strumenti</p>
@@ -16,7 +25,7 @@ export default function CalcolatoriPage() {
         Strumenti gratuiti e aggiornati alla normativa vigente. I risultati hanno valore indicativo: verifica sempre i casi particolari.
       </p>
       <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_TOP} className="my-8" />
-      <ToolsIndex />
+      <ToolsIndex extraTools={extraTools} />
     </div>
   )
 }

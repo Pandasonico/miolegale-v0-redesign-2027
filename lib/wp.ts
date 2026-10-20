@@ -86,6 +86,86 @@ export async function getUtilityPages(): Promise<UtilityPage[]> {
   }
 }
 
+const CALC_PARENT_SLUG = 'calcolo'
+const WP_ORIGIN = 'https://miolegale.it'
+
+async function getCalcParentId() {
+  const { data } = await wpFetch<{ id: number }[]>(`/pages?slug=${CALC_PARENT_SLUG}&parent=0&_fields=id`, 86400)
+  return data[0]?.id
+}
+
+export type CalcPage = {
+  slug: string
+  title: string
+  excerpt: string
+  html: string
+  seoTitle?: string
+  seoDescription?: string
+  modified: string
+}
+
+type WpCalcPage = {
+  slug: string
+  modified: string
+  title: { rendered: string }
+  excerpt: { rendered: string }
+  content: { rendered: string }
+  meta?: { rank_math_title?: string; rank_math_description?: string }
+}
+
+/** Elenco dei calcolatori pubblicati su WordPress: pagine figlie di "Calcolo". */
+export async function getCalcPageList(): Promise<{ slug: string; title: string; excerpt: string }[]> {
+  try {
+    const parentId = await getCalcParentId()
+    if (!parentId) return []
+    const { data } = await wpFetch<{ slug: string; title: { rendered: string }; excerpt: { rendered: string } }[]>(
+      `/pages?parent=${parentId}&per_page=100&orderby=title&order=asc&_fields=slug,title,excerpt`,
+      3600,
+    )
+    return data.map((p) => ({ slug: p.slug, title: decodeEntities(p.title.rendered), excerpt: decodeEntities(p.excerpt.rendered) }))
+  } catch {
+    return []
+  }
+}
+
+/**
+ * Rimuove da una pagina WordPress ciò che il nuovo sito gestisce da sé (annunci AdSense)
+ * e rende assoluti i percorsi relativi di immagini e link.
+ */
+export function prepareCalcHtml(html: string) {
+  return html
+    .replace(/<div[^>]*class="[^"]*ads_container[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
+    .replace(/<ins[^>]*class="[^"]*adsbygoogle[^"]*"[^>]*>[\s\S]*?<\/ins>/gi, '')
+    .replace(/<script[^>]*>(?:(?!<\/script>)[\s\S])*adsbygoogle(?:(?!<\/script>)[\s\S])*<\/script>/gi, '')
+    .replace(/<script[^>]*src="[^"]*adsbygoogle[^"]*"[^>]*><\/script>/gi, '')
+    .replace(/(src|href|srcset)="(?:\.\.\/)+wp-content/g, `$1="${WP_ORIGIN}/wp-content`)
+    .replace(/(src|href|srcset)="\/wp-content/g, `$1="${WP_ORIGIN}/wp-content`)
+}
+
+export async function getCalcPage(slug: string): Promise<CalcPage | null> {
+  try {
+    const parentId = await getCalcParentId()
+    if (!parentId) return null
+    const { data } = await wpFetch<WpCalcPage[]>(
+      `/pages?slug=${encodeURIComponent(slug)}&parent=${parentId}&_fields=slug,modified,title,excerpt,content,meta`,
+      3600,
+    )
+    const page = data[0]
+    if (!page) return null
+    return {
+      slug: page.slug,
+      title: decodeEntities(page.title.rendered),
+      excerpt: decodeEntities(page.excerpt.rendered),
+      html: prepareCalcHtml(page.content.rendered),
+      seoTitle: page.meta?.rank_math_title || undefined,
+      seoDescription: page.meta?.rank_math_description || undefined,
+      modified: page.modified,
+    }
+  } catch {
+    return null
+  }
+}
+
 export function decodeEntities(html: string) {
   return html
     .replace(/<[^>]+>/g, '')

@@ -4,24 +4,27 @@ import { POPULAR_TOOLS, TOOLS } from '@/lib/site'
 
 export function ToolShell({
   slug,
+  title,
   children,
   guide,
 }: {
   slug: string
+  /** Titolo della pagina WordPress; se manca si usa quello del registro. */
+  title?: string
   children: React.ReactNode
-  guide: React.ReactNode
+  guide?: React.ReactNode
 }) {
-  const tool = TOOLS.find((t) => t.slug === slug)!
+  const tool = TOOLS.find((t) => t.slug === slug)
+  const heading = title ?? tool?.title ?? slug
   return (
     <div className="mx-auto max-w-7xl px-4 py-8">
       <nav aria-label="Percorso" className="text-sm text-muted-foreground">
         <Link href="/calcolo" className="hover:text-primary">
           Calcolatori
         </Link>{' '}
-        / <span>{tool.title}</span>
+        / <span>{heading}</span>
       </nav>
-      <h1 className="mt-3 font-sans tracking-tight text-4xl font-semibold text-balance">{tool.title}</h1>
-      <p className="mt-2 max-w-2xl text-muted-foreground">{tool.description}</p>
+      <h1 className="mt-3 font-sans tracking-tight text-4xl font-semibold text-balance">{heading}</h1>
 
       <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_TOP} className="my-6" />
 
@@ -29,7 +32,7 @@ export function ToolShell({
         <div className="min-w-0">
           {children}
           <AdSlot variant="in-article" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_RESULT} className="my-10" />
-          <section className="wp-content max-w-3xl">{guide}</section>
+          {guide && <section className="wp-content max-w-3xl">{guide}</section>}
         </div>
         <aside className="flex flex-col gap-8" aria-label="Altri strumenti">
           <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR} />
