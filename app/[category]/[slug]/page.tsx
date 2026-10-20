@@ -6,6 +6,7 @@ import { AdSlot } from '@/components/ads/ad-slot'
 import { ArticleHeader } from '@/components/article/article-header'
 import { ArticleHelp } from '@/components/article/article-help'
 import { ArticleToc } from '@/components/article/article-toc'
+import { ShareButtons } from '@/components/article/share-buttons'
 import { ListingSidebar } from '@/components/content/listing'
 import { ImageCard, PostRow } from '@/components/content/post-list'
 import { SITE, sectionBySlug } from '@/lib/site'
@@ -68,32 +69,8 @@ export default async function ArticlePage({ params }: Props) {
   const relatedPosts = related.posts.filter((p) => p.id !== post.id).slice(0, 3)
   const relatedHaveImages = relatedPosts.length > 0 && relatedPosts.every((p) => p.image)
 
-  const jsonLd = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      headline: title,
-      description: excerpt,
-      datePublished: post.date,
-      dateModified: post.modified,
-      mainEntityOfPage: url,
-      image: cover ? [cover.src] : undefined,
-      publisher: { '@type': 'Organization', name: 'MioLegale®', url: SITE.url },
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
-        { '@type': 'ListItem', position: 2, name: categoryLabel, item: `${SITE.url}/${category}` },
-        { '@type': 'ListItem', position: 3, name: title, item: url },
-      ],
-    },
-  ]
-
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
       <ArticleHeader
         title={title}
         lead={lead}
@@ -144,7 +121,16 @@ export default async function ArticlePage({ params }: Props) {
               </div>
             )}
 
-            <ArticleHelp title={title} />
+            <div className="mt-10 flex flex-col gap-3 print:hidden">
+              <span className="text-xs font-mono font-medium uppercase tracking-wider text-muted-foreground">
+                Condividi o stampa
+              </span>
+              <ShareButtons url={url} title={title} tone="light" />
+            </div>
+
+            <div className="print:hidden">
+              <ArticleHelp title={title} />
+            </div>
 
             <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_ARTICLE_BOTTOM} className="mt-10" />
           </div>

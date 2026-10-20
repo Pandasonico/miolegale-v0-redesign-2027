@@ -192,7 +192,7 @@ export async function getLongExcerpt(href: string, maxChars = 560) {
   return `${text.slice(0, text.lastIndexOf(' ', maxChars))}…`
 }
 
-export type TocItem = { id: string; title: string }
+export type TocItem = { id: string; title: string; depth: 0 | 1 }
 
 function slugify(text: string) {
   return text
@@ -204,24 +204,33 @@ function slugify(text: string) {
     .slice(0, 80)
 }
 
-/** Aggiunge un id ai titoli h2 (se mancante) e restituisce l'indice dell'articolo. */
+/**
+ * Aggiunge un id ai titoli h2/h3 (se mancante) e restituisce l'indice dell'articolo.
+ * Se l'articolo ha meno di due h2 (es. testi normativi strutturati in h3),
+ * gli h3 diventano il primo livello dell'indice.
+ */
 export function withHeadingAnchors(html: string) {
-  const toc: TocItem[] = []
+  const headings: { level: 2 | 3; id: string; title: string }[] = []
   const used = new Set<string>()
-  const out = html.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (match, attrs: string, inner: string) => {
+  const out = html.replace(/<h([23])([^>]*)>([\s\S]*?)<\/h\1>/gi, (match, lvl: string, attrs: string, inner: string) => {
     const title = decodeEntities(inner)
     if (!title) return match
     const existing = attrs.match(/\sid=["']([^"']+)["']/i)?.[1]
-    let id = existing ?? (slugify(title) || `sezione-${toc.length + 1}`)
+    let id = existing ?? (slugify(title) || `sezione-${headings.length + 1}`)
     if (!existing) {
       const base = id
       let n = 2
       while (used.has(id)) id = `${base}-${n++}`
     }
     used.add(id)
-    toc.push({ id, title })
-    return existing ? match : `<h2${attrs} id="${id}">${inner}</h2>`
+    headings.push({ level: lvl === '2' ? 2 : 3, id, title })
+    return existing ? match : `<h${lvl}${attrs} id="${id}">${inner}</h${lvl}>`
   })
+  const h2Count = headings.filter((h) => h.level === 2).length
+  const toc: TocItem[] =
+    h2Count >= 2
+      ? headings.map((h) => ({ id: h.id, title: h.title, depth: h.level === 2 ? 0 : 1 }))
+      : headings.filter((h) => h.level === 3).map((h) => ({ id: h.id, title: h.title, depth: 0 }))
   return { html: out, toc }
 }
 

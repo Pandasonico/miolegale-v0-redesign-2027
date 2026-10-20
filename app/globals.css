@@ -116,3 +116,30 @@
 .wp-content figcaption {
   @apply text-sm text-muted-foreground mt-2;
 }
+
+.wp-content :is(h2, h3, h4) {
+  scroll-margin-top: 6rem;
+}
+
+@media print {
+  body > header,
+  body > footer,
+  aside,
+  ins.adsbygoogle,
+  [data-ad-slot],
+  #related-title,
+  section[aria-labelledby='related-title'] {
+    display: none !important;
+  }
+  header.bg-ink {
+    background: none !important;
+    color: #000 !important;
+  }
+  header.bg-ink * {
+    color: #000 !important;
+  }
+  .wp-content a {
+    color: #000;
+    text-decoration: underline;
+  }
+}
