@@ -6,12 +6,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  async redirects() {
-    return [
-      { source: '/calcolatori', destination: '/calcolo', permanent: true },
-      { source: '/calcolatori/:slug*', destination: '/calcolo/:slug*', permanent: true },
-    ]
-  },
+
 }
 
 export default nextConfig
