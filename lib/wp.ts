@@ -174,7 +174,7 @@ export async function getPostBySlug(slug: string) {
   try {
     const { data } = await wpFetch<WPPost[]>(
       `/posts?slug=${encodeURIComponent(slug)}&_embed=wp:featuredmedia,wp:term`,
-      1800,
+      600,
     )
     return data[0] ?? null
   } catch {
@@ -192,7 +192,7 @@ export async function getLongExcerpt(href: string, maxChars = 560) {
   return `${text.slice(0, text.lastIndexOf(' ', maxChars))}…`
 }
 
-export type TocItem = { id: string; title: string; depth: 0 | 1 }
+export type TocItem = { id: string; title: string; depth: 0 | 1 | 2 }
 
 function slugify(text: string) {
   return text
@@ -205,14 +205,14 @@ function slugify(text: string) {
 }
 
 /**
- * Aggiunge un id ai titoli h2/h3 (se mancante) e restituisce l'indice dell'articolo.
- * Se l'articolo ha meno di due h2 (es. testi normativi strutturati in h3),
- * gli h3 diventano il primo livello dell'indice.
+ * Aggiunge un id ai titoli h2–h4 (se mancante) e restituisce l'indice dell'articolo.
+ * Il primo livello dell'indice è il più alto che compare almeno due volte
+ * (es. nei testi normativi strutturati in h3/h4 l'unico h2 viene ignorato).
  */
 export function withHeadingAnchors(html: string) {
-  const headings: { level: 2 | 3; id: string; title: string }[] = []
+  const headings: { level: number; id: string; title: string }[] = []
   const used = new Set<string>()
-  const out = html.replace(/<h([23])([^>]*)>([\s\S]*?)<\/h\1>/gi, (match, lvl: string, attrs: string, inner: string) => {
+  const out = html.replace(/<h([234])([^>]*)>([\s\S]*?)<\/h\1>/gi, (match, lvl: string, attrs: string, inner: string) => {
     const title = decodeEntities(inner)
     if (!title) return match
     const existing = attrs.match(/\sid=["']([^"']+)["']/i)?.[1]
@@ -223,14 +223,15 @@ export function withHeadingAnchors(html: string) {
       while (used.has(id)) id = `${base}-${n++}`
     }
     used.add(id)
-    headings.push({ level: lvl === '2' ? 2 : 3, id, title })
+    headings.push({ level: Number(lvl), id, title })
     return existing ? match : `<h${lvl}${attrs} id="${id}">${inner}</h${lvl}>`
   })
-  const h2Count = headings.filter((h) => h.level === 2).length
-  const toc: TocItem[] =
-    h2Count >= 2
-      ? headings.map((h) => ({ id: h.id, title: h.title, depth: h.level === 2 ? 0 : 1 }))
-      : headings.filter((h) => h.level === 3).map((h) => ({ id: h.id, title: h.title, depth: 0 }))
+  const top = [2, 3, 4].find((l) => headings.filter((h) => h.level === l).length >= 2)
+  const toc: TocItem[] = top
+    ? headings
+        .filter((h) => h.level >= top)
+        .map((h) => ({ id: h.id, title: h.title, depth: (h.level - top) as TocItem['depth'] }))
+    : []
   return { html: out, toc }
 }
 

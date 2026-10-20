@@ -2,7 +2,8 @@ import { ChevronDown } from 'lucide-react'
 import type { TocItem } from '@/lib/wp'
 
 export function ArticleToc({ items }: { items: TocItem[] }) {
-  const hasSubsections = items.some((item) => item.depth === 1)
+  const hasSubsections = items.some((item) => item.depth > 0)
+  const indent = ['', 'pl-8', 'pl-12']
   let counter = 0
   return (
     <details open className="group mt-8 rounded-lg border border-border bg-muted print:hidden">
@@ -17,11 +18,12 @@ export function ArticleToc({ items }: { items: TocItem[] }) {
           {items.map((item) => {
             if (item.depth === 0) counter++
             return (
-              <li key={item.id} className={item.depth === 1 ? 'pl-8' : undefined}>
+              <li key={item.id} className={indent[item.depth] || undefined}>
                 <a
                   href={`#${item.id}`}
-                  className={`flex gap-3 py-1 leading-snug hover:text-primary ${item.depth === 1 ? 'text-sm text-muted-foreground' : 'text-sm font-medium'}`}
+                  className={`flex gap-3 py-1 leading-snug hover:text-primary ${item.depth === 0 ? 'text-sm font-medium' : 'text-sm text-muted-foreground'}`}
                 >
+                  {item.depth === 2 && <span aria-hidden className="shrink-0 text-muted-foreground/60">–</span>}
                   {item.depth === 0 && <span className="w-5 shrink-0 font-mono tabular-nums text-muted-foreground">{counter}.</span>}
                   <span className="text-pretty">{item.title}</span>
                 </a>

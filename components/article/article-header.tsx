@@ -22,7 +22,7 @@ export function ArticleHeader({
   minutes: number
   url: string
 }) {
-  const updated = modified.slice(0, 10) !== date.slice(0, 10)
+  const updated = new Date(modified).getTime() > new Date(date).getTime()
   return (
     <header className="bg-ink text-ink-foreground">
       <div className="mx-auto max-w-7xl px-4 pb-10 pt-8 lg:pb-12">
