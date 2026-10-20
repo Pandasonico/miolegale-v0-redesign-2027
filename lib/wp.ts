@@ -1,6 +1,6 @@
 const WP_API = process.env.WP_API_URL ?? 'https://miolegale.it/wp-json/wp/v2'
 
-export type WPCategory = { id: number; name: string; slug: string; count: number; description?: string }
+export type WPCategory = { id: number; name: string; slug: string; count: number; parent?: number; description?: string }
 
 export type WPPost = {
   id: number
@@ -12,6 +12,7 @@ export type WPPost = {
   excerpt: { rendered: string }
   content?: { rendered: string }
   categories: number[]
+  tags?: number[]
   _embedded?: {
     'wp:featuredmedia'?: WPMedia[]
     'wp:term'?: { id: number; name: string; slug: string; taxonomy: string }[][]
@@ -127,7 +128,7 @@ export function toCard(post: WPPost): PostCard {
 let categoryCache: Promise<WPCategory[]> | null = null
 
 export function getCategories() {
-  categoryCache ??= wpFetch<WPCategory[]>('/categories?per_page=100&_fields=id,name,slug,count,description', 3600)
+  categoryCache ??= wpFetch<WPCategory[]>('/categories?per_page=100&_fields=id,name,slug,count,parent,description', 3600)
     .then((r) => r.data)
     .catch(() => {
       categoryCache = null
@@ -180,6 +181,51 @@ export async function getPostBySlug(slug: string) {
   } catch {
     return null
   }
+}
+
+const AREAS_PARENT_ID = 50
+
+/**
+ * Correlati: stessa sezione (es. Norme) E stessa area tematica (es. Fisco),
+ * ordinati per numero di tag in comune. Se l'area non basta, completa con la sola sezione.
+ */
+export async function getRelatedPosts(post: WPPost, sectionSlug: string, limit = 3) {
+  const [section, categories] = await Promise.all([getCategoryBySlug(sectionSlug), getCategories()])
+  const area = post.categories
+    .map((id) => categories.find((c) => c.id === id))
+    .find((c) => c?.parent === AREAS_PARENT_ID)
+  const tags = new Set(post.tags ?? [])
+
+  const fetchList = async (catIds: number[], perPage: number) => {
+    const params = new URLSearchParams({
+      'categories[terms]': catIds.join(','),
+      'categories[operator]': 'AND',
+      exclude: String(post.id),
+      per_page: String(perPage),
+      _fields: `${LIST_FIELDS},tags`,
+      _embed: 'wp:featuredmedia',
+    })
+    try {
+      return (await wpFetch<WPPost[]>(`/posts?${params}`, 3600)).data
+    } catch {
+      return []
+    }
+  }
+
+  let picked: WPPost[] = []
+  if (section && area) {
+    const candidates = await fetchList([section.id, area.id], 20)
+    picked = candidates
+      .map((p, i) => ({ p, i, score: (p.tags ?? []).filter((t) => tags.has(t)).length }))
+      .sort((a, b) => b.score - a.score || a.i - b.i)
+      .slice(0, limit)
+      .map((x) => x.p)
+  }
+  if (section && picked.length < limit) {
+    const fill = await fetchList([section.id], limit + 3)
+    picked = [...picked, ...fill.filter((p) => !picked.some((q) => q.id === p.id))].slice(0, limit)
+  }
+  return { posts: picked.map(toCard), area: area && picked.length ? { name: decodeEntities(area.name), slug: area.slug } : null }
 }
 
 export async function getLongExcerpt(href: string, maxChars = 560) {

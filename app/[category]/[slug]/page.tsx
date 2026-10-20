@@ -14,7 +14,7 @@ import {
   decodeEntities,
   featuredImage,
   getPostBySlug,
-  getPosts,
+  getRelatedPosts,
   readingMinutes,
   splitContent,
   withHeadingAnchors,
@@ -65,8 +65,7 @@ export default async function ArticlePage({ params }: Props) {
   const plainContent = decodeEntities(rawContent)
   const lead = excerpt && !plainContent.startsWith(excerpt.replace(/…$/, '').slice(0, 60)) ? excerpt : undefined
 
-  const related = await getPosts({ categorySlug: category, perPage: 5, withImages: true })
-  const relatedPosts = related.posts.filter((p) => p.id !== post.id).slice(0, 3)
+  const { posts: relatedPosts, area } = await getRelatedPosts(post, category)
   const relatedHaveImages = relatedPosts.length > 0 && relatedPosts.every((p) => p.image)
 
   return (
@@ -145,6 +144,7 @@ export default async function ArticlePage({ params }: Props) {
           <div className="mb-6 flex items-end justify-between gap-4">
             <h2 id="related-title" className="font-sans text-3xl font-semibold tracking-tight">
               Altro in {categoryLabel}
+              {area && <span className="text-muted-foreground"> · {area.name}</span>}
             </h2>
             <Link href={`/${category}`} className="hidden text-sm font-medium text-primary hover:underline sm:block">
               Vedi tutti
