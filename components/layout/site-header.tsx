@@ -58,7 +58,7 @@ export function SiteHeader() {
       </header>
 
       <nav aria-label="Sezioni della banca dati" className="border-b border-border bg-card">
-        <ul className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <ul className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 py-[13px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {DATABASE_MENU.map((item) => (
             <li key={item.href} className="shrink-0">
               <NavLink
