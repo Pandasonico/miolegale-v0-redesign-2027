@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { AdSlot } from '@/components/ads/ad-slot'
-import { TOOLS } from '@/lib/site'
+import { POPULAR_TOOLS, TOOLS } from '@/lib/site'
 
 export function ToolShell({
   slug,
@@ -38,13 +38,20 @@ export function ToolShell({
               Altri calcolatori
             </p>
             <ul className="mt-3 space-y-1">
-              {TOOLS.filter((t) => t.slug !== slug).map((t) => (
-                <li key={t.slug}>
-                  <Link href={`/calcolo/${t.slug}`} className="block py-1.5 text-sm font-medium text-primary hover:underline">
-                    {t.title}
-                  </Link>
-                </li>
-              ))}
+              {POPULAR_TOOLS.filter((t) => t.slug !== slug)
+                .slice(0, 8)
+                .map((t) => (
+                  <li key={t.slug}>
+                    <Link href={`/calcolo/${t.slug}`} className="block py-1.5 text-sm font-medium text-primary hover:underline">
+                      {t.title}
+                    </Link>
+                  </li>
+                ))}
+              <li>
+                <Link href="/calcolo" className="block py-1.5 text-sm font-semibold text-primary hover:underline">
+                  Tutti i calcolatori
+                </Link>
+              </li>
               <li>
                 <Link href="/assistente-ai" className="block py-1.5 text-sm font-medium text-primary hover:underline">
                   Assistente AI giuridico

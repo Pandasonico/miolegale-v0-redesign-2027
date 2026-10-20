@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { PostRow } from '@/components/content/post-list'
 import { Pager } from '@/components/content/pager'
-import { DATABASE_MENU, SECTIONS, TOOLS } from '@/lib/site'
+import { DATABASE_MENU, POPULAR_TOOLS, SECTIONS } from '@/lib/site'
 import type { PostCard } from '@/lib/wp'
 
 export function Listing({
@@ -95,13 +95,18 @@ export function ListingSidebar({ rectangleAfterDatabase = false }: { rectangleAf
           Calcolatori
         </p>
         <ul className="mt-3 space-y-1">
-          {TOOLS.map((t) => (
+          {POPULAR_TOOLS.slice(0, 6).map((t) => (
             <li key={t.slug}>
               <Link href={`/calcolo/${t.slug}`} className="block py-1.5 text-sm font-medium text-primary hover:underline">
                 {t.title}
               </Link>
             </li>
           ))}
+          <li>
+            <Link href="/calcolo" className="block py-1.5 text-sm font-semibold text-primary hover:underline">
+              Tutti i calcolatori
+            </Link>
+          </li>
         </ul>
       </nav>
       <div className="sticky top-24">

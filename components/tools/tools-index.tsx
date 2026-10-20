@@ -57,7 +57,7 @@ export function ToolsIndex() {
       TOOL_GROUPS.map((group) => ({
         ...group,
         categories: TOOL_CATEGORIES.filter((c) => c.group === group.slug)
-          .map((c) => ({ ...c, tools: TOOLS.filter((t) => t.category === c.slug) }))
+          .map((c) => ({ ...c, tools: TOOLS.filter((t) => t.category === c.slug || t.alsoIn?.includes(c.slug)) }))
           .filter((c) => c.tools.length > 0),
       })).filter((g) => g.categories.length > 0),
     [],
