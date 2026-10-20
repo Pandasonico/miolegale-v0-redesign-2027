@@ -183,23 +183,42 @@ export async function getPostBySlug(slug: string) {
   }
 }
 
-const AREAS_PARENT_ID = 50
+export type WPTag = { id: number; name: string; slug: string; count: number; description?: string }
+
+export async function getTagBySlug(slug: string) {
+  try {
+    const { data } = await wpFetch<WPTag[]>(`/tags?slug=${encodeURIComponent(slug)}&_fields=id,name,slug,count,description`, 3600)
+    return data[0] ?? null
+  } catch {
+    return null
+  }
+}
+
+export function getPostTags(post: WPPost) {
+  return (post._embedded?.['wp:term']?.flat() ?? [])
+    .filter((t) => t.taxonomy === 'post_tag')
+    .map((t) => ({ id: t.id, name: decodeEntities(t.name), slug: t.slug }))
+}
+
+export async function getPostsByTag(tagId: number, page = 1, perPage = 15) {
+  const params = new URLSearchParams({ tags: String(tagId), per_page: String(perPage), page: String(page), _fields: LIST_FIELDS })
+  try {
+    const { data, total, totalPages } = await wpFetch<WPPost[]>(`/posts?${params}`, 600)
+    return { posts: data.map(toCard), total, totalPages }
+  } catch {
+    return { posts: [] as PostCard[], total: 0, totalPages: 0 }
+  }
+}
 
 /**
- * Correlati: stessa sezione (es. Norme) E stessa area tematica (es. Fisco),
- * ordinati per numero di tag in comune. Se l'area non basta, completa con la sola sezione.
+ * Correlati guidati dai tag, su tutte le sezioni (notizie, massime, norme, guide):
+ * ordinati per numero di tag in comune, a parità per data. Senza tag, ripiega sulla stessa sezione.
  */
 export async function getRelatedPosts(post: WPPost, sectionSlug: string, limit = 3) {
-  const [section, categories] = await Promise.all([getCategoryBySlug(sectionSlug), getCategories()])
-  const area = post.categories
-    .map((id) => categories.find((c) => c.id === id))
-    .find((c) => c?.parent === AREAS_PARENT_ID)
-  const tags = new Set(post.tags ?? [])
-
-  const fetchList = async (catIds: number[], perPage: number) => {
+  const tagIds = post.tags ?? []
+  const fetchList = async (filter: Record<string, string>, perPage: number) => {
     const params = new URLSearchParams({
-      'categories[terms]': catIds.join(','),
-      'categories[operator]': 'AND',
+      ...filter,
       exclude: String(post.id),
       per_page: String(perPage),
       _fields: `${LIST_FIELDS},tags`,
@@ -213,19 +232,23 @@ export async function getRelatedPosts(post: WPPost, sectionSlug: string, limit =
   }
 
   let picked: WPPost[] = []
-  if (section && area) {
-    const candidates = await fetchList([section.id, area.id], 20)
+  if (tagIds.length) {
+    const tags = new Set(tagIds)
+    const candidates = await fetchList({ tags: tagIds.join(',') }, 30)
     picked = candidates
       .map((p, i) => ({ p, i, score: (p.tags ?? []).filter((t) => tags.has(t)).length }))
       .sort((a, b) => b.score - a.score || a.i - b.i)
       .slice(0, limit)
       .map((x) => x.p)
   }
-  if (section && picked.length < limit) {
-    const fill = await fetchList([section.id], limit + 3)
-    picked = [...picked, ...fill.filter((p) => !picked.some((q) => q.id === p.id))].slice(0, limit)
+  if (picked.length < limit) {
+    const section = await getCategoryBySlug(sectionSlug)
+    if (section) {
+      const fill = await fetchList({ categories: String(section.id) }, limit + 3)
+      picked = [...picked, ...fill.filter((p) => !picked.some((q) => q.id === p.id))].slice(0, limit)
+    }
   }
-  return { posts: picked.map(toCard), area: area && picked.length ? { name: decodeEntities(area.name), slug: area.slug } : null }
+  return picked.map(toCard)
 }
 
 export async function getLongExcerpt(href: string, maxChars = 560) {

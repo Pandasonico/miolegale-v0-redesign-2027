@@ -14,6 +14,7 @@ import {
   decodeEntities,
   featuredImage,
   getPostBySlug,
+  getPostTags,
   getRelatedPosts,
   readingMinutes,
   splitContent,
@@ -65,7 +66,8 @@ export default async function ArticlePage({ params }: Props) {
   const plainContent = decodeEntities(rawContent)
   const lead = excerpt && !plainContent.startsWith(excerpt.replace(/…$/, '').slice(0, 60)) ? excerpt : undefined
 
-  const { posts: relatedPosts, area } = await getRelatedPosts(post, category)
+  const tags = getPostTags(post)
+  const relatedPosts = await getRelatedPosts(post, category)
   const relatedHaveImages = relatedPosts.length > 0 && relatedPosts.every((p) => p.image)
 
   return (
@@ -139,16 +141,26 @@ export default async function ArticlePage({ params }: Props) {
         <ListingSidebar rectangleAfterDatabase />
       </div>
 
-      {relatedPosts.length > 0 && (
+      {(relatedPosts.length > 0 || tags.length > 0) && (
         <section aria-labelledby="related-title" className="mx-auto max-w-7xl px-4 pt-14">
-          <div className="mb-6 flex items-end justify-between gap-4">
+          <div className="mb-6 flex flex-col gap-3 md:flex-row md:flex-wrap md:items-baseline md:gap-x-4">
             <h2 id="related-title" className="font-sans text-3xl font-semibold tracking-tight">
-              Altro in {categoryLabel}
-              {area && <span className="text-muted-foreground"> · {area.name}</span>}
+              {tags.length > 0 ? 'Sullo stesso argomento' : `Altro in ${categoryLabel}`}
             </h2>
-            <Link href={`/${category}`} className="hidden text-sm font-medium text-primary hover:underline sm:block">
-              Vedi tutti
-            </Link>
+            {tags.length > 0 && (
+              <ul className="flex flex-wrap gap-2" aria-label="Tag dell'articolo">
+                {tags.map((t) => (
+                  <li key={t.id}>
+                    <Link
+                      href={`/tag/${t.slug}`}
+                      className="block rounded-full border border-border bg-card px-3 py-1 text-sm font-medium text-secondary-foreground hover:border-primary hover:text-primary"
+                    >
+                      {t.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           {relatedHaveImages ? (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
