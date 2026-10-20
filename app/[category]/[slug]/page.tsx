@@ -57,7 +57,6 @@ export default async function ArticlePage({ params }: Props) {
   const categoryLabel = section?.short ?? category
   const path = `/${category}/${slug}`
   const url = `${SITE.url}${path}`
-  const terms = (post._embedded?.['wp:term']?.flat() ?? []).filter((t) => t.taxonomy === 'category' && t.slug !== category)
 
   const rawContent = post.content?.rendered ?? ''
   const { html, toc } = withHeadingAnchors(rawContent)
@@ -106,17 +105,17 @@ export default async function ArticlePage({ params }: Props) {
               </>
             )}
 
-            {terms.length > 0 && (
-              <div className="mt-10 flex flex-wrap items-center gap-2 border-t border-border pt-6">
-                <span className="mr-1 text-xs font-mono font-medium uppercase tracking-wider text-muted-foreground">Argomenti</span>
+            {tags.length > 0 && (
+              <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 print:hidden">
+                <span className="text-xs font-mono font-medium uppercase tracking-wider text-muted-foreground">Tag</span>
                 <ul className="flex flex-wrap gap-2">
-                  {terms.map((t) => (
+                  {tags.map((t) => (
                     <li key={t.id}>
                       <Link
-                        href={`/${t.slug}`}
+                        href={`/tag/${t.slug}`}
                         className="block rounded-full border border-border bg-card px-3 py-1 text-sm font-medium text-secondary-foreground hover:border-primary hover:text-primary"
                       >
-                        {decodeEntities(t.name)}
+                        {t.name}
                       </Link>
                     </li>
                   ))}
@@ -141,27 +140,11 @@ export default async function ArticlePage({ params }: Props) {
         <ListingSidebar rectangleAfterDatabase />
       </div>
 
-      {(relatedPosts.length > 0 || tags.length > 0) && (
+      {relatedPosts.length > 0 && (
         <section aria-labelledby="related-title" className="mx-auto max-w-7xl px-4 pt-14">
-          <div className="mb-6 flex flex-col gap-3 md:flex-row md:flex-wrap md:items-baseline md:gap-x-4">
-            <h2 id="related-title" className="font-sans text-3xl font-semibold tracking-tight">
-              {tags.length > 0 ? 'Sullo stesso argomento' : `Altro in ${categoryLabel}`}
-            </h2>
-            {tags.length > 0 && (
-              <ul className="flex flex-wrap gap-2" aria-label="Tag dell'articolo">
-                {tags.map((t) => (
-                  <li key={t.id}>
-                    <Link
-                      href={`/tag/${t.slug}`}
-                      className="block rounded-full border border-border bg-card px-3 py-1 text-sm font-medium text-secondary-foreground hover:border-primary hover:text-primary"
-                    >
-                      {t.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <h2 id="related-title" className="mb-6 font-sans text-3xl font-semibold tracking-tight text-balance">
+            {tags.length > 0 ? 'Sullo stesso argomento' : `Altro in ${categoryLabel}`}
+          </h2>
           {relatedHaveImages ? (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {relatedPosts.map((p) => (
