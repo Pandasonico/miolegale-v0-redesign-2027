@@ -71,7 +71,6 @@ export type UtilityPage = {
   popular?: boolean
 }
 
-const UTILITY_PARENT_SLUG = 'utilita'
 export const UTILITY_CATEGORY_FIELD = 'categoria_utilita'
 
 export const UTILITY_CATEGORIES = [
@@ -85,9 +84,14 @@ export const UTILITY_CATEGORIES = [
 ] as const
 
 const POPULAR_UTILITY_SLUGS = new Set([
-  'tabelle-indennizzo-danno-biologico-inail', 'decreto-ingiuntivo', 'tabella-lesioni-micropermanenti',
-  'pignoramento-presso-terzi', 'assistenza-stragiudiziale', 'mediazione-negoziazione-assistita',
-  'atto-precetto', 'tabella-menomazioni-inail', 'tabella-contributo-unificato',
+  'tabella-contributo-unificato',
+  'ultimo-indice-istat',
+  'coefficienti-calcolo-usufrutto',
+  'categorie-catastali',
+  'testimonianza-scritta',
+  'decreto-ingiuntivo',
+  'tabelle-tribunale-milano',
+  'tabelle-tribunale-roma',
 ])
 
 function utilityCategory(href: string): string {
@@ -109,17 +113,30 @@ function utilityCategoryFromAcf(raw: unknown): string | undefined {
 
 export async function getUtilityPages(): Promise<UtilityPage[]> {
   try {
-    const { data: parents } = await wpFetch<{ id: number }[]>(`/pages?slug=${UTILITY_PARENT_SLUG}&_fields=id`, 86400)
-    const parentId = parents[0]?.id
-    if (!parentId) return []
-    const { data } = await wpFetch<
-      { id: number; link: string; modified: string; title: { rendered: string }; excerpt: { rendered: string }; acf?: Record<string, unknown> }[]
-    >(
-      `/pages?parent=${parentId}&per_page=100&orderby=title&order=asc&_fields=id,link,modified,title,excerpt,acf`,
+    type WpUtility = { id: number; link: string; modified: string; title: { rendered: string }; excerpt: { rendered: string }; acf?: Record<string, unknown> }
+    const first = await wpFetch<WpUtility[]>(
+      `/pages?per_page=100&page=1&orderby=title&order=asc&_fields=id,link,modified,title,excerpt,acf&_utility_index=2`,
       3600,
     )
+    const remaining = await Promise.all(
+      Array.from({ length: Math.max(0, first.totalPages - 1) }, (_, index) =>
+        wpFetch<WpUtility[]>(
+          `/pages?per_page=100&page=${index + 2}&orderby=title&order=asc&_fields=id,link,modified,title,excerpt,acf&_utility_index=2`,
+          3600,
+        ).then((result) => result.data),
+      ),
+    )
+    const data = [first.data, ...remaining].flat()
+    /* Include nested pages too: several utilities live under parametri-forensi, Milano, Roma and alcolemiche. */
+    const utilityPages = data.filter((page) => {
+      try {
+        return new URL(page.link).pathname.startsWith('/utilita/')
+      } catch {
+        return false
+      }
+    })
     /* The ACF value overrides the URL heuristic, so new pages can be categorized from WordPress. */
-    const pages = data.map((p) => ({
+    const pages = utilityPages.map((p) => ({
       id: p.id,
       title: decodeEntities(p.title.rendered),
       excerpt: decodeEntities(p.excerpt.rendered),

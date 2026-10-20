@@ -45,19 +45,23 @@ function balance<T extends { items: UtilityPage[] }>(categories: T[]) {
 }
 
 const POPULAR_UTILITY_MATCHERS = [
-  { match: ['contributo-unificato'], icon: Landmark },
-  { match: ['ultimo-indice-istat', 'indice-istat'], icon: BarChart3 },
-  { match: ['valore-usufrutto', 'usufrutto'], icon: Home },
+  { match: ['tabella-contributo-unificato'], icon: Landmark },
+  { match: ['ultimo-indice-istat'], icon: BarChart3 },
+  { match: ['coefficienti-calcolo-usufrutto'], icon: Home },
   { match: ['categorie-catastali'], icon: FolderTree },
-  { match: ['formulario-civile'], icon: FilePenLine },
-  { match: ['formulario-penale'], icon: Gavel },
-  { match: ['tabelle-milano', 'tabella-milano'], icon: Table2 },
-  { match: ['tabelle-roma', 'tabella-roma'], icon: Scale },
+  { match: ['testimonianza-scritta'], icon: FilePenLine },
+  { match: ['decreto-ingiuntivo'], icon: Gavel },
+  { match: ['tabelle-tribunale-milano'], icon: Table2 },
+  { match: ['tabelle-tribunale-roma'], icon: Scale },
 ] as const
 
+function utilityMatches(page: UtilityPage, values: readonly string[]) {
+  const path = page.href.toLowerCase().replace(/\/+$/, '')
+  return values.some((value) => path.endsWith(`/${value}`))
+}
+
 function utilityIcon(page: UtilityPage) {
-  const slug = page.href.toLowerCase()
-  return POPULAR_UTILITY_MATCHERS.find(({ match }) => match.some((value) => slug.includes(value)))?.icon ?? FileText
+  return POPULAR_UTILITY_MATCHERS.find(({ match }) => utilityMatches(page, match))?.icon ?? FileText
 }
 
 function UtilityCard({ page }: { page: UtilityPage }) {
@@ -99,8 +103,7 @@ export function UtilitaIndex({ pages, categories }: { pages: UtilityPage[]; cate
   const normalized = normalize(query)
   const popular = POPULAR_UTILITY_MATCHERS.map(({ match }) =>
     pages.find((page) => {
-      const slug = page.href.toLowerCase()
-      return match.some((value) => slug.includes(value))
+      return utilityMatches(page, match)
     }),
   ).filter((page): page is UtilityPage => Boolean(page))
   const grouped = useMemo(() => {
