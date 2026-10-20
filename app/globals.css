@@ -77,7 +77,7 @@
   @apply mt-5;
 }
 .wp-content h2 {
-  @apply font-sans tracking-tight text-2xl font-semibold leading-snug text-balance mt-10 scroll-mt-24;
+  @apply font-sans tracking-tight text-2xl font-semibold leading-snug text-pretty mt-10 scroll-mt-24;
 }
 .wp-content > p:first-child {
   @apply text-lg leading-relaxed;
