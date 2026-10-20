@@ -44,8 +44,8 @@ const stripTags = (s: string) => decode(s.replace(/<[^>]+>/g, ' ').replace(/\s+/
 
 /** Links to collections this site renders itself stay local; the plugin's act pages stay on miolegale.it. */
 function localizeHref(href: string) {
-  if (/^https?:\/\/(www\.)?miolegale\.it\/costituzione\/?$/.test(href)) return '/costituzione'
-  return href
+  const local = /^https?:\/\/(?:www\.)?miolegale\.it\/((?:codici|testi-unici)\/[^/]+|costituzione)\/?$/.exec(href)
+  return local ? `/${local[1]}` : href
 }
 
 // The miolegale-codici plugin keeps its data outside WordPress and its REST endpoints require auth,
