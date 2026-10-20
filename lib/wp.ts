@@ -94,7 +94,57 @@ const POPULAR_UTILITY_SLUGS = new Set([
   'tabelle-tribunale-roma',
 ])
 
+/* Copia della suddivisione pubblicata su miolegale.it/utilita/, nello stesso ordine. */
+const LIVE_UTILITY_GROUPS: Record<string, string[]> = {
+  avvocati: ['parametri-forensi', 'tabella-contributo-unificato', 'tabella-diritti-di-copia', 'riforma-cartabia-civile', 'codici-iscrizione-ruolo'],
+  'tassi-istat': ['ultimo-indice-istat', 'tasso-interesse-legale', 'tabella-tassi-soglia-usura', 'tasso-interessi-moratori', 'tabella-interessi-moratori-appalti-pubblici'],
+  'medicina-legale': [
+    'tabelle-tribunale-milano',
+    'tabella-menomazioni-inail',
+    'tabelle-indennizzo-danno-biologico-inail',
+    'tabella-lesioni-micropermanenti',
+    'lesioni-infermita-causa-servizio',
+    'tabella-risarcimento-micropermanenti',
+    'tabelle-tribunale-roma',
+  ],
+  'codice-strada': ['tabella-punti-patente', 'tabelle-alcolemiche'],
+  'proprieta-catasto': ['coefficienti-calcolo-usufrutto', 'categorie-catastali'],
+}
+
+const LIVE_UTILITY_ORDER = new Map(
+  Object.entries(LIVE_UTILITY_GROUPS).flatMap(([category, slugs]) => slugs.map((slug, index) => [slug, { category, index }] as const)),
+)
+
+const LIVE_FORMULARI: { title: string; href: string }[] = [
+  { title: 'Dichiarazione ex art. 137, comma 7 c.p.c.', href: 'https://miolegale.it/formulario-civile/dichiarazione-137-cpc/' },
+  { title: 'Rinuncia al mandato difensivo avvocato', href: 'https://miolegale.it/formulario-civile/rinuncia-al-mandato-difensivo/' },
+  { title: 'Verbale di rinuncia al mandato difensivo', href: 'https://miolegale.it/formulario-civile/verbale-rinuncia-al-mandato-difensivo/' },
+  { title: 'Revoca mandato avvocato', href: 'https://miolegale.it/formulario-civile/revoca-mandato-avvocato/' },
+  { title: 'Ricorso congiunto di divorzio', href: 'https://miolegale.it/formulario-civile/ricorso-congiunto-divorzio/' },
+  { title: 'Atto di citazione Tribunale (riforma Cartabia)', href: 'https://miolegale.it/formulario-civile/atto-di-citazione-tribunale/' },
+  {
+    title: 'Istanza ex art. 492 bis c.p.c. per l’accesso ai dati contenuti nelle banche dati delle pubbliche amministrazioni',
+    href: 'https://miolegale.it/formulario-civile/istanza-art-492-bis-cpc/',
+  },
+  { title: 'Istanza ex art. 335, comma 3 ter c.p.p. della persona offesa dal reato', href: 'https://miolegale.it/formulario-penale/istanza-335-comma-3-ter/' },
+  { title: 'Avviso iscrizione al ruolo pignoramento ex art 543, 5 comma c.p.c.', href: 'https://miolegale.it/formulario-civile/avviso-iscrizione-al-ruolo-pignoramento/' },
+  {
+    title: 'Comparsa di costituzione e richiesta di prosecuzione del processo interrotto',
+    href: 'https://miolegale.it/formulario-civile/costituzione-processo-interrotto/',
+  },
+]
+
+function utilitySlug(href: string) {
+  try {
+    return new URL(href).pathname.split('/').filter(Boolean).pop() ?? ''
+  } catch {
+    return ''
+  }
+}
+
 function utilityCategory(href: string): string {
+  const live = LIVE_UTILITY_ORDER.get(utilitySlug(href))
+  if (live) return live.category
   const path = href.toLowerCase()
   if (path.includes('/parametri-forensi')) return 'avvocati'
   if (path.includes('tasso') || path.includes('interess') || path.includes('istat') || path.includes('usura')) return 'tassi-istat'
@@ -144,9 +194,20 @@ export async function getUtilityPages(): Promise<UtilityPage[]> {
       href: p.link,
       modified: p.modified,
       category: utilityCategoryFromAcf(p.acf?.[UTILITY_CATEGORY_FIELD]) ?? utilityCategory(p.link),
-      popular: POPULAR_UTILITY_SLUGS.has(new URL(p.link).pathname.split('/').filter(Boolean).pop() ?? ''),
+      popular: POPULAR_UTILITY_SLUGS.has(utilitySlug(p.link)),
     }))
-    return pages
+    const knownLinks = new Set(pages.map((page) => page.href))
+    const formulari = LIVE_FORMULARI.filter((item) => !knownLinks.has(item.href)).map((item, index) => ({
+      id: -(index + 1),
+      title: item.title,
+      excerpt: '',
+      href: item.href,
+      modified: '',
+      category: 'formulari-civili-penali',
+      popular: false,
+    }))
+    const rank = (page: UtilityPage) => LIVE_UTILITY_ORDER.get(utilitySlug(page.href))?.index ?? Number.MAX_SAFE_INTEGER
+    return [...pages, ...formulari].sort((a, b) => rank(a) - rank(b))
   } catch {
     return []
   }
