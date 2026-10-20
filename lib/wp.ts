@@ -192,6 +192,44 @@ export async function getLongExcerpt(href: string, maxChars = 560) {
   return `${text.slice(0, text.lastIndexOf(' ', maxChars))}…`
 }
 
+export type TocItem = { id: string; title: string }
+
+function slugify(text: string) {
+  return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 80)
+}
+
+/** Aggiunge un id ai titoli h2 (se mancante) e restituisce l'indice dell'articolo. */
+export function withHeadingAnchors(html: string) {
+  const toc: TocItem[] = []
+  const used = new Set<string>()
+  const out = html.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (match, attrs: string, inner: string) => {
+    const title = decodeEntities(inner)
+    if (!title) return match
+    const existing = attrs.match(/\sid=["']([^"']+)["']/i)?.[1]
+    let id = existing ?? (slugify(title) || `sezione-${toc.length + 1}`)
+    if (!existing) {
+      const base = id
+      let n = 2
+      while (used.has(id)) id = `${base}-${n++}`
+    }
+    used.add(id)
+    toc.push({ id, title })
+    return existing ? match : `<h2${attrs} id="${id}">${inner}</h2>`
+  })
+  return { html: out, toc }
+}
+
+export function readingMinutes(html: string) {
+  const words = decodeEntities(html).split(' ').filter(Boolean).length
+  return Math.max(1, Math.round(words / 220))
+}
+
 /** Divide l'HTML a metà dei paragrafi per inserire un annuncio in-article. */
 export function splitContent(html: string): [string, string] {
   const parts = html.split('</p>')
