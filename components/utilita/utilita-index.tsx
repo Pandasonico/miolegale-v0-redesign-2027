@@ -1,7 +1,19 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowUpRight, Search } from 'lucide-react'
+import {
+  ArrowUpRight,
+  BarChart3,
+  FilePenLine,
+  FileText,
+  FolderTree,
+  Gavel,
+  Home,
+  Landmark,
+  Search,
+  Scale,
+  Table2,
+} from 'lucide-react'
 import { useMemo, useState } from 'react'
 import type { UtilityPage } from '@/lib/wp'
 
@@ -32,6 +44,42 @@ function balance<T extends { items: UtilityPage[] }>(categories: T[]) {
   return [...left, ...right]
 }
 
+const POPULAR_UTILITY_MATCHERS = [
+  { match: ['contributo-unificato'], icon: Landmark },
+  { match: ['ultimo-indice-istat', 'indice-istat'], icon: BarChart3 },
+  { match: ['valore-usufrutto', 'usufrutto'], icon: Home },
+  { match: ['categorie-catastali'], icon: FolderTree },
+  { match: ['formulario-civile'], icon: FilePenLine },
+  { match: ['formulario-penale'], icon: Gavel },
+  { match: ['tabelle-milano', 'tabella-milano'], icon: Table2 },
+  { match: ['tabelle-roma', 'tabella-roma'], icon: Scale },
+] as const
+
+function utilityIcon(page: UtilityPage) {
+  const slug = page.href.toLowerCase()
+  return POPULAR_UTILITY_MATCHERS.find(({ match }) => match.some((value) => slug.includes(value)))?.icon ?? FileText
+}
+
+function UtilityCard({ page }: { page: UtilityPage }) {
+  const Icon = utilityIcon(page)
+  return (
+    <Link
+      href={page.href.replace('https://miolegale.it', '')}
+      className="group flex flex-col rounded-lg border border-border bg-card p-5 hover:shadow-md"
+    >
+      <div className="flex items-center justify-between">
+        <span className="flex size-10 items-center justify-center rounded-md bg-secondary text-primary">
+          <Icon className="size-5" aria-hidden />
+        </span>
+        <ArrowUpRight className="size-4 text-muted-foreground group-hover:text-primary" aria-hidden />
+      </div>
+      <p className="mt-4 text-xs font-mono font-medium uppercase tracking-wider text-muted-foreground">Utilità legale</p>
+      <h3 className="mt-1 font-sans text-lg font-semibold leading-snug tracking-tight">{page.title}</h3>
+      {page.excerpt && <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{page.excerpt}</p>}
+    </Link>
+  )
+}
+
 function UtilityRow({ page }: { page: UtilityPage }) {
   return (
     <li>
@@ -49,7 +97,12 @@ function UtilityRow({ page }: { page: UtilityPage }) {
 export function UtilitaIndex({ pages, categories }: { pages: UtilityPage[]; categories: UtilityCategory[] }) {
   const [query, setQuery] = useState('')
   const normalized = normalize(query)
-  const popular = pages.filter((page) => page.popular).slice(0, 9)
+  const popular = POPULAR_UTILITY_MATCHERS.map(({ match }) =>
+    pages.find((page) => {
+      const slug = page.href.toLowerCase()
+      return match.some((value) => slug.includes(value))
+    }),
+  ).filter((page): page is UtilityPage => Boolean(page))
   const grouped = useMemo(() => {
     const result = categories
       .map((category) => ({ ...category, items: pages.filter((page) => page.category === category.slug) }))
@@ -78,7 +131,7 @@ export function UtilitaIndex({ pages, categories }: { pages: UtilityPage[]; cate
               <h2 id="popular-utilities-title" className="font-sans text-2xl font-semibold">Le più consultate</h2>
               <span className="text-sm text-muted-foreground">In base ai clic</span>
             </div>
-            <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{popular.map((page) => <UtilityRow key={page.id} page={page} />)}</ul>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{popular.map((page) => <UtilityCard key={page.id} page={page} />)}</div>
           </section>
           <section className="mt-12" aria-labelledby="utility-categories-title">
             <h2 id="utility-categories-title" className="font-sans text-2xl font-semibold">Sfoglia per materia</h2>
@@ -86,7 +139,7 @@ export function UtilitaIndex({ pages, categories }: { pages: UtilityPage[]; cate
               {grouped.map((category) => (
                 <section key={category.slug} className="mb-5 break-inside-avoid rounded-lg border border-border bg-card p-3">
                   <h3 className="border-b border-border px-3 pb-3 pt-2 font-sans text-lg font-semibold">{category.label}</h3>
-                  <ul className="mt-2">{category.items.map((page) => <UtilityRow key={page.id} page={page} />)}</ul>
+                  <div className="mt-2">{category.items.map((page) => <UtilityRow key={page.id} page={page} />)}</div>
                 </section>
               ))}
             </div>
