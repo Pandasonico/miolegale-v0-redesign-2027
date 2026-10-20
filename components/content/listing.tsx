@@ -70,10 +70,11 @@ export function Listing({
   )
 }
 
-export function ListingSidebar() {
+export function ListingSidebar({ rectangleAfterDatabase = false }: { rectangleAfterDatabase?: boolean }) {
+  const rectangle = <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR} />
   return (
-    <aside className="flex flex-col gap-8" aria-label="Barra laterale">
-      <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR} />
+  <aside className="flex flex-col gap-8" aria-label="Barra laterale">
+  {!rectangleAfterDatabase && rectangle}
       <nav aria-labelledby="sb-sections" className="rounded-lg border border-border bg-card p-5">
         <p id="sb-sections" className="text-xs font-mono font-medium uppercase tracking-wider text-muted-foreground">
           Banca dati
@@ -88,6 +89,7 @@ export function ListingSidebar() {
           ))}
         </ul>
       </nav>
+      {rectangleAfterDatabase && rectangle}
       <nav aria-labelledby="sb-tools" className="rounded-lg bg-secondary p-5">
         <p id="sb-tools" className="text-xs font-mono font-medium uppercase tracking-wider text-secondary-foreground">
           Calcolatori

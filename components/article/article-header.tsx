@@ -44,14 +44,14 @@ export function ArticleHeader({
           </ol>
         </nav>
 
-        <div className="mt-6 max-w-4xl">
+        <div className="mt-6">
           <Link
             href={`/${category}`}
             className="inline-block rounded bg-ink-foreground/10 px-2 py-0.5 text-xs font-mono font-medium uppercase tracking-wider hover:bg-ink-foreground/20"
           >
             {categoryLabel}
           </Link>
-          <h1 className="mt-4 font-sans text-3xl font-semibold leading-tight tracking-tight text-balance md:text-4xl lg:text-[2.75rem]">
+          <h1 className="mt-4 font-sans text-3xl font-semibold leading-tight tracking-tight text-pretty md:text-4xl lg:text-[2.75rem]">
             {title}
           </h1>
           {lead && <p className="mt-4 max-w-3xl text-lg leading-relaxed text-pretty text-ink-foreground/75">{lead}</p>}

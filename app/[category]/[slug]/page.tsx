@@ -82,16 +82,18 @@ export default async function ArticlePage({ params }: Props) {
         url={url}
       />
 
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 pt-8 lg:grid-cols-[1fr_320px]">
+      <div className="mx-auto max-w-7xl px-4 pt-6 print:hidden">
+        <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_ARTICLE_TOP} />
+      </div>
+
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 pt-6 lg:grid-cols-[1fr_320px]">
         <article className="min-w-0">
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto max-w-3xl lg:mx-0">
             {cover && (
               <figure className="relative aspect-[16/9] overflow-hidden rounded-lg bg-secondary">
                 <Image src={cover.src} alt={cover.alt || title} fill priority sizes="(min-width: 1024px) 768px, 100vw" className="object-cover" />
               </figure>
             )}
-
-            <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_ARTICLE_TOP} className={cover ? 'mt-6' : ''} />
 
             {toc.length >= 3 && <ArticleToc items={toc} />}
 
@@ -135,7 +137,7 @@ export default async function ArticlePage({ params }: Props) {
             <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_ARTICLE_BOTTOM} className="mt-10" />
           </div>
         </article>
-        <ListingSidebar />
+        <ListingSidebar rectangleAfterDatabase />
       </div>
 
       {relatedPosts.length > 0 && (
