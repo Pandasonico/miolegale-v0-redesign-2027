@@ -108,11 +108,45 @@ export const MATERIE = [
   { slug: 'diritto-nuove-tecnologie', label: 'Diritto e nuove tecnologie' },
 ]
 
+export const TOOL_GROUPS = [
+  { slug: 'termini', label: 'Termini e scadenze' },
+  { slug: 'interessi', label: 'Interessi e rivalutazione' },
+  { slug: 'compensi', label: 'Compensi, tasse e costi' },
+  { slug: 'risarcimenti', label: 'Risarcimenti e patrimonio' },
+  { slug: 'procedimenti', label: 'Procedimenti' },
+] as const
+
+export type ToolGroupSlug = (typeof TOOL_GROUPS)[number]['slug']
+
+export const TOOL_CATEGORIES: { slug: string; label: string; group: ToolGroupSlug }[] = [
+  { slug: 'date-scadenze-termini', label: 'Date, scadenze e termini processuali', group: 'termini' },
+  { slug: 'interessi-legali-moratori', label: 'Interessi legali e moratori', group: 'interessi' },
+  { slug: 'rivalutazione-istat', label: 'Rivalutazione Istat', group: 'interessi' },
+  { slug: 'interessi-calcoli-finanziari', label: 'Interessi e calcoli finanziari', group: 'interessi' },
+  { slug: 'compensi-professionali', label: 'Compensi professionali', group: 'compensi' },
+  { slug: 'imposte-fatturazione', label: 'Imposte e fatturazione', group: 'compensi' },
+  { slug: 'contributo-unificato-diritti-copia', label: 'Contributo unificato e diritti di copia', group: 'compensi' },
+  { slug: 'percentuali-sconto-ricarico', label: 'Percentuali, sconto e ricarico', group: 'compensi' },
+  { slug: 'danno-biologico', label: 'Danno biologico', group: 'risarcimenti' },
+  { slug: 'quote-ereditarie-reversibilita', label: 'Quote ereditarie e reversibilità', group: 'risarcimenti' },
+  { slug: 'valore-proprieta-usufrutto', label: 'Valore della proprietà e usufrutto', group: 'risarcimenti' },
+  { slug: 'patteggiamento-mediazione', label: 'Patteggiamento e mediazione', group: 'procedimenti' },
+]
+
+export function toolCategory(slug: string) {
+  return TOOL_CATEGORIES.find((c) => c.slug === slug)
+}
+
 export type Tool = {
   slug: string
   title: string
   description: string
+  /** Slug di una voce di TOOL_CATEGORIES. */
   category: string
+  /** Compare nella riga "I più usati"; l'ordine è quello dell'elenco. */
+  popular?: boolean
+  /** Parole aggiuntive per la ricerca. */
+  keywords?: string[]
 }
 
 export const TOOLS: Tool[] = [
@@ -120,45 +154,58 @@ export const TOOLS: Tool[] = [
     slug: 'interessi-legali',
     title: 'Calcolo interessi legali',
     description: 'Interessi su un capitale con i tassi legali in vigore anno per anno (art. 1284 c.c.).',
-    category: 'Civile',
-  },
-  {
-    slug: 'contributo-unificato',
-    title: 'Contributo unificato',
-    description: 'Importo dovuto per l’iscrizione a ruolo in base a valore e grado (art. 13 DPR 115/2002).',
-    category: 'Processo civile',
+    category: 'interessi-legali-moratori',
+    popular: true,
+    keywords: ['tasso', 'capitale', 'mora', 'saggio legale'],
   },
   {
     slug: 'termini-processuali',
     title: 'Scadenza termini processuali',
     description: 'Calcolo della scadenza con sospensione feriale, sabati e festivi (art. 155 c.p.c.).',
-    category: 'Processo',
+    category: 'date-scadenze-termini',
+    popular: true,
+    keywords: ['sospensione feriale', 'scadenza', 'giorni', 'impugnazione'],
+  },
+  {
+    slug: 'contributo-unificato',
+    title: 'Contributo unificato',
+    description: 'Importo dovuto per l’iscrizione a ruolo in base a valore e grado (art. 13 DPR 115/2002).',
+    category: 'contributo-unificato-diritti-copia',
+    popular: true,
+    keywords: ['iscrizione a ruolo', 'cu', 'valore della causa'],
   },
   {
     slug: 'parcella-avvocato',
     title: 'Fattura avvocato',
     description: 'Dal compenso al totale: spese generali 15%, CPA 4%, IVA 22% e ritenuta d’acconto 20%.',
-    category: 'Professione',
+    category: 'imposte-fatturazione',
+    popular: true,
+    keywords: ['parcella', 'cpa', 'ritenuta', 'compenso', 'iva'],
   },
   {
     slug: 'prescrizione',
     title: 'Calcolo prescrizione',
     description: 'Data di prescrizione del diritto secondo i termini del codice civile (artt. 2946 ss. c.c.).',
-    category: 'Civile',
+    category: 'date-scadenze-termini',
+    keywords: ['termine', 'decorrenza', 'diritto'],
   },
   {
     slug: 'scorporo-iva',
     title: 'Calcolo e scorporo IVA',
     description: 'Aggiungi o scorpora l’IVA da un importo con le aliquote italiane 22%, 10%, 5% e 4%.',
-    category: 'Fisco',
+    category: 'imposte-fatturazione',
+    keywords: ['aliquota', 'imponibile', 'imposta'],
   },
   {
     slug: 'giorni-tra-date',
     title: 'Giorni tra due date',
     description: 'Giorni di calendario e giorni lavorativi tra due date, esclusi weekend e festività nazionali.',
-    category: 'Utilità',
+    category: 'date-scadenze-termini',
+    keywords: ['differenza', 'lavorativi', 'calendario'],
   },
 ]
+
+export const POPULAR_TOOLS = TOOLS.filter((t) => t.popular)
 
 export function sectionBySlug(slug: string) {
   return SECTIONS.find((s) => s.slug === slug)

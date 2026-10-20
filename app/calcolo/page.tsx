@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { AdSlot } from '@/components/ads/ad-slot'
-import { ToolsGrid } from '@/components/tools/tools-grid'
+import { ToolsIndex } from '@/components/tools/tools-index'
 
 export const metadata: Metadata = {
   title: 'Calcolatori legali gratuiti',
@@ -16,7 +16,7 @@ export default function CalcolatoriPage() {
         Strumenti gratuiti e aggiornati alla normativa vigente. I risultati hanno valore indicativo: verifica sempre i casi particolari.
       </p>
       <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_TOP} className="my-8" />
-      <ToolsGrid />
+      <ToolsIndex />
     </div>
   )
 }
