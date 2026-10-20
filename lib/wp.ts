@@ -61,30 +61,79 @@ async function wpFetch<T>(path: string, revalidate = 600): Promise<{ data: T; to
   }
 }
 
-export type UtilityPage = { id: number; title: string; excerpt: string; href: string; modified: string }
+export type UtilityPage = {
+  id: number
+  title: string
+  excerpt: string
+  href: string
+  modified: string
+  category: string
+  popular?: boolean
+}
 
 const UTILITY_PARENT_SLUG = 'utilita'
+export const UTILITY_CATEGORY_FIELD = 'categoria_utilita'
+
+export const UTILITY_CATEGORIES = [
+  { slug: 'avvocati', label: 'Utilità per avvocati' },
+  { slug: 'tassi-istat', label: 'Tassi di interesse e indici Istat' },
+  { slug: 'medicina-legale', label: 'Medicina legale' },
+  { slug: 'codice-strada', label: 'Codice della strada' },
+  { slug: 'proprieta-catasto', label: 'Proprietà e catasto' },
+  { slug: 'formulari-civili-penali', label: 'Formulario civile e penale' },
+  { slug: 'altre-utilita', label: 'Altre utilità' },
+] as const
+
+const POPULAR_UTILITY_SLUGS = new Set([
+  'tabelle-indennizzo-danno-biologico-inail', 'decreto-ingiuntivo', 'tabella-lesioni-micropermanenti',
+  'pignoramento-presso-terzi', 'assistenza-stragiudiziale', 'mediazione-negoziazione-assistita',
+  'atto-precetto', 'tabella-menomazioni-inail', 'tabella-contributo-unificato',
+])
+
+function utilityCategory(href: string): string {
+  const path = href.toLowerCase()
+  if (path.includes('/parametri-forensi')) return 'avvocati'
+  if (path.includes('tasso') || path.includes('interess') || path.includes('istat') || path.includes('usura')) return 'tassi-istat'
+  if (path.includes('inail') || path.includes('lesion') || path.includes('menomaz') || path.includes('biologic') || path.includes('medicina')) return 'medicina-legale'
+  if (path.includes('codice-strada') || path.includes('patente') || path.includes('autovelox')) return 'codice-strada'
+  if (path.includes('catast') || path.includes('usufrutto') || path.includes('propriet') || path.includes('immobil')) return 'proprieta-catasto'
+  if (path.includes('formulario') || path.includes('atto-') || path.includes('ricorso') || path.includes('istanza')) return 'formulari-civili-penali'
+  return 'altre-utilita'
+}
+
+function utilityCategoryFromAcf(raw: unknown): string | undefined {
+  if (typeof raw === 'string') return UTILITY_CATEGORIES.some((category) => category.slug === raw) ? raw : undefined
+  if (raw && typeof raw === 'object' && 'value' in raw) return utilityCategoryFromAcf((raw as { value?: unknown }).value)
+  return undefined
+}
 
 export async function getUtilityPages(): Promise<UtilityPage[]> {
   try {
     const { data: parents } = await wpFetch<{ id: number }[]>(`/pages?slug=${UTILITY_PARENT_SLUG}&_fields=id`, 86400)
     const parentId = parents[0]?.id
     if (!parentId) return []
-    const { data } = await wpFetch<{ id: number; link: string; modified: string; title: { rendered: string }; excerpt: { rendered: string } }[]>(
-      `/pages?parent=${parentId}&per_page=100&orderby=title&order=asc&_fields=id,link,modified,title,excerpt`,
+    const { data } = await wpFetch<
+      { id: number; link: string; modified: string; title: { rendered: string }; excerpt: { rendered: string }; acf?: Record<string, unknown> }[]
+    >(
+      `/pages?parent=${parentId}&per_page=100&orderby=title&order=asc&_fields=id,link,modified,title,excerpt,acf`,
       3600,
     )
-    return data.map((p) => ({
+    /* The ACF value overrides the URL heuristic, so new pages can be categorized from WordPress. */
+    const pages = data.map((p) => ({
       id: p.id,
       title: decodeEntities(p.title.rendered),
       excerpt: decodeEntities(p.excerpt.rendered),
       href: p.link,
       modified: p.modified,
+      category: utilityCategoryFromAcf(p.acf?.[UTILITY_CATEGORY_FIELD]) ?? utilityCategory(p.link),
+      popular: POPULAR_UTILITY_SLUGS.has(new URL(p.link).pathname.split('/').filter(Boolean).pop() ?? ''),
     }))
+    return pages
   } catch {
     return []
   }
 }
+
 
 const CALC_PARENT_SLUG = 'calcolo'
 const WP_ORIGIN = 'https://miolegale.it'
