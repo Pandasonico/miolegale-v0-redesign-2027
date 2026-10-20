@@ -52,7 +52,7 @@ export const ARCHIVES: Archive[] = [
   },
   {
     slug: 'codici',
-    label: 'Costituzione e codici',
+    label: 'Codici',
     short: 'Codici',
     description: 'La Costituzione italiana, il codice civile, penale, di procedura, della strada e tutti gli altri codici vigenti.',
   },
