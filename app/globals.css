@@ -213,6 +213,44 @@
 .wp-calc form table:not(.ml-table) .ottantapc {
   @apply text-xs text-muted-foreground;
 }
+/* Form a blocchi (etichetta span + controlli in div), es. termini processuali */
+.wp-calc form.calcolatori fieldset > div {
+  @apply flex flex-col gap-2;
+}
+.wp-calc form.calcolatori fieldset > div > span:first-child,
+.wp-calc form.calcolatori fieldset > div > label.sospensione {
+  @apply text-sm font-medium text-foreground;
+}
+.wp-calc form.calcolatori fieldset > div > div:has(> select + select) {
+  @apply flex flex-wrap gap-2;
+}
+.wp-calc form.calcolatori fieldset > div > div:has(> select + select) > select {
+  @apply w-auto min-w-24 flex-1 sm:flex-none;
+}
+.wp-calc form.calcolatori fieldset div:has(> input[type='radio']) {
+  @apply flex flex-wrap items-center gap-x-2 gap-y-2;
+}
+.wp-calc form.calcolatori fieldset div:has(> input[type='radio']) > label {
+  @apply cursor-pointer text-base font-normal text-foreground;
+}
+.wp-calc form.calcolatori fieldset div:has(> input[type='radio']) > input[type='radio'] {
+  @apply mr-5 cursor-pointer;
+}
+.wp-calc form.calcolatori .giorni > div {
+  @apply flex flex-wrap items-center gap-x-2 gap-y-3;
+}
+.wp-calc form.calcolatori .giorni > div > label {
+  @apply ml-0! text-sm font-medium text-foreground;
+}
+.wp-calc form.calcolatori .giorni > div > label:not(:first-child) {
+  @apply sm:ml-3!;
+}
+.wp-calc form.calcolatori .giorni input[type='number'] {
+  @apply w-16 px-2 text-right tabular-nums sm:w-24 sm:px-3;
+}
+.wp-calc form.calcolatori #nota {
+  @apply -mt-1 text-sm leading-relaxed text-muted-foreground empty:hidden;
+}
 /* Form moderno (fattura con scorporo): stesse classi e stesso HTML di WordPress, solo stile */
 .wp-calc form#form_fatturazione {
   @apply gap-4 rounded-xl border border-accent bg-secondary p-3 sm:p-6;
