@@ -109,6 +109,10 @@ function enhanceDateSelects(kind: 'date' | 'month', year: HTMLSelectElement, mon
     }
   })
 
+  renderText()
+  wrapper.append(text, icon, input)
+  year.after(wrapper)
+
   for (const select of selects) {
     select.dataset.dateSource = 'true'
     select.hidden = true
@@ -128,9 +132,17 @@ function enhanceDateSelects(kind: 'date' | 'month', year: HTMLSelectElement, mon
   })
 
   first.closest('form')?.addEventListener('reset', () => setTimeout(syncInput))
-  renderText()
-  wrapper.append(text, icon, input)
-  year.after(wrapper)
+}
+
+/** Se un campo data è stato perso (DOM rigenerato) i menu originali tornano visibili e vengono ricreati. */
+function restoreOrphanedDateSelects(root: HTMLElement) {
+  for (const select of Array.from(root.querySelectorAll<HTMLSelectElement>('select[data-date-source]'))) {
+    if (select.parentElement?.querySelector(':scope > .wp-date')) continue
+    delete select.dataset.dateSource
+    select.hidden = false
+    select.removeAttribute('tabindex')
+    select.removeAttribute('aria-hidden')
+  }
 }
 
 /**
@@ -174,6 +186,7 @@ export function WpCalculator({ html, afterForm }: { html: string; afterForm?: Re
   useEffect(() => {
     const root = ref.current
     if (!root) return
+    restoreOrphanedDateSelects(root)
     for (const select of Array.from(root.querySelectorAll<HTMLSelectElement>('select'))) {
       if (select.dataset.dateSource) continue
       const next = select.nextElementSibling

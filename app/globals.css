@@ -245,6 +245,9 @@
 .wp-calc form.calcolatori fieldset > div > div:has(> select + select) > select {
   @apply w-auto min-w-24 flex-1 sm:flex-none;
 }
+.wp-calc form.calcolatori select#sospensione {
+  @apply w-full max-w-xl;
+}
 .wp-calc form.calcolatori fieldset div:has(> input[type='radio']) {
   @apply flex flex-wrap items-center justify-center gap-x-2 gap-y-2;
 }
