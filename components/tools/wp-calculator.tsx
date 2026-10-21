@@ -21,10 +21,13 @@ export function WpCalculator({ html, afterForm }: { html: string; afterForm?: Re
   const ref = useRef<HTMLDivElement>(null)
   const [adTarget, setAdTarget] = useState<Element | null>(null)
   const hasAfterForm = Boolean(afterForm)
-  const markup = useMemo(
-    () => (hasAfterForm ? html.replace('</form>', '</form><div data-after-form class="wp-calc-ad"></div>') : html),
-    [html, hasAfterForm],
-  )
+  // Il browser converte \r\n in \n: normalizzare evita il mismatch di idratazione.
+  const markup = useMemo(() => {
+    const normalized = html.replace(/\r\n?/g, '\n')
+    return hasAfterForm
+      ? normalized.replace('</form>', '</form><div data-after-form class="wp-calc-ad"></div>')
+      : normalized
+  }, [html, hasAfterForm])
 
   useEffect(() => {
     setAdTarget(ref.current?.querySelector('[data-after-form]') ?? null)
