@@ -80,7 +80,7 @@
   @apply font-sans tracking-tight text-2xl font-semibold leading-snug text-pretty mt-10 scroll-mt-24;
 }
 .wp-content > p:first-child {
-  @apply text-lg leading-relaxed;
+  @apply mt-1 text-lg leading-relaxed;
 }
 .wp-content h3 {
   @apply font-sans tracking-tight text-xl font-semibold leading-snug mt-8;
@@ -88,8 +88,9 @@
 .wp-content h4 {
   @apply text-lg font-semibold mt-6;
 }
-.wp-content h6 {
-  @apply m-0 p-0 font-bold;
+.wp-content h6,
+.wp-content > * + h6 {
+  @apply mt-4 mb-0 p-0 font-bold;
 }
 .wp-content a {
   @apply text-primary underline underline-offset-2 hover:no-underline;
