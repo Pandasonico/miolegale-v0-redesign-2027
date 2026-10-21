@@ -140,7 +140,7 @@
   @apply h-auto w-full shrink-0 sm:w-56;
 }
 .wp-calc form.calcolatori {
-  @apply flex flex-col gap-5 rounded-md border border-border bg-card p-5;
+  @apply flex flex-col gap-5 rounded-md border border-border bg-accent/40 p-5;
 }
 .wp-calc form.calcolatori > * + * {
   @apply mt-0;
