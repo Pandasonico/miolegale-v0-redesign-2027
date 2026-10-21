@@ -236,6 +236,10 @@
 .wp-calc input.wp-date-input {
   @apply absolute inset-0 h-full w-full max-w-none cursor-pointer rounded-sm border-0 p-0 opacity-0;
 }
+/* L'icona nativa copre tutto il campo: ogni click apre il calendario anche dove showPicker() è bloccato (iframe). */
+.wp-calc input.wp-date-input::-webkit-calendar-picker-indicator {
+  @apply absolute inset-0 m-0 h-full w-full cursor-pointer p-0;
+}
 .wp-calc form.calcolatori:not(#form_fatturazione) fieldset > div {
   @apply mx-auto w-full max-w-xl items-center text-center;
 }
