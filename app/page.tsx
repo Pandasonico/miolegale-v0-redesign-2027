@@ -2,20 +2,21 @@ import Link from 'next/link'
 import { ArrowRight, Landmark } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { ImageCard, PostRow, SectionBlock } from '@/components/content/post-list'
+import { HomeTools } from '@/components/home/home-tools'
 import { Omnibox } from '@/components/home/omnibox'
 import { ConsulenzaBand } from '@/components/studio/consulenza-cta'
-import { ToolsGrid } from '@/components/tools/tools-grid'
 import { MATERIE, SOURCE_ARCHIVES } from '@/lib/site'
-import { getCategories, getLongExcerpt, getPosts } from '@/lib/wp'
+import { getCategories, getLongExcerpt, getPosts, getUtilityPages } from '@/lib/wp'
 
 export default async function HomePage() {
-  const [categories, massime, norme, notizie, guide, brocardi] = await Promise.all([
+  const [categories, massime, norme, notizie, guide, brocardi, utilities] = await Promise.all([
     getCategories(),
     getPosts({ categorySlug: 'massime', perPage: 9, withImages: true }),
     getPosts({ categorySlug: 'norme', perPage: 10, withImages: true }),
     getPosts({ categorySlug: 'notizie', perPage: 10, withImages: true }),
     getPosts({ categorySlug: 'guide', perPage: 4, withImages: true }),
     getPosts({ categorySlug: 'brocardi', perPage: 1 }),
+    getUtilityPages(),
   ])
 
   const byDateDesc = (a: { date: string }, b: { date: string }) => b.date.localeCompare(a.date)
@@ -40,10 +41,10 @@ export default async function HomePage() {
     <>
       <section className="bg-ink text-ink-foreground">
         <div className="mx-auto max-w-7xl px-4 pb-14 pt-14 text-center lg:pt-20">
-          <h1 className="font-sans tracking-tight text-4xl font-semibold leading-tight text-balance md:text-5xl xl:whitespace-nowrap xl:text-4xl">
+          <h1 className="font-sans tracking-tight text-2xl font-semibold leading-tight text-balance md:whitespace-nowrap">
             Trova la norma, la sentenza o la risposta che ti serve.
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-pretty text-ink-foreground/75 lg:max-w-none lg:whitespace-nowrap lg:text-[17px]">
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-pretty text-ink-foreground/75 lg:max-w-none lg:whitespace-nowrap">
             La banca dati giuridica gratuita con massime, sentenze e norme, calcolatori legali e un Avvocato AI che cita le fonti.
           </p>
           <div className="mx-auto mt-8 max-w-[950px] text-left">
@@ -72,7 +73,7 @@ export default async function HomePage() {
                   <Landmark className="size-5 text-primary" aria-hidden />
                   {a.label}
                 </span>
-                <span className="text-sm leading-relaxed text-muted-foreground">{a.description}</span>
+                <span className="hidden text-sm leading-relaxed text-muted-foreground sm:block">{a.description}</span>
                 <span className="mt-auto flex items-center gap-1 pt-2 text-sm font-medium text-primary">
                   Consulta <ArrowRight className="size-3.5" aria-hidden />
                 </span>
@@ -90,11 +91,16 @@ export default async function HomePage() {
             </h2>
             <p className="mt-1 text-muted-foreground">Gratuiti, aggiornati e pronti per lo studio legale.</p>
           </div>
-          <Link href="/calcolo" className="hidden text-sm font-medium text-primary hover:underline sm:block">
-            Tutti gli strumenti
-          </Link>
+          <div className="hidden items-center gap-5 text-sm font-medium text-primary sm:flex">
+            <Link href="/calcolo" className="hover:underline">
+              Tutti i calcolatori
+            </Link>
+            <Link href="/utilita" className="hover:underline">
+              Tutte le utilità
+            </Link>
+          </div>
         </div>
-        <ToolsGrid />
+        <HomeTools utilities={utilities} />
       </section>
 
       <div className="mx-auto max-w-7xl px-4 pt-12">

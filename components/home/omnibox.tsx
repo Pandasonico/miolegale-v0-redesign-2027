@@ -77,7 +77,7 @@ export function Omnibox() {
         </button>
       </form>
 
-      <div className="flex flex-wrap items-center gap-2 px-2 pb-2 pt-1">
+      <div className="hidden flex-wrap items-center gap-2 px-2 pb-2 pt-1 sm:flex">
         <span className="text-xs font-medium text-muted-foreground">{mode === 'ai' ? 'Prova:' : 'Ad esempio:'}</span>
         {current.suggestions.map((s) => (
           <Link
