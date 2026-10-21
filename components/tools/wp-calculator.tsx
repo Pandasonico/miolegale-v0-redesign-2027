@@ -145,6 +145,27 @@ function restoreOrphanedDateSelects(root: HTMLElement) {
   }
 }
 
+const FIT_EXCLUDED = '#form_fatturazione, #menomazioni'
+
+/** Larghezza del menu = opzione più lunga (testo + padding + bordo + freccia), mai oltre il contenitore. */
+function fitSelectWidth(select: HTMLSelectElement) {
+  if (select.dataset.dateSource || select.closest(FIT_EXCLUDED)) return
+  const context = document.createElement('canvas').getContext('2d')
+  if (!context) return
+  const style = getComputedStyle(select)
+  context.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
+  const textWidth = Math.max(0, ...Array.from(select.options).map((o) => context.measureText(o.text).width))
+  const extra =
+    parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth)
+  const arrow = 28
+  select.style.width = `${Math.ceil(textWidth + extra + arrow)}px`
+  select.style.maxWidth = '100%'
+}
+
+function fitAllSelects(root: HTMLElement) {
+  for (const select of Array.from(root.querySelectorAll<HTMLSelectElement>('select'))) fitSelectWidth(select)
+}
+
 /**
  * Mostra il corpo di una pagina WordPress e ne esegue gli script (React non lo fa da solo).
  *
@@ -196,6 +217,23 @@ export function WpCalculator({ html, afterForm }: { html: string; afterForm?: Re
       } else if (next instanceof HTMLSelectElement && isMonthYearPair(select, next)) {
         enhanceDateSelects('month', next, select)
       }
+    }
+
+    fitAllSelects(root)
+    let cancelled = false
+    document.fonts?.ready.then(() => {
+      if (!cancelled) fitAllSelects(root)
+    })
+    // Alcuni calcolatori riscrivono le opzioni via script: il menu si riadatta quando lo si usa.
+    const refit = (event: Event) => {
+      if (event.target instanceof HTMLSelectElement) fitSelectWidth(event.target)
+    }
+    root.addEventListener('focusin', refit)
+    root.addEventListener('change', refit)
+    return () => {
+      cancelled = true
+      root.removeEventListener('focusin', refit)
+      root.removeEventListener('change', refit)
     }
   }, [markup])
 
