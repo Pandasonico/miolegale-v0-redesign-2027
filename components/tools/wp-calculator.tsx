@@ -29,34 +29,58 @@ function isDateTriplet(day: HTMLSelectElement, month: HTMLSelectElement, year: H
   )
 }
 
-function enhanceDateTriplet(day: HTMLSelectElement, month: HTMLSelectElement, year: HTMLSelectElement) {
-  const selects = [day, month, year]
-  const years = optionValues(year).map(Number)
-  const pad = (value: string) => value.padStart(2, '0')
-  const toIso = () => `${year.value}-${pad(month.value)}-${pad(day.value)}`
+function isMonthYearPair(month: HTMLSelectElement, year: HTMLSelectElement) {
+  const months = optionValues(month)
+  const years = optionValues(year)
+  return (
+    months.length === 12 &&
+    months.every((v) => /^\d{1,2}$/.test(v)) &&
+    years.length >= 2 &&
+    years.every((v) => /^\d{4}$/.test(v))
+  )
+}
 
-  const wrapper = day.parentElement
-  const label = wrapper?.parentElement?.querySelector<HTMLElement>(':scope > span, :scope > label')
-  if (label) label.textContent = (label.textContent ?? '').replace(/\s*\(giorno\/mese\/anno\)/i, '')
+const pad = (value: string) => value.padStart(2, '0')
 
+/**
+ * Sostituisce i menu giorno/mese/anno (o mese/anno) con un solo campo data nativo.
+ * I menu originali restano nel DOM, nascosti e sincronizzati, perché gli script dei calcolatori li leggono.
+ * Se il browser non supporta il tipo di campo richiesto, i menu originali restano visibili.
+ */
+function enhanceDateSelects(kind: 'date' | 'month', year: HTMLSelectElement, month: HTMLSelectElement, day?: HTMLSelectElement) {
   const input = document.createElement('input')
-  input.type = 'date'
+  input.type = kind
+  if (input.type !== kind) return
+
+  const selects = day ? [day, month, year] : [month, year]
+  const years = optionValues(year).map(Number)
+  const toValue = () =>
+    kind === 'date' && day
+      ? `${year.value}-${pad(month.value)}-${pad(day.value)}`
+      : `${year.value}-${pad(month.value)}`
+
+  const first = selects[0]
+  const label = first.parentElement?.parentElement?.querySelector<HTMLElement>(':scope > span, :scope > label')
+  if (label) label.textContent = (label.textContent ?? '').replace(/\s*\((giorno\/)?mese\/anno\)/i, '')
+
   input.lang = 'it'
   input.className = 'wp-date-input'
-  input.min = `${Math.min(...years)}-01-01`
-  input.max = `${Math.max(...years)}-12-31`
-  input.value = toIso()
-  input.setAttribute('aria-label', label?.textContent?.trim() || 'Data')
+  input.min = kind === 'date' ? `${Math.min(...years)}-01-01` : `${Math.min(...years)}-01`
+  input.max = kind === 'date' ? `${Math.max(...years)}-12-31` : `${Math.max(...years)}-12`
+  input.value = toValue()
+  input.setAttribute('aria-label', label?.textContent?.trim() || (kind === 'date' ? 'Data' : 'Mese e anno'))
+
+  const syncInput = () => {
+    const value = toValue()
+    if (input.value !== value) input.value = value
+  }
 
   for (const select of selects) {
     select.dataset.dateSource = 'true'
     select.hidden = true
     select.tabIndex = -1
     select.setAttribute('aria-hidden', 'true')
-    select.addEventListener('change', () => {
-      const value = toIso()
-      if (input.value !== value) input.value = value
-    })
+    select.addEventListener('change', syncInput)
   }
 
   input.addEventListener('change', () => {
@@ -64,10 +88,11 @@ function enhanceDateTriplet(day: HTMLSelectElement, month: HTMLSelectElement, ye
     if (!y || !optionValues(year).includes(y)) return
     year.value = y
     month.value = optionValues(month).find((v) => Number(v) === Number(m)) ?? month.value
-    day.value = optionValues(day).find((v) => Number(v) === Number(d)) ?? day.value
+    if (day) day.value = optionValues(day).find((v) => Number(v) === Number(d)) ?? day.value
     for (const select of selects) select.dispatchEvent(new Event('change', { bubbles: true }))
   })
 
+  first.closest('form')?.addEventListener('reset', () => setTimeout(syncInput))
   year.after(input)
 }
 
@@ -108,17 +133,19 @@ export function WpCalculator({ html, afterForm }: { html: string; afterForm?: Re
     }
   }, [html])
 
-  // I tre menu giorno/mese/anno diventano un solo campo data nativo (calendario o rotella su mobile).
-  // I menu originali restano nel DOM, nascosti e sincronizzati, perché gli script dei calcolatori li leggono.
+  // Giorno/mese/anno diventano un campo data nativo, mese/anno un campo mese (calendario o rotella su mobile).
   useEffect(() => {
     const root = ref.current
     if (!root) return
-    for (const day of Array.from(root.querySelectorAll<HTMLSelectElement>('select'))) {
-      const month = day.nextElementSibling
-      const year = month?.nextElementSibling
-      if (!(month instanceof HTMLSelectElement) || !(year instanceof HTMLSelectElement)) continue
-      if (!isDateTriplet(day, month, year) || day.dataset.dateSource) continue
-      enhanceDateTriplet(day, month, year)
+    for (const select of Array.from(root.querySelectorAll<HTMLSelectElement>('select'))) {
+      if (select.dataset.dateSource) continue
+      const next = select.nextElementSibling
+      const afterNext = next?.nextElementSibling
+      if (next instanceof HTMLSelectElement && afterNext instanceof HTMLSelectElement && isDateTriplet(select, next, afterNext)) {
+        enhanceDateSelects('date', afterNext, next, select)
+      } else if (next instanceof HTMLSelectElement && isMonthYearPair(select, next)) {
+        enhanceDateSelects('month', next, select)
+      }
     }
   }, [markup])
 

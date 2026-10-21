@@ -140,7 +140,7 @@
   @apply h-auto w-full shrink-0 sm:w-56;
 }
 .wp-calc form.calcolatori {
-  @apply flex flex-col gap-5 rounded-md border border-border bg-muted p-5;
+  @apply mx-auto flex w-full max-w-3xl flex-col gap-5 rounded-md border border-border bg-muted p-5;
 }
 .wp-calc form.calcolatori > * + * {
   @apply mt-0;
@@ -154,7 +154,7 @@
 .wp-calc label {
   @apply text-sm font-medium;
 }
-.wp-calc :is(input[type='text'], input[type='number'], input[type='date'], input:not([type]), select, textarea) {
+.wp-calc :is(input[type='text'], input[type='number'], input[type='date'], input[type='month'], input:not([type]), select, textarea) {
   @apply h-11 w-full max-w-full rounded-sm border border-input bg-card px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring;
 }
 .wp-calc :is(input[type='radio'], input[type='checkbox']) {
