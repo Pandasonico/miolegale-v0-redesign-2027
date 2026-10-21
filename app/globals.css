@@ -91,6 +91,7 @@
 }
 .wp-content h6,
 .wp-content > * + h6 {
+  font-family: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
   @apply mt-4 mb-0 p-0 font-bold;
 }
 .wp-content h6 + p,
