@@ -91,7 +91,7 @@ export default async function HomePage() {
             </h2>
             <p className="mt-1 text-muted-foreground">Gratuiti, aggiornati e pronti per lo studio legale.</p>
           </div>
-          <div className="hidden items-center gap-5 text-sm font-medium text-primary sm:flex">
+          <div className="hidden items-center gap-5 text-base font-medium text-primary sm:flex">
             <Link href="/calcolo" className="hover:underline">
               Tutti i calcolatori
             </Link>
@@ -110,14 +110,14 @@ export default async function HomePage() {
       {leadNews && (
         <section aria-labelledby="featured-title" className="mx-auto max-w-7xl px-4 pt-14">
           <div className="mb-6 flex items-end justify-between">
-            <h2 id="featured-title" className="font-sans tracking-tight text-3xl font-semibold">
+            <h2 id="featured-title" className="font-sans tracking-tight text-[28px] font-semibold">
               In primo piano
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <ImageCard post={leadNews} featured />
-            {otherNews.map((p) => (
-              <ImageCard key={p.id} post={p} />
+            <ImageCard post={leadNews} featured titleSize="text-[23px]" />
+            {otherNews.map((p, i) => (
+              <ImageCard key={p.id} post={p} titleSize={i === 1 || i === 3 ? 'text-base' : undefined} />
             ))}
           </div>
         </section>

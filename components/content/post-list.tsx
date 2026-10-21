@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { formatDate, type PostCard } from '@/lib/wp'
 import { sectionBySlug } from '@/lib/site'
 
-export function ImageCard({ post, featured = false }: { post: PostCard; featured?: boolean }) {
+export function ImageCard({ post, featured = false, titleSize }: { post: PostCard; featured?: boolean; titleSize?: string }) {
   const section = sectionBySlug(post.section)
   return (
     <article
@@ -34,7 +34,7 @@ export function ImageCard({ post, featured = false }: { post: PostCard; featured
         <time dateTime={post.date} className="text-xs text-muted-foreground">
           {formatDate(post.date)}
         </time>
-        <h3 className={`mt-1 font-sans tracking-tight font-semibold leading-snug text-pretty ${featured ? 'line-clamp-2 text-2xl' : 'line-clamp-3 text-lg'}`}>
+        <h3 className={`mt-1 font-sans tracking-tight font-semibold leading-snug text-pretty ${featured ? 'line-clamp-2' : 'line-clamp-3'} ${titleSize ?? (featured ? 'text-2xl' : 'text-lg')}`}>
           <Link href={post.href} className="after:absolute after:inset-0 group-hover:text-primary">
             {post.title}
           </Link>
