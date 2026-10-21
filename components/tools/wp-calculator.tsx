@@ -237,6 +237,32 @@ export function WpCalculator({ html, afterForm }: { html: string; afterForm?: Re
     }
   }, [markup])
 
+  // Campi alternativi (radio + campo accanto): quello non scelto resta attenuato finché il radio non viene selezionato.
+  useEffect(() => {
+    const root = ref.current
+    if (!root) return
+    const partnerSelector = 'select, input:not([type=radio]):not([type=checkbox]):not([type=hidden]), .wp-date'
+    const syncAlternatives = () => {
+      for (const radio of Array.from(root.querySelectorAll<HTMLInputElement>('input[type=radio]'))) {
+        const partner = radio.nextElementSibling
+        const block = radio.parentElement
+        if (!block || !(partner instanceof HTMLElement) || !partner.matches(partnerSelector)) continue
+        block.classList.add('wp-alt')
+        block.classList.toggle('wp-alt-off', !radio.checked)
+      }
+    }
+    syncAlternatives()
+    const syncSoon = () => setTimeout(syncAlternatives)
+    root.addEventListener('change', syncSoon)
+    root.addEventListener('click', syncSoon)
+    root.addEventListener('reset', syncSoon, true)
+    return () => {
+      root.removeEventListener('change', syncSoon)
+      root.removeEventListener('click', syncSoon)
+      root.removeEventListener('reset', syncSoon, true)
+    }
+  }, [markup])
+
   // I form di WordPress inviano i dati alla pagina stessa: il calcolo avviene già in JavaScript.
   useEffect(() => {
     const root = ref.current

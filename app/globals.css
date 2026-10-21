@@ -224,6 +224,23 @@
 .wp-calc select[data-date-source] {
   display: none;
 }
+/* Campi alternativi (radio + campo): quello non scelto è attenuato, quello scelto è pieno */
+.wp-calc .wp-alt > select,
+.wp-calc .wp-alt > input:not([type='radio']):not([type='checkbox']),
+.wp-calc .wp-alt > .wp-date {
+  @apply transition-opacity duration-200;
+}
+.wp-calc .wp-alt.wp-alt-off > select,
+.wp-calc .wp-alt.wp-alt-off > input:not([type='radio']):not([type='checkbox']),
+.wp-calc .wp-alt.wp-alt-off > .wp-date {
+  @apply opacity-40;
+}
+.wp-calc .wp-alt.wp-alt-off > input[type='radio'] {
+  @apply opacity-70;
+}
+.wp-calc .wp-alt > input[type='radio'] {
+  @apply cursor-pointer;
+}
 .wp-calc .wp-date {
   @apply relative flex h-11 w-full items-center justify-center gap-2 rounded-sm border border-input bg-card px-3 text-base tabular-nums transition-colors hover:bg-muted focus-within:ring-2 focus-within:ring-ring sm:w-72;
 }
