@@ -43,11 +43,11 @@ export function SiteFooter() {
         </div>
         <FooterCol title="Banca dati" items={DATABASE_MENU} />
         <FooterCol
-          title="Strumenti"
+          title="CALCOLATORI E UTILITÀ"
           items={[
             ...POPULAR_TOOLS.slice(0, 6).map((t) => ({ href: `/calcolo/${t.slug}`, label: t.title })),
             { href: '/calcolo', label: 'Tutti i calcolatori' },
-            { href: '/assistente-ai', label: 'Tutti gli strumenti' },
+            { href: '/assistente-ai', label: 'Tutte le utilità' },
           ]}
         />
         <FooterCol title="Materie" items={MATERIE.slice(0, 8).map((m) => ({ href: `/${m.slug}`, label: m.label }))} />
@@ -79,11 +79,16 @@ export function SiteFooter() {
 function FooterCol({ title, items }: { title: string; items: { href: string; label: string }[] }) {
   return (
     <div>
-      <p className="text-xs font-mono font-medium uppercase tracking-wider text-accent">{title}</p>
+      <p className="text-xs font-mono font-semibold uppercase tracking-wider text-accent">{title}</p>
       <ul className="mt-4 space-y-2 text-sm">
         {items.map((i) => (
           <li key={i.href}>
-            <Link href={i.href} className="text-ink-foreground/80 hover:text-ink-foreground">
+            <Link
+              href={i.href}
+              className={`text-ink-foreground/80 hover:text-ink-foreground ${
+                i.href === '/calcolo' || i.href === '/assistente-ai' ? 'font-semibold' : ''
+              }`}
+            >
               {i.label}
             </Link>
           </li>
