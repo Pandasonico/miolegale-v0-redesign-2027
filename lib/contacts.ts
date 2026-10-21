@@ -36,7 +36,7 @@ export const OFFICES: Office[] = [
       { label: 'Email', value: 'info@miolegale.it', href: 'mailto:info@miolegale.it' },
     ],
     mapEmbed:
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d756534.2406749041!2d13.077880240197846!3d42.209916033024406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1331a63b025fc5ad%3A0x19656072fe8792f3!2sAvvocato%20Gianluca%20Lanciano%20-%20Patrocinante%20in%20Cassazione%20-%20Studio%20Legale%20a%20Pescara!5e0!3m2!1sit!2sit!4v1777310471410!5m2!1sit!2sit',
+      'https://www.google.com/maps?q=Viale+Gabriele+D%27Annunzio+267,+65127+Pescara&z=15&output=embed',
     directions: 'https://www.google.com/maps/dir/?api=1&destination=Viale+Gabriele+D%27Annunzio+267+65127+Pescara',
   },
   {
@@ -51,7 +51,7 @@ export const OFFICES: Office[] = [
       { label: 'Email', value: 'info@miolegale.it', href: 'mailto:info@miolegale.it' },
     ],
     mapEmbed:
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d189127.53228080663!2d13.574114254533143!3d42.21192917663601!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133038d43e422227%3A0x36fdada3858fd05b!2sAvv.%20Gianluca%20Lanciano!5e0!3m2!1sit!2sit!4v1777310390360!5m2!1sit!2sit',
+      'https://www.google.com/maps?q=Via+Palombaia+38,+67027+Raiano+(AQ)&z=15&output=embed',
     directions: 'https://www.google.com/maps/dir/?api=1&destination=Via+Palombaia+38+67027+Raiano',
   },
 ]
