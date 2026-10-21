@@ -12,7 +12,7 @@ export function ImageCard({ post, featured = false, titleSize }: { post: PostCar
         featured ? 'sm:col-span-2 lg:row-span-2 lg:grid lg:grid-rows-subgrid' : ''
       }`}
     >
-      <div className={`relative overflow-hidden bg-secondary ${featured ? 'aspect-[16/9] lg:aspect-auto' : 'aspect-[16/10]'}`}>
+      <div className={`relative overflow-hidden bg-secondary aspect-[16/10]`}>
         {post.image && (
           <Image
             src={post.image}

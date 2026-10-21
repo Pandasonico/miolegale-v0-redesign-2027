@@ -95,7 +95,7 @@ export default async function ArticlePage({ params }: Props) {
         <article className="min-w-0">
           <div className="mx-auto max-w-3xl lg:mx-0 lg:max-w-[52rem]">
             {cover && (
-              <figure className="relative aspect-[16/9] overflow-hidden rounded-lg bg-secondary">
+              <figure className="relative aspect-[16/10] overflow-hidden rounded-lg bg-secondary">
                 <Image src={cover.src} alt={cover.alt || title} fill priority sizes="(min-width: 1024px) 768px, 100vw" className="object-cover" />
               </figure>
             )}
