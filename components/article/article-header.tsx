@@ -51,7 +51,7 @@ export function ArticleHeader({
           >
             {categoryLabel}
           </Link>
-          <h1 className="mt-4 font-sans text-3xl font-semibold leading-tight tracking-tight text-pretty md:text-4xl lg:text-[2.75rem]">
+          <h1 className="mt-4 font-sans text-3xl font-semibold leading-tight tracking-tight text-pretty md:text-4xl lg:text-[2.5rem]">
             {title}
           </h1>
           {lead && <p className="mt-4 max-w-3xl text-lg leading-relaxed text-pretty text-ink-foreground/75">{lead}</p>}

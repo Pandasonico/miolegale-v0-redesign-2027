@@ -71,6 +71,7 @@
 
 /* Contenuti HTML provenienti da WordPress */
 .wp-content {
+  font-family: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
   @apply text-[1.0625rem] leading-relaxed text-foreground;
 }
 .wp-content > * + * {
@@ -91,6 +92,11 @@
 .wp-content h6,
 .wp-content > * + h6 {
   @apply mt-4 mb-0 p-0 font-bold;
+}
+.wp-content h6 + p,
+.wp-content h6 + ol,
+.wp-content h6 + ul {
+  @apply mt-1;
 }
 .wp-content a {
   @apply text-primary underline underline-offset-2 hover:no-underline;
