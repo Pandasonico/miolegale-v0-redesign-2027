@@ -88,6 +88,9 @@
 .wp-content h4 {
   @apply text-lg font-semibold mt-6;
 }
+.wp-content h6 {
+  @apply m-0 p-0 font-bold;
+}
 .wp-content a {
   @apply text-primary underline underline-offset-2 hover:no-underline;
 }
