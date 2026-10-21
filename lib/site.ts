@@ -11,7 +11,7 @@ export const STUDIO = {
   profileUrl: 'https://miolegale.it/author/avv-gianluca-lanciano/',
   consulenzaUrl: 'https://miolegale.it/consulenza-legale/',
   privacyUrl: 'https://miolegale.it/info/note-legali-privacy/',
-  contattiUrl: 'https://miolegale.it/info/contatti/',
+  contattiUrl: '/info/contatti',
   priceFrom: '143,44',
   responseTime: '24 ore',
 }
