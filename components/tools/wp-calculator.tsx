@@ -3,16 +3,17 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-declare global {
-  interface Window {
-    __wpCalculatorScriptsRan?: boolean
-  }
+/**
+ * Gli script dei calcolatori dichiarano variabili globali con `let`/`const`: rieseguirli nello
+ * stesso documento (navigazione client, Fast Refresh, anteprima in iframe) genera
+ * "Identifier has already been declared". Con `var` la ridichiarazione è lecita.
+ */
+function toReRunnable(code: string) {
+  return code.replace(/^(let|const)\s/gm, 'var ')
 }
 
 /**
  * Mostra il corpo di una pagina WordPress e ne esegue gli script (React non lo fa da solo).
- * Gli script dei calcolatori dichiarano variabili globali: rieseguirli nello stesso documento
- * darebbe errore, quindi dopo una navigazione client la pagina viene ricaricata una volta.
  *
  * `afterForm` viene mostrato subito dopo il primo `<form>` della pagina, senza dividere l'HTML:
  * un segnaposto vuoto è inserito nel markup e il contenuto vi entra tramite portal.
@@ -38,18 +39,11 @@ export function WpCalculator({ html, afterForm }: { html: string; afterForm?: Re
     if (!root) return
 
     const pending = Array.from(root.querySelectorAll<HTMLScriptElement>('script')).filter((s) => !s.dataset.executed)
-    if (pending.length === 0) return
-
-    if (window.__wpCalculatorScriptsRan) {
-      window.location.reload()
-      return
-    }
-    window.__wpCalculatorScriptsRan = true
 
     for (const original of pending) {
       const script = document.createElement('script')
       for (const attr of Array.from(original.attributes)) script.setAttribute(attr.name, attr.value)
-      script.text = original.text
+      script.text = toReRunnable(original.text)
       script.dataset.executed = 'true'
       original.replaceWith(script)
     }
