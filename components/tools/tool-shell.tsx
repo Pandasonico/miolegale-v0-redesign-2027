@@ -27,7 +27,7 @@ export function ToolShell({
         </Link>{' '}
         / <span>{heading}</span>
       </nav>
-      <h1 className="mt-3 font-sans tracking-tight text-4xl font-semibold text-balance">{heading}</h1>
+      <h1 className="mt-3 font-serif tracking-tight text-4xl font-semibold text-balance">{heading}</h1>
 
       <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_TOP} className="my-6" />
 

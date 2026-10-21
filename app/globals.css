@@ -6,7 +6,8 @@
 
 @theme inline {
   --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, 'SFMono-Regular', monospace;
+  --font-serif: var(--font-plex-serif), Georgia, serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -158,6 +159,11 @@
 .wp-calc :is(button, input[type='submit'], input[type='button']):not(.tablinks) {
   @apply inline-flex h-11 w-fit cursor-pointer items-center justify-center rounded-sm bg-primary px-5 text-base font-medium text-primary-foreground hover:bg-primary/90;
 }
+/* La pagina del calcolatore usa Serif solo per il titolo e le intestazioni delle sezioni. */
+.wp-calc h2 {
+  @apply font-serif;
+}
+
 /* Form moderno (fattura con scorporo): stesse classi e stesso HTML di WordPress, solo stile */
 .wp-calc form#form_fatturazione {
   @apply gap-4 rounded-xl border border-accent bg-accent/40 p-3 sm:p-6;
