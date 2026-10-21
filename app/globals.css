@@ -160,10 +160,10 @@
 }
 /* Form moderno (fattura con scorporo): stesse classi e stesso HTML di WordPress, solo stile */
 .wp-calc form#form_fatturazione {
-  @apply gap-4 border-0 bg-transparent p-0;
+  @apply gap-4 rounded-2xl border border-accent bg-accent/40 p-3 sm:p-6;
 }
 .wp-calc form#form_fatturazione fieldset {
-  @apply gap-0 rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6;
+  @apply gap-0 rounded-xl border border-accent/70 bg-card p-5 shadow-sm sm:px-10 sm:py-7 lg:px-14;
 }
 .wp-calc form#form_fatturazione legend {
   @apply float-left mb-1 w-full p-0 font-sans text-lg font-semibold tracking-tight text-foreground;
@@ -218,7 +218,7 @@
   @apply translate-x-5;
 }
 .wp-calc form#form_fatturazione > div:last-child {
-  @apply flex;
+  @apply flex justify-center;
 }
 .wp-calc form#form_fatturazione button[type='submit'] {
   @apply h-12 w-full rounded-lg px-8 text-base font-semibold shadow-sm sm:w-auto;
