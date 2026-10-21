@@ -224,17 +224,29 @@
 .wp-calc select[data-date-source] {
   display: none;
 }
+.wp-calc .wp-date {
+  @apply relative flex h-11 w-full items-center justify-center gap-2 rounded-sm border border-input bg-card px-3 text-base tabular-nums transition-colors hover:bg-muted focus-within:ring-2 focus-within:ring-ring sm:w-72;
+}
+.wp-calc .wp-date-text {
+  @apply truncate;
+}
+.wp-calc .wp-date-icon {
+  @apply inline-flex shrink-0 text-muted-foreground;
+}
 .wp-calc input.wp-date-input {
-  @apply w-full cursor-pointer tabular-nums sm:w-56;
+  @apply absolute inset-0 h-full w-full max-w-none cursor-pointer rounded-sm border-0 p-0 opacity-0;
+}
+.wp-calc form.calcolatori:not(#form_fatturazione) fieldset > div {
+  @apply mx-auto w-full max-w-xl items-center text-center;
 }
 .wp-calc form.calcolatori fieldset > div > div:has(> select + select) {
-  @apply flex flex-wrap gap-2;
+  @apply flex flex-wrap justify-center gap-2;
 }
 .wp-calc form.calcolatori fieldset > div > div:has(> select + select) > select {
   @apply w-auto min-w-24 flex-1 sm:flex-none;
 }
 .wp-calc form.calcolatori fieldset div:has(> input[type='radio']) {
-  @apply flex flex-wrap items-center gap-x-2 gap-y-2;
+  @apply flex flex-wrap items-center justify-center gap-x-2 gap-y-2;
 }
 .wp-calc form.calcolatori fieldset div:has(> input[type='radio']) > label {
   @apply cursor-pointer text-base font-normal text-foreground;
@@ -243,7 +255,7 @@
   @apply mr-5 cursor-pointer;
 }
 .wp-calc form.calcolatori .giorni > div {
-  @apply flex flex-wrap items-center gap-x-2 gap-y-3;
+  @apply flex flex-wrap items-center justify-center gap-x-2 gap-y-3;
 }
 .wp-calc form.calcolatori .giorni > div > label {
   @apply ml-0! text-sm font-medium text-foreground;

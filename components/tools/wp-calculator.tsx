@@ -70,10 +70,44 @@ function enhanceDateSelects(kind: 'date' | 'month', year: HTMLSelectElement, mon
   input.value = toValue()
   input.setAttribute('aria-label', label?.textContent?.trim() || (kind === 'date' ? 'Data' : 'Mese e anno'))
 
+  const wrapper = document.createElement('span')
+  wrapper.className = 'wp-date'
+  const text = document.createElement('span')
+  text.className = 'wp-date-text'
+  text.setAttribute('aria-hidden', 'true')
+  const icon = document.createElement('span')
+  icon.className = 'wp-date-icon'
+  icon.setAttribute('aria-hidden', 'true')
+  icon.innerHTML =
+    '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></svg>'
+
+  const formatter = new Intl.DateTimeFormat(
+    'it-IT',
+    kind === 'date' ? { day: 'numeric', month: 'long', year: 'numeric' } : { month: 'long', year: 'numeric' },
+  )
+  const renderText = () => {
+    const [y, m, d] = input.value.split('-').map(Number)
+    if (!y || !m) {
+      text.textContent = 'Seleziona'
+      return
+    }
+    const formatted = formatter.format(new Date(y, m - 1, kind === 'date' ? d || 1 : 1))
+    text.textContent = kind === 'month' ? formatted.charAt(0).toUpperCase() + formatted.slice(1) : formatted
+  }
+
   const syncInput = () => {
     const value = toValue()
     if (input.value !== value) input.value = value
+    renderText()
   }
+
+  input.addEventListener('click', () => {
+    try {
+      input.showPicker()
+    } catch {
+      // showPicker non è disponibile ovunque: il campo nativo si apre comunque al tocco.
+    }
+  })
 
   for (const select of selects) {
     select.dataset.dateSource = 'true'
@@ -84,6 +118,7 @@ function enhanceDateSelects(kind: 'date' | 'month', year: HTMLSelectElement, mon
   }
 
   input.addEventListener('change', () => {
+    renderText()
     const [y, m, d] = input.value.split('-')
     if (!y || !optionValues(year).includes(y)) return
     year.value = y
@@ -93,7 +128,9 @@ function enhanceDateSelects(kind: 'date' | 'month', year: HTMLSelectElement, mon
   })
 
   first.closest('form')?.addEventListener('reset', () => setTimeout(syncInput))
-  year.after(input)
+  renderText()
+  wrapper.append(text, icon, input)
+  year.after(wrapper)
 }
 
 /**
