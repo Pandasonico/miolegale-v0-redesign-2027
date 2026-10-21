@@ -286,14 +286,20 @@ export async function getCalcPageList(): Promise<{ slug: string; title: string; 
  * Rimuove da una pagina WordPress ciò che il nuovo sito gestisce da sé (annunci AdSense)
  * e rende assoluti i percorsi relativi di immagini e link.
  */
+export function devSameOriginHtml(html: string) {
+  if (process.env.NODE_ENV === 'production') return html
+  return html.split(WP_UPLOADS).join('/wp-img/')
+}
+
 export function prepareCalcHtml(html: string) {
-  return html
+  const absolute = html
     .replace(/<div[^>]*class="[^"]*ads_container[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '')
     .replace(/<ins[^>]*class="[^"]*adsbygoogle[^"]*"[^>]*>[\s\S]*?<\/ins>/gi, '')
     .replace(/<script[^>]*>(?:(?!<\/script>)[\s\S])*adsbygoogle(?:(?!<\/script>)[\s\S])*<\/script>/gi, '')
     .replace(/<script[^>]*src="[^"]*adsbygoogle[^"]*"[^>]*><\/script>/gi, '')
     .replace(/(src|href|srcset)="(?:\.\.\/)+wp-content/g, `$1="${WP_ORIGIN}/wp-content`)
     .replace(/(src|href|srcset)="\/wp-content/g, `$1="${WP_ORIGIN}/wp-content`)
+  return devSameOriginHtml(absolute)
 }
 
 export async function getCalcPage(slug: string): Promise<CalcPage | null> {

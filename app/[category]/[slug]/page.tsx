@@ -14,6 +14,7 @@ import { ImageCard, PostRow } from '@/components/content/post-list'
 import { SITE, sectionBySlug } from '@/lib/site'
 import {
   decodeEntities,
+  devSameOriginHtml,
   featuredImage,
   getPostBySlug,
   getPostTags,
@@ -63,7 +64,7 @@ export default async function ArticlePage({ params }: Props) {
   const url = `${SITE.url}${path}`
 
   const rawContent = post.content?.rendered ?? ''
-  const { html, toc } = withHeadingAnchors(rawContent)
+  const { html, toc } = withHeadingAnchors(devSameOriginHtml(rawContent))
   const contentChunks = splitContentForAds(html)
   const minutes = readingMinutes(rawContent)
   const plainContent = decodeEntities(rawContent)
