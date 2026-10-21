@@ -43,7 +43,7 @@ export function SiteFooter() {
         </div>
         <FooterCol title="Banca dati" items={DATABASE_MENU} />
         <FooterCol
-          title="CALCOLATORI E UTILITÀ"
+          title="STRUMENTI"
           items={[
             ...POPULAR_TOOLS.slice(0, 6).map((t) => ({ href: `/calcolo/${t.slug}`, label: t.title })),
             { href: '/calcolo', label: 'Tutti i calcolatori' },
