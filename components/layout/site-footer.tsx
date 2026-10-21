@@ -47,7 +47,7 @@ export function SiteFooter() {
           items={[
             ...POPULAR_TOOLS.slice(0, 6).map((t) => ({ href: `/calcolo/${t.slug}`, label: t.title })),
             { href: '/calcolo', label: 'Tutti i calcolatori' },
-            { href: '/assistente-ai', label: 'Assistente AI giuridico' },
+            { href: '/assistente-ai', label: 'Tutti gli strumenti' },
           ]}
         />
         <FooterCol title="Materie" items={MATERIE.slice(0, 8).map((m) => ({ href: `/${m.slug}`, label: m.label }))} />
