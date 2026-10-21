@@ -36,12 +36,19 @@ export type PostCard = {
   imageAlt?: string
 }
 
+const WP_UPLOADS = 'https://miolegale.it/wp-content/uploads/'
+
+function devSameOrigin(url: string) {
+  if (process.env.NODE_ENV === 'production' || !url.startsWith(WP_UPLOADS)) return url
+  return `/wp-img/${url.slice(WP_UPLOADS.length)}`
+}
+
 export function featuredImage(post: WPPost, size: 'medium_large' | 'large' = 'medium_large') {
   const media = post._embedded?.['wp:featuredmedia']?.[0]
   if (!media?.source_url) return null
   const sizes = media.media_details?.sizes
   return {
-    src: sizes?.[size]?.source_url ?? sizes?.medium_large?.source_url ?? media.source_url,
+    src: devSameOrigin(sizes?.[size]?.source_url ?? sizes?.medium_large?.source_url ?? media.source_url),
     alt: decodeEntities(media.alt_text ?? ''),
   }
 }
