@@ -176,8 +176,20 @@
 .wp-calc form > :is(button[type='submit'], input[type='submit']) {
   @apply self-center;
 }
-/* Tabelle dentro i form di calcolo (fasi, maggiorazioni, riduzioni) */
-.wp-calc form table:not(.ml-table) :is(td, th) {
+  /* Tabelle dentro i form di calcolo (fasi, maggiorazioni, riduzioni) */
+  .wp-calc form table:not(.ml-table) {
+    @apply w-full;
+  }
+  .wp-calc form table:not(.ml-table) > tbody {
+    @apply table w-full;
+  }
+  .wp-calc form fieldset {
+    @apply min-w-0;
+  }
+  .wp-calc form table:not(.ml-table):not(:has(table)) {
+    @apply max-w-full overflow-x-auto;
+  }
+  .wp-calc form table:not(.ml-table) :is(td, th) {
   @apply align-middle text-base leading-snug;
 }
 .wp-calc form table:not(.ml-table) td:first-child {
@@ -187,7 +199,7 @@
   @apply whitespace-nowrap;
 }
 .wp-calc form table:not(.ml-table) td > input[type='number'] {
-  @apply mx-1 inline-block h-9 w-20 px-2 text-right text-sm tabular-nums;
+  @apply mx-1 inline-block h-9 w-24 pl-2 pr-3 text-right text-sm tabular-nums;
 }
 .wp-calc form table:not(.ml-table) td:not(:first-child) > label {
   @apply text-sm font-normal text-muted-foreground;
