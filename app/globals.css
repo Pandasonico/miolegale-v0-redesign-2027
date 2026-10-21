@@ -129,13 +129,13 @@
   @apply h-auto w-full shrink-0 sm:w-56;
 }
 .wp-calc form.calcolatori {
-  @apply flex flex-col gap-5 rounded-lg border border-border bg-card p-5;
+  @apply flex flex-col gap-5 rounded-md border border-border bg-card p-5;
 }
 .wp-calc form.calcolatori > * + * {
   @apply mt-0;
 }
 .wp-calc fieldset {
-  @apply flex flex-col gap-3 rounded-md border border-border p-4;
+  @apply flex flex-col gap-3 rounded-sm border border-border p-4;
 }
 .wp-calc legend {
   @apply px-2 text-sm font-semibold text-primary;
@@ -144,7 +144,7 @@
   @apply text-sm font-medium;
 }
 .wp-calc :is(input[type='text'], input[type='number'], input[type='date'], input:not([type]), select, textarea) {
-  @apply h-11 w-full max-w-full rounded-md border border-input bg-card px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring;
+  @apply h-11 w-full max-w-full rounded-sm border border-input bg-card px-3 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring;
 }
 .wp-calc :is(input[type='radio'], input[type='checkbox']) {
   @apply size-4 accent-primary;
@@ -156,14 +156,14 @@
   @apply sm:max-w-40;
 }
 .wp-calc :is(button, input[type='submit'], input[type='button']):not(.tablinks) {
-  @apply inline-flex h-11 w-fit cursor-pointer items-center justify-center rounded-md bg-primary px-5 text-base font-medium text-primary-foreground hover:bg-primary/90;
+  @apply inline-flex h-11 w-fit cursor-pointer items-center justify-center rounded-sm bg-primary px-5 text-base font-medium text-primary-foreground hover:bg-primary/90;
 }
 /* Form moderno (fattura con scorporo): stesse classi e stesso HTML di WordPress, solo stile */
 .wp-calc form#form_fatturazione {
-  @apply gap-4 rounded-2xl border border-accent bg-accent/40 p-3 sm:p-6;
+  @apply gap-4 rounded-xl border border-accent bg-accent/40 p-3 sm:p-6;
 }
 .wp-calc form#form_fatturazione fieldset {
-  @apply gap-0 rounded-xl border border-accent/70 bg-card p-5 shadow-sm sm:px-10 sm:py-7 lg:px-14;
+  @apply gap-0 rounded-lg border border-accent/70 bg-card p-5 shadow-sm sm:px-10 sm:py-7 lg:px-14;
 }
 .wp-calc form#form_fatturazione legend {
   @apply float-left mb-1 w-full p-0 font-sans text-lg font-semibold tracking-tight text-foreground;
@@ -190,13 +190,13 @@
   @apply w-full sm:w-56 sm:shrink-0;
 }
 .wp-calc form#form_fatturazione :is(input[type='number'], select) {
-  @apply h-12 max-w-none rounded-lg border-input bg-muted px-3.5 text-right text-base font-medium tabular-nums transition-colors hover:bg-card focus:border-primary focus:bg-card focus-visible:ring-2 focus-visible:ring-ring/40;
+  @apply h-12 max-w-none rounded-md border-input bg-muted px-3.5 text-right text-base font-medium tabular-nums transition-colors hover:bg-card focus:border-primary focus:bg-card focus-visible:ring-2 focus-visible:ring-ring/40;
 }
 .wp-calc form#form_fatturazione select {
   @apply cursor-pointer text-left;
 }
 .wp-calc form#form_fatturazione fieldset > div:has(> input[type='checkbox']) {
-  @apply mt-2 flex items-center gap-4 rounded-lg border border-border transition-colors first-of-type:mt-0 hover:bg-muted has-[input:checked]:border-primary/40 has-[input:checked]:bg-secondary;
+  @apply mt-2 flex items-center gap-4 rounded-md border border-border transition-colors first-of-type:mt-0 hover:bg-muted has-[input:checked]:border-primary/40 has-[input:checked]:bg-secondary;
 }
 .wp-calc form#form_fatturazione fieldset > div:has(> div) + div:has(> input[type='checkbox']) {
   @apply mt-4;
@@ -221,7 +221,7 @@
   @apply flex justify-center;
 }
 .wp-calc form#form_fatturazione button[type='submit'] {
-  @apply h-12 w-full rounded-lg px-8 text-base font-semibold shadow-sm sm:w-auto;
+  @apply h-12 w-full rounded-md px-8 text-base font-semibold shadow-sm sm:w-auto;
 }
 .wp-calc .tablinks {
   @apply cursor-pointer border-b-2 border-transparent px-4 py-2 text-sm font-medium text-muted-foreground hover:text-primary;
@@ -270,7 +270,7 @@
 }
 /* Box "copia e incolla": stesso HTML di WordPress, textarea con altezza reale e aspetto da blocco di codice */
 .wp-calc .correlate:has(textarea) {
-  @apply mt-10 flex flex-col gap-2 rounded-2xl border-accent bg-accent/40 p-5 sm:p-6;
+  @apply mt-10 flex flex-col gap-2 rounded-xl border-accent bg-accent/40 p-5 sm:p-6;
 }
 .wp-calc .correlate:has(textarea) br {
   @apply hidden;
@@ -282,7 +282,7 @@
   @apply rounded-none border-0 bg-transparent p-0 text-sm text-muted-foreground;
 }
 .wp-calc .correlate:has(textarea) textarea {
-  @apply mt-1 h-auto min-h-28 cursor-pointer resize-none rounded-xl border-accent/70 bg-card px-4 py-3 font-mono text-xs leading-relaxed text-foreground shadow-sm transition-colors hover:border-primary/50 focus-visible:border-primary;
+  @apply mt-1 h-auto min-h-28 cursor-pointer resize-none rounded-lg border-accent/70 bg-card px-4 py-3 font-mono text-xs leading-relaxed text-foreground shadow-sm transition-colors hover:border-primary/50 focus-visible:border-primary;
 }
 .wp-calc .correlate:has(textarea)::after {
   content: 'Clicca sul riquadro per copiare il codice negli appunti.';
@@ -294,7 +294,7 @@
   scroll-margin-top: 6rem;
 }
 .wp-calc table.ml-table {
-  @apply my-5 block w-full overflow-x-auto rounded-xl border border-border bg-card text-sm shadow-sm;
+  @apply my-5 block w-full overflow-x-auto rounded-lg border border-border bg-card text-sm shadow-sm;
 }
 .wp-calc table.ml-table tbody {
   @apply table w-full border-separate border-spacing-0 max-sm:block;
@@ -322,7 +322,10 @@
   @apply bg-secondary hover:bg-secondary max-sm:hidden;
 }
 .wp-calc table.ml-table:has(td[data-th]) tr:nth-child(2) td {
-  @apply border-t-0 font-mono text-xs font-medium uppercase tracking-wider text-primary;
+  @apply border-t-0 font-mono text-xs font-medium tracking-wider text-primary;
+}
+.wp-calc table.ml-table:has(td[data-th]) tr:nth-child(2) td em {
+  @apply not-italic;
 }
 .wp-calc table.ml-table:has(td[data-th]) tr:nth-child(2) td:first-child {
   @apply text-primary;
@@ -346,13 +349,13 @@
   }
 }
 .wp-calc form#menomazioni {
-  @apply gap-3 rounded-2xl border-accent bg-accent/40 p-5 sm:p-6;
+  @apply gap-3 rounded-xl border-accent bg-accent/40 p-5 sm:p-6;
 }
 .wp-calc form#menomazioni h3 {
   @apply m-0 font-sans text-lg font-semibold tracking-tight text-foreground;
 }
 .wp-calc form#menomazioni select {
-  @apply h-12 cursor-pointer rounded-lg border-input bg-card text-base font-medium shadow-sm focus:border-primary;
+  @apply h-12 cursor-pointer rounded-md border-input bg-card text-base font-medium shadow-sm focus:border-primary;
 }
 
 @media print {
