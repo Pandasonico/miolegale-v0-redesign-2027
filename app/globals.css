@@ -242,6 +242,29 @@
 .wp-calc .correlate {
   @apply rounded-lg border border-border bg-muted p-4 text-sm;
 }
+/* "Risorse collegate": titolo più grande, voci come righe cliccabili con freccia al posto dei pallini */
+.wp-calc .correlate:not(:has(textarea)) {
+  @apply my-8 rounded-2xl p-5 text-base sm:p-6;
+}
+.wp-calc .correlate:not(:has(textarea)) h5 {
+  @apply mb-4 font-sans text-xl font-semibold tracking-tight text-foreground;
+}
+.wp-calc .correlate:not(:has(textarea)) ul {
+  @apply m-0 flex list-none flex-col gap-2 p-0;
+}
+.wp-calc .correlate:not(:has(textarea)) li {
+  @apply m-0 list-none p-0;
+}
+.wp-calc .correlate:not(:has(textarea)) li a {
+  @apply flex items-center justify-between gap-4 rounded-xl border border-border bg-card px-4 py-3.5 text-base font-medium text-foreground no-underline shadow-sm transition-colors hover:border-primary/50 hover:text-primary;
+}
+.wp-calc .correlate:not(:has(textarea)) li a::after {
+  content: '\2192';
+  @apply shrink-0 text-lg leading-none text-primary transition-transform;
+}
+.wp-calc .correlate:not(:has(textarea)) li a:hover::after {
+  @apply translate-x-0.5;
+}
 .wp-calc .wp-calc-ad {
   @apply my-8;
 }
