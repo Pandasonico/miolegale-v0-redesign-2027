@@ -53,7 +53,7 @@ export function SiteFooter() {
         <FooterCol title="Materie" items={MATERIE.slice(0, 8).map((m) => ({ href: `/${m.slug}`, label: m.label }))} />
       </div>
       <div className="border-t border-ink-foreground/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 text-xs leading-relaxed text-ink-foreground/60 md:flex-row md:items-center md:justify-between md:gap-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 text-sm leading-relaxed text-ink-foreground/60 md:flex-row md:items-center md:justify-between md:gap-8">
           <p>
             © 2006–{new Date().getFullYear()} MioLegale<sup>®</sup> è un marchio registrato da {STUDIO.lawyer}. I contenuti hanno finalità
             informativa e non costituiscono consulenza legale.
