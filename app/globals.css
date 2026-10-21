@@ -242,6 +242,29 @@
 .wp-calc .correlate {
   @apply rounded-lg border border-border bg-muted p-4 text-sm;
 }
+.wp-calc .wp-calc-ad {
+  @apply my-8;
+}
+/* Box "copia e incolla": stesso HTML di WordPress, textarea con altezza reale e aspetto da blocco di codice */
+.wp-calc .correlate:has(textarea) {
+  @apply mt-10 flex flex-col gap-2 rounded-2xl border-accent bg-accent/40 p-5 sm:p-6;
+}
+.wp-calc .correlate:has(textarea) br {
+  @apply hidden;
+}
+.wp-calc .correlate:has(textarea) strong {
+  @apply font-sans text-lg font-semibold tracking-tight text-foreground;
+}
+.wp-calc .correlate:has(textarea) .fonte {
+  @apply rounded-none border-0 bg-transparent p-0 text-sm text-muted-foreground;
+}
+.wp-calc .correlate:has(textarea) textarea {
+  @apply mt-1 h-auto min-h-28 cursor-pointer resize-none rounded-xl border-accent/70 bg-card px-4 py-3 font-mono text-xs leading-relaxed text-foreground shadow-sm transition-colors hover:border-primary/50 focus-visible:border-primary;
+}
+.wp-calc .correlate:has(textarea)::after {
+  content: 'Clicca sul riquadro per copiare il codice negli appunti.';
+  @apply text-xs text-muted-foreground;
+}
 
 @media print {
   body > header,

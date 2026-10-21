@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 declare global {
   interface Window {
@@ -12,9 +13,22 @@ declare global {
  * Mostra il corpo di una pagina WordPress e ne esegue gli script (React non lo fa da solo).
  * Gli script dei calcolatori dichiarano variabili globali: rieseguirli nello stesso documento
  * darebbe errore, quindi dopo una navigazione client la pagina viene ricaricata una volta.
+ *
+ * `afterForm` viene mostrato subito dopo il primo `<form>` della pagina, senza dividere l'HTML:
+ * un segnaposto vuoto è inserito nel markup e il contenuto vi entra tramite portal.
  */
-export function WpCalculator({ html }: { html: string }) {
+export function WpCalculator({ html, afterForm }: { html: string; afterForm?: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null)
+  const [adTarget, setAdTarget] = useState<Element | null>(null)
+  const hasAfterForm = Boolean(afterForm)
+  const markup = useMemo(
+    () => (hasAfterForm ? html.replace('</form>', '</form><div data-after-form class="wp-calc-ad"></div>') : html),
+    [html, hasAfterForm],
+  )
+
+  useEffect(() => {
+    setAdTarget(ref.current?.querySelector('[data-after-form]') ?? null)
+  }, [markup])
 
   useEffect(() => {
     const root = ref.current
@@ -47,5 +61,10 @@ export function WpCalculator({ html }: { html: string }) {
     return () => root.removeEventListener('submit', block)
   }, [])
 
-  return <div ref={ref} className="wp-content wp-calc" dangerouslySetInnerHTML={{ __html: html }} />
+  return (
+    <>
+      <div ref={ref} className="wp-content wp-calc" dangerouslySetInnerHTML={{ __html: markup }} />
+      {adTarget && afterForm ? createPortal(afterForm, adTarget) : null}
+    </>
+  )
 }

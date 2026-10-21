@@ -7,12 +7,15 @@ export function ToolShell({
   title,
   children,
   guide,
+  resultAd = true,
 }: {
   slug: string
   /** Titolo della pagina WordPress; se manca si usa quello del registro. */
   title?: string
   children: React.ReactNode
   guide?: React.ReactNode
+  /** Annuncio in fondo al contenuto; disattivabile quando l'annuncio è già nel corpo della pagina. */
+  resultAd?: boolean
 }) {
   const tool = TOOLS.find((t) => t.slug === slug)
   const heading = title ?? tool?.title ?? slug
@@ -31,7 +34,9 @@ export function ToolShell({
       <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
         <div className="min-w-0">
           {children}
-          <AdSlot variant="in-article" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_RESULT} className="my-10" />
+          {resultAd && (
+            <AdSlot variant="in-article" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_RESULT} className="my-10" />
+          )}
           {guide && <section className="wp-content max-w-3xl">{guide}</section>}
         </div>
         <aside className="flex flex-col gap-8" aria-label="Altri strumenti">
