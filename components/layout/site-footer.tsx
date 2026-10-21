@@ -10,7 +10,7 @@ export function SiteFooter() {
       <section aria-labelledby="newsletter-title" className="border-b border-ink-foreground/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
           <div className="max-w-xl text-sm">
-            <p className="text-xs font-mono font-medium uppercase tracking-wider text-accent">Newsletter giuridica</p>
+            <p className="pb-4 text-xs font-mono font-medium uppercase tracking-wider text-accent">Newsletter giuridica</p>
             <h2 id="newsletter-title" className="mt-2 font-sans tracking-tight text-2xl font-semibold text-balance lg:-translate-y-3">
               Novità normative e giurisprudenziali nella tua email
             </h2>
