@@ -320,6 +320,40 @@ export async function getCalcPage(slug: string): Promise<CalcPage | null> {
   }
 }
 
+/** I link relativi di WordPress (../../norme/x/) sono validi solo con lo slash finale: li rendo assoluti sul sito. */
+function resolveRelativeLinks(html: string, pagePath: string) {
+  return html.replace(/href="(\.\.?\/[^"]*)"/g, (_, href: string) => {
+    const { pathname, search, hash } = new URL(href, `${WP_ORIGIN}${pagePath}`)
+    return `href="${pathname.replace(/\/$/, '') || '/'}${search}${hash}"`
+  })
+}
+
+/** Pagina di primo livello sotto "Utilità" (es. /utilita/tabella-contributo-unificato). */
+export async function getUtilityPage(slug: string): Promise<CalcPage | null> {
+  try {
+    const { data: parents } = await wpFetch<{ id: number }[]>(`/pages?slug=utilita&parent=0&_fields=id`, 86400)
+    const parentId = parents[0]?.id
+    if (!parentId) return null
+    const { data } = await wpFetch<WpCalcPage[]>(
+      `/pages?slug=${encodeURIComponent(slug)}&parent=${parentId}&_fields=slug,modified,title,excerpt,content,meta`,
+      3600,
+    )
+    const page = data[0]
+    if (!page) return null
+    return {
+      slug: page.slug,
+      title: decodeEntities(page.title.rendered),
+      excerpt: decodeEntities(page.excerpt.rendered),
+      html: resolveRelativeLinks(prepareCalcHtml(page.content.rendered), `/utilita/${page.slug}/`),
+      seoTitle: page.meta?.rank_math_title || undefined,
+      seoDescription: page.meta?.rank_math_description || undefined,
+      modified: page.modified,
+    }
+  } catch {
+    return null
+  }
+}
+
 export function decodeEntities(html: string) {
   return html
     .replace(/<[^>]+>/g, '')

@@ -289,6 +289,72 @@
   @apply text-xs text-muted-foreground;
 }
 
+/* Tabelle delle utilità (es. contributo unificato): stesso HTML di WordPress, solo stile */
+.wp-calc a[id]:empty {
+  scroll-margin-top: 6rem;
+}
+.wp-calc table.ml-table {
+  @apply my-5 block w-full overflow-x-auto rounded-xl border border-border bg-card text-sm shadow-sm;
+}
+.wp-calc table.ml-table tbody {
+  @apply table w-full border-separate border-spacing-0 max-sm:block;
+}
+.wp-calc table.ml-table tr {
+  @apply transition-colors hover:bg-muted max-sm:block;
+}
+.wp-calc table.ml-table :is(th, td) {
+  @apply border-0 border-t border-border px-4 py-3 align-top leading-snug;
+}
+.wp-calc table.ml-table th {
+  @apply border-t-0 bg-ink py-3.5 font-sans text-base font-semibold tracking-tight text-ink-foreground max-sm:block;
+}
+.wp-calc table.ml-table tr:has(> th) {
+  @apply hover:bg-ink;
+}
+.wp-calc table.ml-table td:first-child {
+  @apply font-medium text-foreground;
+}
+.wp-calc table.ml-table td + td {
+  @apply text-right tabular-nums text-foreground;
+}
+/* Tabelle a più colonne: la seconda riga contiene le intestazioni di colonna */
+.wp-calc table.ml-table:has(td[data-th]) tr:nth-child(2) {
+  @apply bg-secondary hover:bg-secondary max-sm:hidden;
+}
+.wp-calc table.ml-table:has(td[data-th]) tr:nth-child(2) td {
+  @apply border-t-0 font-mono text-xs font-medium uppercase tracking-wider text-primary;
+}
+.wp-calc table.ml-table:has(td[data-th]) tr:nth-child(2) td:first-child {
+  @apply text-primary;
+}
+@media (max-width: 639px) {
+  .wp-calc table.ml-table :is(th, td) {
+    @apply block text-left;
+  }
+  .wp-calc table.ml-table td + td {
+    @apply text-left;
+  }
+  .wp-calc table.ml-table td[data-th] + td[data-th] {
+    @apply flex items-baseline justify-between gap-4 border-t-0 py-1.5 text-right;
+  }
+  .wp-calc table.ml-table td[data-th] + td[data-th]::before {
+    content: attr(data-th);
+    @apply text-left text-sm font-normal text-muted-foreground;
+  }
+  .wp-calc table.ml-table td[data-th]:first-child {
+    @apply border-t border-border bg-muted pb-2;
+  }
+}
+.wp-calc form#menomazioni {
+  @apply gap-3 rounded-2xl border-accent bg-accent/40 p-5 sm:p-6;
+}
+.wp-calc form#menomazioni h3 {
+  @apply m-0 font-sans text-lg font-semibold tracking-tight text-foreground;
+}
+.wp-calc form#menomazioni select {
+  @apply h-12 cursor-pointer rounded-lg border-input bg-card text-base font-medium shadow-sm focus:border-primary;
+}
+
 @media print {
   body > header,
   body > footer,
