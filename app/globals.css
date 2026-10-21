@@ -134,13 +134,13 @@
 
 /* Calcolatori scritti in WordPress: form, campi, risultati e schede */
 .wp-calc .box-highlight {
-  @apply flex flex-col gap-4 rounded-lg border border-border bg-secondary p-5 text-base sm:flex-row sm:items-start;
+  @apply flex flex-col gap-4 rounded-lg border border-border bg-muted p-5 text-base sm:flex-row sm:items-start;
 }
 .wp-calc .box-highlight img {
   @apply h-auto w-full shrink-0 sm:w-56;
 }
 .wp-calc form.calcolatori {
-  @apply flex flex-col gap-5 rounded-md border border-border bg-secondary p-5;
+  @apply flex flex-col gap-5 rounded-md border border-border bg-muted p-5;
 }
 .wp-calc form.calcolatori > * + * {
   @apply mt-0;
@@ -221,6 +221,12 @@
 .wp-calc form.calcolatori fieldset > div > label.sospensione {
   @apply text-sm font-medium text-foreground;
 }
+.wp-calc select[data-date-source] {
+  display: none;
+}
+.wp-calc input.wp-date-input {
+  @apply w-full cursor-pointer tabular-nums sm:w-56;
+}
 .wp-calc form.calcolatori fieldset > div > div:has(> select + select) {
   @apply flex flex-wrap gap-2;
 }
@@ -253,7 +259,7 @@
 }
 /* Form moderno (fattura con scorporo): stesse classi e stesso HTML di WordPress, solo stile */
 .wp-calc form#form_fatturazione {
-  @apply gap-4 rounded-xl border border-accent bg-secondary p-3 sm:p-6;
+  @apply gap-4 rounded-xl border border-accent bg-muted p-3 sm:p-6;
 }
 .wp-calc form#form_fatturazione fieldset {
   @apply gap-0 rounded-lg border border-accent/70 bg-card p-5 shadow-sm sm:px-10 sm:py-7 lg:px-14;
@@ -442,7 +448,7 @@
   }
 }
 .wp-calc form#menomazioni {
-  @apply gap-3 rounded-xl border-accent bg-secondary p-5 sm:p-6;
+  @apply gap-3 rounded-xl border-accent bg-muted p-5 sm:p-6;
 }
 .wp-calc form#menomazioni h3 {
   @apply m-0 font-sans text-lg font-semibold tracking-tight text-foreground;
