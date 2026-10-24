@@ -160,6 +160,10 @@
 .wp-calc :is(input[type='radio'], input[type='checkbox']) {
   @apply size-4 accent-primary;
 }
+/* Senza questo un select largo come l'opzione più lunga impedisce al contenitore flex di restringersi sotto i 400px. */
+.wp-calc form :is(div, fieldset) {
+  min-width: 0;
+}
 .wp-calc :is(input.medium, select.medium) {
   @apply sm:max-w-xs;
 }

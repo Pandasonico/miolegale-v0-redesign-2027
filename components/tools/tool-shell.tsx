@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { POPULAR_TOOLS, TOOLS } from '@/lib/site'
 
@@ -20,16 +21,42 @@ export function ToolShell({
   const tool = TOOLS.find((t) => t.slug === slug)
   const heading = title ?? tool?.title ?? slug
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8">
-      <nav aria-label="Percorso" className="text-sm text-muted-foreground">
-        <Link href="/calcolo" className="hover:text-primary">
-          Calcolatori
-        </Link>{' '}
-        / <span>{heading}</span>
-      </nav>
-      <h1 className="mt-3 font-sans tracking-tight text-4xl font-semibold text-balance">{heading}</h1>
+    <>
+      <header className="bg-ink text-ink-foreground">
+        <div className="mx-auto max-w-7xl px-4 pb-10 pt-8 lg:pb-12">
+          <nav aria-label="Percorso" className="text-sm text-ink-foreground/70">
+            <ol className="flex flex-wrap items-center gap-1">
+              <li>
+                <Link href="/" className="hover:text-ink-foreground">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden>
+                <ChevronRight className="size-3.5" />
+              </li>
+              <li>
+                <Link href="/calcolo" className="hover:text-ink-foreground">
+                  Calcolatori
+                </Link>
+              </li>
+            </ol>
+          </nav>
+          <div className="mt-6">
+            <Link
+              href="/calcolo"
+              className="inline-block rounded bg-ink-foreground/10 px-2 py-0.5 text-xs font-mono font-medium uppercase tracking-wider hover:bg-ink-foreground/20"
+            >
+              Calcolatori
+            </Link>
+            <h1 className="mt-4 font-sans text-3xl font-semibold leading-tight tracking-tight text-pretty md:text-4xl lg:text-[2.5rem]">
+              {heading}
+            </h1>
+          </div>
+        </div>
+      </header>
 
-      <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_TOP} className="my-6" />
+      <div className="mx-auto max-w-7xl px-4 py-8">
+        <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_TOP} className="mb-6" />
 
       <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
         <div className="min-w-0">
@@ -72,7 +99,8 @@ export function ToolShell({
           </div>
         </aside>
       </div>
-    </div>
+      </div>
+    </>
   )
 }
 

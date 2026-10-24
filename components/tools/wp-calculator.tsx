@@ -159,7 +159,8 @@ function fitSelectWidth(select: HTMLSelectElement) {
     parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth)
   const arrow = 28
   select.style.width = `${Math.ceil(textWidth + extra + arrow)}px`
-  select.style.maxWidth = '100%'
+  // Nei contenitori centrati la larghezza segue il contenuto e una percentuale in max-width viene ignorata: serve un tetto legato al viewport.
+  select.style.maxWidth = 'calc(100vw - 6rem)'
 }
 
 function fitAllSelects(root: HTMLElement) {
