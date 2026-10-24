@@ -33,13 +33,7 @@ export function ActIndexView({ act, parent }: { act: ActIndex; parent: { href: s
           </nav>
 
           <div className="mt-6">
-            <Link
-              href={parent.href}
-              className="inline-block rounded bg-ink-foreground/10 px-2 py-0.5 text-xs font-mono font-medium uppercase tracking-wider hover:bg-ink-foreground/20"
-            >
-              {parent.label}
-            </Link>
-            <h1 className="mt-4 font-sans text-3xl font-semibold leading-tight tracking-tight text-balance md:text-4xl lg:text-5xl">
+            <h1 className="font-sans text-3xl font-semibold leading-tight tracking-tight text-balance md:text-4xl lg:text-5xl">
               {act.title}
             </h1>
             {act.estremi && <p className="mt-4 font-sans text-xl font-semibold md:text-2xl">{act.estremi}</p>}
