@@ -9,39 +9,57 @@ export function ActIndexView({ act, parent }: { act: ActIndex; parent: { href: s
   const shortTitle = act.title.replace(/\s*\([^)]*\)\s*$/, '')
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10">
-      <nav aria-label="Percorso" className="text-sm text-muted-foreground">
-        <ol className="flex flex-wrap items-center gap-2">
-          <li>
-            <Link href="/" className="font-medium text-primary hover:underline">
-              Home
-            </Link>
-          </li>
-          <li aria-hidden>»</li>
-          <li>
-            <Link href={parent.href} className="font-medium text-primary hover:underline">
+    <>
+      <header className="bg-ink text-ink-foreground">
+        <div className="mx-auto max-w-5xl px-4 pb-10 pt-8 lg:pb-12">
+          <nav aria-label="Percorso" className="text-sm text-ink-foreground/70">
+            <ol className="flex flex-wrap items-center gap-2">
+              <li>
+                <Link href="/" className="hover:text-ink-foreground">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden>»</li>
+              <li>
+                <Link href={parent.href} className="hover:text-ink-foreground">
+                  {parent.label}
+                </Link>
+              </li>
+              <li aria-hidden>»</li>
+              <li aria-current="page" className="text-ink-foreground">
+                {shortTitle}
+              </li>
+            </ol>
+          </nav>
+
+          <div className="mt-6">
+            <Link
+              href={parent.href}
+              className="inline-block rounded bg-ink-foreground/10 px-2 py-0.5 text-xs font-mono font-medium uppercase tracking-wider hover:bg-ink-foreground/20"
+            >
               {parent.label}
             </Link>
-          </li>
-          <li aria-hidden>»</li>
-          <li aria-current="page" className="text-foreground">
-            {shortTitle}
-          </li>
-        </ol>
-      </nav>
-
-      <header className="mt-6">
-        <h1 className="font-sans text-4xl font-semibold tracking-tight text-primary text-balance md:text-5xl">{act.title}</h1>
-        {act.estremi && <p className="mt-6 font-sans text-2xl font-semibold text-primary">{act.estremi}</p>}
-        {act.officialTitle && <p className="mt-2 text-lg italic leading-relaxed text-foreground text-pretty">{act.officialTitle}</p>}
-        <div className="mt-6">
-          <ShareButtons url={`${SITE.url}/${act.path}/`} title={act.title} tone="light" />
+            <h1 className="mt-4 font-sans text-3xl font-semibold leading-tight tracking-tight text-balance md:text-4xl lg:text-5xl">
+              {act.title}
+            </h1>
+            {act.estremi && <p className="mt-4 font-sans text-xl font-semibold md:text-2xl">{act.estremi}</p>}
+            {act.officialTitle && (
+              <p className="mt-2 max-w-3xl text-lg italic leading-relaxed text-ink-foreground/80 text-pretty">
+                {act.officialTitle}
+              </p>
+            )}
+            <div className="mt-6">
+              <ShareButtons url={`${SITE.url}/${act.path}/`} title={act.title} />
+            </div>
+          </div>
         </div>
       </header>
 
-      <ActTree root={act.root} />
+      <div className="mx-auto max-w-5xl px-4 pb-10">
+        <ActTree root={act.root} />
 
-      <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_LIST_TOP} className="mt-10" />
-    </div>
+        <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_LIST_TOP} className="mt-10" />
+      </div>
+    </>
   )
 }
