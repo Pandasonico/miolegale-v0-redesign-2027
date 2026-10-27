@@ -1,9 +1,10 @@
 import { Fragment } from 'react'
 import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { PostRow } from '@/components/content/post-list'
 import { Pager } from '@/components/content/pager'
-import { DATABASE_MENU, POPULAR_TOOLS, SECTIONS } from '@/lib/site'
+import { DATABASE_MENU, POPULAR_TOOLS, SECTIONS, SITE } from '@/lib/site'
 import type { PostCard } from '@/lib/wp'
 
 export function Listing({
@@ -88,6 +89,13 @@ export function ListingSidebar({ rectangleAfterDatabase = false }: { rectangleAf
             </li>
           ))}
         </ul>
+        <a
+          href={SITE.bancaDatiGiuridicaUrl}
+          className="mt-4 flex items-center justify-between gap-2 rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+        >
+          Ricerca avanzata con filtri
+          <ArrowUpRight className="size-4 shrink-0" aria-hidden />
+        </a>
       </nav>
       {rectangleAfterDatabase && rectangle}
       <nav aria-labelledby="sb-tools" className="rounded-lg bg-secondary p-5">
