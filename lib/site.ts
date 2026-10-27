@@ -4,7 +4,7 @@ export const SITE = {
   url: 'https://miolegale.it',
   tagline: 'Banca dati giuridica, calcolatori, consulenza legale e assistente AI',
   /** Ricerca filtrata per archivio, servita da WordPress. */
-  bancaDatiGiuridicaUrl: 'https://miolegale.it/banca-dati-giuridica/',
+  bancaDatiGiuridicaUrl: '/banca-dati#ricerca',
 }
 
 export const STUDIO = {
@@ -38,7 +38,12 @@ export const SECTIONS: Section[] = [
   { slug: 'formulario-penale', label: 'Formulario penale', short: 'Formulario penale', description: 'Modelli di atti penali pronti all’uso.' },
 ]
 
-export type Archive = {
+  export const SEARCH_ARCHIVES: { slug: string; label: string }[] = SECTIONS.map((s) => ({
+  slug: s.slug,
+  label: s.slug === 'norme' ? 'Leggi e decreti' : s.short,
+  }))
+  
+  export type Archive = {
   slug: 'costituzione' | 'codici' | 'testi-unici'
   label: string
   short: string

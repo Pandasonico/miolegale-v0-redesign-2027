@@ -92,7 +92,7 @@ export function Omnibox() {
         {mode === 'cerca' && (
           <a
             href={SITE.bancaDatiGiuridicaUrl}
-            className="ml-auto inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+            className="ml-auto inline-flex items-center gap-1 text-[13px] font-semibold text-primary hover:underline"
           >
             <SlidersHorizontal className="size-3.5" aria-hidden />
             Ricerca avanzata nella banca dati
