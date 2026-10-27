@@ -47,7 +47,10 @@ export default async function BancaDatiPage() {
     <div className="mx-auto max-w-7xl px-4 py-10">
       <h2 className="font-sans tracking-tight text-3xl font-semibold">Sfoglia per archivio</h2>
       <ul className="mt-6 grid gap-4 md:grid-cols-2">
-        {SOURCE_ARCHIVES.map((a) => (
+          {[
+            ...SOURCE_ARCHIVES,
+            { slug: 'massime', label: 'Giurisprudenza', description: 'Massime giurisprudenziali e sentenze correlate' },
+          ].map((a) => (
           <li key={a.slug}>
             <Link href={`/${a.slug}`} className="flex h-full flex-col rounded-lg bg-primary p-5 text-primary-foreground hover:bg-primary/90">
               <span className="font-sans tracking-tight text-2xl font-semibold">{a.label}</span>
