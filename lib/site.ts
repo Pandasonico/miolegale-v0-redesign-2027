@@ -9,7 +9,7 @@ export const STUDIO = {
   lawyer: 'Avv. Gianluca Lanciano',
   name: 'Studio Legale Avv. Gianluca Lanciano',
   profileUrl: 'https://miolegale.it/author/avv-gianluca-lanciano/',
-  consulenzaUrl: 'https://miolegale.it/consulenza-legale/',
+  consulenzaUrl: '/consulenza-legale',
   privacyUrl: 'https://miolegale.it/info/note-legali-privacy/',
   contattiUrl: '/info/contatti',
   priceFrom: '143,44',
