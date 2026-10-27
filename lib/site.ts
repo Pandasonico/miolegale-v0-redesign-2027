@@ -3,6 +3,8 @@ export const SITE = {
   domain: 'miolegale.it',
   url: 'https://miolegale.it',
   tagline: 'Banca dati giuridica, calcolatori, consulenza legale e assistente AI',
+  /** Ricerca filtrata per archivio, servita da WordPress. */
+  bancaDatiGiuridicaUrl: 'https://miolegale.it/banca-dati-giuridica/',
 }
 
 export const STUDIO = {

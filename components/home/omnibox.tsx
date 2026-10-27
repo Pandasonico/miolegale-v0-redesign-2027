@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { ArrowRight, Search, Sparkles } from 'lucide-react'
+import { ArrowRight, Search, SlidersHorizontal, Sparkles } from 'lucide-react'
+import { SITE } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
 type Mode = 'cerca' | 'ai'
@@ -77,17 +78,26 @@ export function Omnibox() {
         </button>
       </form>
 
-      <div className="hidden flex-wrap items-center gap-2 px-2 pb-2 pt-1 sm:flex">
-        <span className="text-xs font-medium text-muted-foreground">{mode === 'ai' ? 'Prova:' : 'Ad esempio:'}</span>
+      <div className="flex flex-wrap items-center gap-2 px-2 pb-2 pt-1">
+        <span className="hidden text-xs font-medium text-muted-foreground sm:inline">{mode === 'ai' ? 'Prova:' : 'Ad esempio:'}</span>
         {current.suggestions.map((s) => (
           <Link
             key={s}
             href={`${current.action}?q=${encodeURIComponent(s)}`}
-            className="rounded-full bg-muted px-3 py-1 text-xs font-medium text-foreground/80 hover:bg-accent hover:text-accent-foreground"
+            className="hidden rounded-full bg-muted px-3 py-1 text-xs font-medium text-foreground/80 hover:bg-accent hover:text-accent-foreground sm:inline-block"
           >
             {s}
           </Link>
         ))}
+        {mode === 'cerca' && (
+          <a
+            href={SITE.bancaDatiGiuridicaUrl}
+            className="ml-auto inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+          >
+            <SlidersHorizontal className="size-3.5" aria-hidden />
+            Ricerca avanzata nella banca dati
+          </a>
+        )}
       </div>
     </div>
   )

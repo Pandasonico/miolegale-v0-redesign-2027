@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { SlidersHorizontal } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
-import { MATERIE, SECTIONS, SOURCE_ARCHIVES } from '@/lib/site'
+import { MATERIE, SECTIONS, SITE, SOURCE_ARCHIVES } from '@/lib/site'
 import { getCategories } from '@/lib/wp'
 
 export const metadata: Metadata = {
@@ -17,7 +18,16 @@ export default async function BancaDatiPage() {
     <div className="mx-auto max-w-7xl px-4 py-10">
       <p className="text-sm font-mono font-medium uppercase tracking-widest text-primary">Banca dati</p>
       <h1 className="mt-2 font-sans tracking-tight text-4xl font-semibold">Tutta la banca dati giuridica</h1>
-      <p className="mt-3 max-w-2xl text-muted-foreground">Consulta i contenuti per tipologia o per materia.</p>
+      <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-2xl text-muted-foreground">Consulta i contenuti per tipologia o per materia.</p>
+        <a
+          href={SITE.bancaDatiGiuridicaUrl}
+          className="inline-flex shrink-0 items-center gap-2 self-start rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 sm:self-auto"
+        >
+          <SlidersHorizontal className="size-4" aria-hidden />
+          Ricerca avanzata per archivio
+        </a>
+      </div>
 
       <ul className="mt-8 grid gap-4 md:grid-cols-2">
         {SOURCE_ARCHIVES.map((a) => (
