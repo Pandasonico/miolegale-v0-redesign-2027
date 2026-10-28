@@ -25,7 +25,7 @@ export function ArticleHeader({
   const updated = new Date(modified).getTime() > new Date(date).getTime()
   return (
     <header className="bg-ink text-ink-foreground">
-      <div className="mx-auto max-w-7xl px-4 pb-10 pt-8 lg:pb-12">
+      <div className="mx-auto max-w-site px-4 lg:px-8 pb-10 pt-8 lg:pb-12">
         <nav aria-label="Percorso" className="text-sm text-ink-foreground/70">
           <ol className="flex flex-wrap items-center gap-1">
             <li>

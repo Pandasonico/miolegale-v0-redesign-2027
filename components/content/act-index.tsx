@@ -19,7 +19,7 @@ export function ActIndexView({ act, parent }: { act: ActIndex; parent: { href: s
   return (
     <>
       <header className="bg-ink text-ink-foreground">
-        <div className="mx-auto max-w-7xl px-4 pb-10 pt-8 lg:pb-12">
+        <div className="mx-auto max-w-site px-4 lg:px-8 pb-10 pt-8 lg:pb-12">
           <nav aria-label="Percorso" className="text-sm text-ink-foreground/70">
             <ol className="flex flex-wrap items-center gap-2">
               <li>
@@ -72,7 +72,7 @@ export function ActIndexView({ act, parent }: { act: ActIndex; parent: { href: s
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 pb-10 pt-8 lg:grid-cols-[1fr_320px]">
+      <div className="mx-auto grid max-w-site gap-10 px-4 lg:px-8 pb-10 pt-8 lg:grid-cols-[1fr_320px]">
         <div className="min-w-0">
           <ActTree root={act.root} />
 

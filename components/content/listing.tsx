@@ -31,7 +31,7 @@ export function Listing({
   return (
     <>
       <header className="border-b border-border bg-card">
-        <div className="mx-auto max-w-7xl px-4 py-10">
+        <div className="mx-auto max-w-site px-4 lg:px-8 py-10">
           <p className="text-sm font-mono font-medium uppercase tracking-widest text-primary">{eyebrow}</p>
           <h1 className="mt-2 font-sans tracking-tight text-4xl font-semibold text-balance">{title}</h1>
           {description && <p className="mt-3 max-w-2xl text-muted-foreground">{description}</p>}
@@ -41,11 +41,11 @@ export function Listing({
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-4 pt-6">
+      <div className="mx-auto max-w-site px-4 lg:px-8 pt-6">
         <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_LIST_TOP} />
       </div>
 
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 pt-8 lg:grid-cols-[1fr_320px]">
+      <div className="mx-auto grid max-w-site gap-10 px-4 lg:px-8 pt-8 lg:grid-cols-[1fr_320px]">
         <div>
           {posts.length === 0 ? (
             <p className="rounded-lg border border-border bg-card p-8 text-center text-muted-foreground">{emptyText}</p>

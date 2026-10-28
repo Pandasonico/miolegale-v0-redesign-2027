@@ -15,7 +15,7 @@ export default async function UtilitaPage() {
   const pages = await getUtilityPages()
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10">
+    <div className="mx-auto max-w-site px-4 lg:px-8 py-10">
       <nav aria-label="Percorso" className="text-sm text-muted-foreground">
         <Link href="/" className="hover:text-primary">Home</Link>
         <span aria-hidden> / </span>

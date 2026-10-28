@@ -30,7 +30,7 @@ export default async function CalcolatoriPage() {
     })
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10">
+    <div className="mx-auto max-w-site px-4 lg:px-8 py-10">
       <p className="text-sm font-mono font-medium uppercase tracking-widest text-primary">Strumenti</p>
       <h1 className="mt-2 font-sans tracking-tight text-4xl font-semibold">Calcolatori legali</h1>
       <p className="mt-3 text-pretty text-muted-foreground">

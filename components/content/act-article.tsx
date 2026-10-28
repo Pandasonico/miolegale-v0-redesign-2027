@@ -21,7 +21,7 @@ export function ActArticleView({ article, parent }: { article: ActArticle; paren
   return (
     <>
       <header className="bg-ink text-ink-foreground">
-        <div className="mx-auto max-w-7xl px-4 pb-10 pt-8 lg:pb-12">
+        <div className="mx-auto max-w-site px-4 lg:px-8 pb-10 pt-8 lg:pb-12">
           <nav aria-label="Percorso" className="text-sm text-ink-foreground/70">
             <ol className="flex flex-wrap items-center gap-x-1 gap-y-1">
               <li>
@@ -79,13 +79,13 @@ export function ActArticleView({ article, parent }: { article: ActArticle; paren
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-4 pt-6 print:hidden">
+      <div className="mx-auto max-w-site px-4 lg:px-8 pt-6 print:hidden">
         <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_ARTICLE_TOP} />
       </div>
 
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 pt-6 lg:grid-cols-[1fr_320px] lg:gap-8">
+      <div className="mx-auto grid max-w-site gap-10 px-4 lg:px-8 pt-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12">
         <article className="min-w-0">
-          <div className="mx-auto max-w-3xl lg:mx-0 lg:max-w-[52rem]">
+          <div className="mx-auto max-w-3xl lg:mx-0 lg:max-w-none">
             <section aria-labelledby="testo-title" className="overflow-hidden rounded-lg border border-border bg-card">
               <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-3 md:px-7">
                 <h2 id="testo-title" className="text-sm font-mono font-medium uppercase tracking-wider text-muted-foreground">

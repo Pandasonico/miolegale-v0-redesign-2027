@@ -3,7 +3,7 @@ import { STUDIO } from '@/lib/site'
 
 export function ConsulenzaBand() {
   return (
-    <section aria-labelledby="consulenza-title" className="mx-auto max-w-7xl px-4 pt-14">
+    <section aria-labelledby="consulenza-title" className="mx-auto max-w-site px-4 lg:px-8 pt-14">
       <div className="flex flex-col gap-8 rounded-xl border border-border bg-card p-6 md:p-10 lg:flex-row lg:items-center lg:justify-between">
         <div className="max-w-2xl">
           <p className="text-xs font-mono font-medium uppercase tracking-wider text-primary">Consulenza legale online</p>

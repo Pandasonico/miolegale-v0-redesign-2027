@@ -8,7 +8,7 @@ export function SiteFooter() {
   return (
     <footer className="mt-16 bg-ink text-ink-foreground">
       <section aria-labelledby="newsletter-title" className="border-b border-ink-foreground/10">
-        <div className="mx-auto grid max-w-7xl gap-6 px-4 py-10 md:grid-cols-4 md:items-center md:gap-10">
+        <div className="mx-auto grid max-w-site gap-6 px-4 lg:px-8 py-10 md:grid-cols-4 md:items-center md:gap-10">
           <div className="text-sm md:col-span-2">
             <p className="pb-4 text-xs font-mono font-medium uppercase tracking-wider text-accent">Newsletter giuridica</p>
             <h2 id="newsletter-title" className="mt-2 font-sans tracking-tight text-2xl font-semibold text-balance lg:-translate-y-3">
@@ -23,7 +23,7 @@ export function SiteFooter() {
           </div>
         </div>
       </section>
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-4">
+      <div className="mx-auto grid max-w-site gap-10 px-4 lg:px-8 py-12 md:grid-cols-4">
         <div>
           <Image src="/images/logo-miolegale.webp" alt="MioLegale" width={475} height={100} unoptimized className="h-9 w-auto" />
           <p className="mt-3 text-sm leading-relaxed text-ink-foreground/70">{SITE.tagline}.</p>
@@ -53,7 +53,7 @@ export function SiteFooter() {
         <FooterCol title="Materie" items={MATERIE.slice(0, 8).map((m) => ({ href: `/${m.slug}`, label: m.label }))} />
       </div>
       <div className="border-t border-ink-foreground/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 text-sm leading-relaxed text-ink-foreground/60 md:flex-row md:items-center md:justify-between md:gap-8">
+        <div className="mx-auto flex max-w-site flex-col gap-3 px-4 lg:px-8 py-6 text-sm leading-relaxed text-ink-foreground/60 md:flex-row md:items-center md:justify-between md:gap-8">
           <p>
             © 2006–{new Date().getFullYear()} MioLegale<sup>®</sup> è un marchio registrato da {STUDIO.lawyer}. I contenuti hanno finalità
             informativa e non costituiscono consulenza legale.

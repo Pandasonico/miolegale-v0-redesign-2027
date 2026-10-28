@@ -18,7 +18,7 @@ export function UtilityShell({
     .filter((page) => page.path !== `/utilita/${slug}`)
     .slice(0, 8)
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8">
+    <div className="mx-auto max-w-site px-4 lg:px-8 py-8">
       <nav aria-label="Percorso" className="text-sm text-muted-foreground">
         <Link href="/utilita" className="hover:text-primary">
           Utilità legali

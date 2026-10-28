@@ -25,7 +25,7 @@ export default function ConsulenzaPage() {
   return (
     <>
       <header className="bg-ink text-ink-foreground">
-        <div className="mx-auto max-w-7xl px-4 pb-10 pt-8 lg:pb-12">
+        <div className="mx-auto max-w-site px-4 lg:px-8 pb-10 pt-8 lg:pb-12">
           <nav aria-label="Percorso" className="text-sm text-ink-foreground/70">
             <ol className="flex flex-wrap items-center gap-1">
               <li>
@@ -65,7 +65,7 @@ export default function ConsulenzaPage() {
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12">
+      <div className="mx-auto grid max-w-site grid-cols-1 gap-8 px-4 lg:px-8 py-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12">
         <ConsulenzaForm />
 
         <aside className="flex flex-col gap-8 lg:sticky lg:top-24 lg:self-start">

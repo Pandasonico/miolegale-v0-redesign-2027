@@ -87,13 +87,13 @@ export default async function ArticlePage({ params }: Props) {
         url={url}
       />
 
-      <div className="mx-auto max-w-7xl px-4 pt-6 print:hidden">
+      <div className="mx-auto max-w-site px-4 lg:px-8 pt-6 print:hidden">
         <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_ARTICLE_TOP} />
       </div>
 
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 pt-6 lg:grid-cols-[1fr_320px] lg:gap-8">
+      <div className="mx-auto grid max-w-site gap-10 px-4 lg:px-8 pt-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12">
         <article className="min-w-0">
-          <div className="mx-auto max-w-3xl lg:mx-0 lg:max-w-[52rem]">
+          <div className="mx-auto max-w-3xl lg:mx-0 lg:max-w-none">
             {cover && (
               <figure className="relative aspect-[16/10] overflow-hidden rounded-lg bg-secondary">
                 <Image src={cover.src} alt={cover.alt || title} fill priority sizes="(min-width: 1024px) 768px, 100vw" className="object-cover" />
@@ -147,7 +147,7 @@ export default async function ArticlePage({ params }: Props) {
       </div>
 
       {relatedPosts.length > 0 && (
-        <section aria-labelledby="related-title" className="mx-auto max-w-7xl px-4 pt-14">
+        <section aria-labelledby="related-title" className="mx-auto max-w-site px-4 lg:px-8 pt-14">
           <h2 id="related-title" className="mb-5 font-sans text-xl font-semibold tracking-tight text-primary text-balance">
             {tags.length > 0 ? 'Sullo stesso argomento' : `Altro in ${categoryLabel}`}
           </h2>

@@ -9,7 +9,7 @@ export function SiteHeader() {
   return (
     <>
       <header className="sticky top-0 z-40 bg-ink text-ink-foreground">
-        <div className="mx-auto flex h-16 max-w-7xl lg:h-[90px] items-center gap-4 px-4 lg:gap-8">
+        <div className="mx-auto flex h-16 max-w-site lg:h-[90px] items-center gap-4 px-4 lg:px-8 lg:gap-8">
           <Link href="/" className="shrink-0" aria-label="MioLegale, home">
             <Image
               src="/images/logo-miolegale.webp"
@@ -58,7 +58,7 @@ export function SiteHeader() {
       </header>
 
       <nav aria-label="Sezioni della banca dati" className="hidden border-b border-border bg-card min-[1100px]:block">
-        <ul className="mx-auto flex max-w-7xl gap-2 px-4 py-[13px]">
+        <ul className="mx-auto flex max-w-site gap-2 px-4 lg:px-8 py-[13px]">
           {DATABASE_MENU.map((item) => (
             <li key={item.href} className="shrink-0">
               <NavLink

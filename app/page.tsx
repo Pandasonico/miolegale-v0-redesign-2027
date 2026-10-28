@@ -40,7 +40,7 @@ export default async function HomePage() {
   return (
     <>
       <section className="bg-ink text-ink-foreground">
-        <div className="mx-auto max-w-7xl px-4 pb-14 pt-14 text-center lg:pt-20">
+        <div className="mx-auto max-w-site px-4 lg:px-8 pb-14 pt-14 text-center lg:pt-20">
           <h1 className="font-sans tracking-tight text-2xl font-semibold leading-tight text-balance md:whitespace-nowrap">
             Trova la norma, la sentenza o la risposta che ti serve.
           </h1>
@@ -53,11 +53,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 pt-6">
+      <div className="mx-auto max-w-site px-4 lg:px-8 pt-6">
         <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_TOP} />
       </div>
 
-      <section aria-labelledby="fonti-title" className="mx-auto max-w-7xl px-4 pt-10">
+      <section aria-labelledby="fonti-title" className="mx-auto max-w-site px-4 lg:px-8 pt-10">
         <h2 id="fonti-title" className="font-sans tracking-tight text-3xl font-semibold">
           Fonti del diritto
         </h2>
@@ -83,7 +83,7 @@ export default async function HomePage() {
         </ul>
       </section>
 
-      <section aria-labelledby="tools-title" className="mx-auto max-w-7xl px-4 pt-12">
+      <section aria-labelledby="tools-title" className="mx-auto max-w-site px-4 lg:px-8 pt-12">
         <div className="mb-6 flex items-end justify-between">
           <div>
             <h2 id="tools-title" className="font-sans tracking-tight text-3xl font-semibold">
@@ -103,12 +103,12 @@ export default async function HomePage() {
         <HomeTools utilities={utilities} />
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 pt-12">
+      <div className="mx-auto max-w-site px-4 lg:px-8 pt-12">
         <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_MIDDLE} />
       </div>
 
       {leadNews && (
-        <section aria-labelledby="featured-title" className="mx-auto max-w-7xl px-4 pt-14">
+        <section aria-labelledby="featured-title" className="mx-auto max-w-site px-4 lg:px-8 pt-14">
           <div className="mb-6 flex items-end justify-between">
             <h2 id="featured-title" className="font-sans tracking-tight text-[28px] font-semibold">
               In primo piano
@@ -123,7 +123,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 pt-12 lg:grid-cols-[1fr_320px]">
+      <div className="mx-auto grid max-w-site gap-8 px-4 lg:px-8 pt-12 lg:grid-cols-[1fr_320px]">
         <div className="flex flex-col gap-8">
           <SectionBlock title="Ultime massime" href="/massime" posts={latestMassime} description="Principi di diritto dalla giurisprudenza." />
           <AdSlot variant="in-feed" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_FEED} />
@@ -163,7 +163,7 @@ export default async function HomePage() {
       </div>
 
       {guide.posts.length > 0 && (
-        <section aria-labelledby="guide-title" className="mx-auto max-w-7xl px-4 pt-14">
+        <section aria-labelledby="guide-title" className="mx-auto max-w-site px-4 lg:px-8 pt-14">
           <div className="mb-6 flex items-end justify-between">
             <div>
               <h2 id="guide-title" className="font-sans tracking-tight text-3xl font-semibold">
@@ -185,7 +185,7 @@ export default async function HomePage() {
 
       <ConsulenzaBand />
 
-      <section aria-labelledby="materie-title" className="mx-auto max-w-7xl px-4 pt-14">
+      <section aria-labelledby="materie-title" className="mx-auto max-w-site px-4 lg:px-8 pt-14">
         <h2 id="materie-title" className="font-sans tracking-tight text-3xl font-semibold">
           Sfoglia per materia
         </h2>

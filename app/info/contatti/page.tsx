@@ -21,7 +21,7 @@ const ACTIONS = [
 
 export default function ContattiPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10">
+    <div className="mx-auto max-w-site px-4 lg:px-8 py-10">
       <nav aria-label="Percorso" className="text-sm text-muted-foreground">
         <ol className="flex flex-wrap items-center gap-2">
           <li>

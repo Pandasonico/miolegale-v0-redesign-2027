@@ -18,7 +18,7 @@ export default async function BancaDatiPage() {
   return (
     <>
     <header id="ricerca" className="scroll-mt-24 bg-ink text-ink-foreground">
-      <div className="mx-auto max-w-7xl px-4 pb-10 pt-8 lg:pb-12">
+      <div className="mx-auto max-w-site px-4 lg:px-8 pb-10 pt-8 lg:pb-12">
         <nav aria-label="Percorso" className="text-sm text-ink-foreground/70">
           <ol className="flex flex-wrap items-center gap-1">
             <li>
@@ -44,7 +44,7 @@ export default async function BancaDatiPage() {
       </div>
     </header>
 
-    <div className="mx-auto max-w-7xl px-4 py-10">
+    <div className="mx-auto max-w-site px-4 lg:px-8 py-10">
       <h2 className="font-sans tracking-tight text-3xl font-semibold">Sfoglia per archivio</h2>
       <ul className="mt-6 grid gap-4 md:grid-cols-2">
           {[
