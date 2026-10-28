@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Calculator, Scale, Sparkles, Table2 } from 'lucide-react'
+import { BookOpen, Calculator, Scale, Table2 } from 'lucide-react'
 import { DATABASE_MENU, STUDIO } from '@/lib/site'
 import { HeaderSearch } from './header-search'
 import { NavLink } from './nav-link'
@@ -39,6 +39,13 @@ export function SiteHeader() {
               <Table2 className="size-4" aria-hidden />
               Utilità legali
             </Link>
+            <Link
+              href="/banca-dati"
+              className="hidden items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-ink-foreground/85 hover:bg-ink-foreground/10 hover:text-ink-foreground lg:flex"
+            >
+              <BookOpen className="size-4" aria-hidden />
+              Banca dati
+            </Link>
             <a
               href={STUDIO.consulenzaUrl}
               className="hidden items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-ink-foreground/85 hover:bg-ink-foreground/10 hover:text-ink-foreground lg:flex"
@@ -46,13 +53,6 @@ export function SiteHeader() {
               <Scale className="size-4" aria-hidden />
               Consulenza legale
             </a>
-            <Link
-              href="/assistente-ai"
-              className="hidden items-center gap-1.5 rounded-md bg-ink-foreground px-3 py-2 text-sm font-semibold text-ink hover:bg-ink-foreground/90 sm:flex"
-            >
-              <Sparkles className="size-4" aria-hidden />
-              Avvocato AI
-            </Link>
           </div>
         </div>
       </header>

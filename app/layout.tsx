@@ -4,6 +4,7 @@ import { IBM_Plex_Sans, Public_Sans } from 'next/font/google'
 import Script from 'next/script'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SiteFooter } from '@/components/layout/site-footer'
+import { AiFab } from '@/components/layout/ai-fab'
 import { MobileTabBar } from '@/components/layout/mobile-tab-bar'
 import { SITE } from '@/lib/site'
 import './globals.css'
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <MobileTabBar />
+        <AiFab />
         {ADSENSE_CLIENT && (
           <Script
             id="adsense"
