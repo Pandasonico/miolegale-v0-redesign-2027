@@ -59,6 +59,40 @@ function parseNeighbour(html: string, cls: string): ActLink | undefined {
 }
 
 // Articoli resi dal plugin miolegale-codici: il markup pubblico ml4cod-* è l'unica fonte accessibile.
+const normalizePath = (href: string) => href.replace(/[?#].*$/, '').replace(/\/+$/, '')
+
+// The plugin's preview box lists only the innermost group (Capo, Sezione…); the sidebar must
+// always show the whole Titolo, so siblings are rebuilt from the act's full index.
+async function siblingsByTitolo(path: string): Promise<ActArticle['siblings'] | null> {
+  const { getActIndex } = await import('./act-index')
+  const index = await getActIndex(path.split('/').slice(0, -1).join('/'))
+  if (!index) return null
+  const target = normalizePath(`/${path}`)
+  type Node = (typeof index)['root']
+
+  const findAncestors = (node: Node, trail: Node[]): Node[] | null => {
+    if (node.articles.some((a) => normalizePath(a.href) === target)) return trail
+    for (const child of node.children) {
+      const found = findAncestors(child, [...trail, child])
+      if (found) return found
+    }
+    return null
+  }
+  const ancestors = findAncestors(index.root, [])
+  if (!ancestors?.length) return null
+
+  const titolo = ancestors.findLast((n) => /^titolo\b/i.test(n.title)) ?? ancestors[0]
+  const articles: ActLink[] = []
+  const collect = (node: Node) => {
+    for (const a of node.articles) {
+      articles.push({ href: a.href, label: a.label, rubrica: a.rubrica, current: normalizePath(a.href) === target })
+    }
+    node.children.forEach(collect)
+  }
+  collect(titolo)
+  return { group: titolo.title || undefined, articles }
+}
+
 export async function getActArticle(path: string): Promise<ActArticle | null> {
   try {
     const res = await fetch(`${SITE.url}/${path}/`, { next: { revalidate: 86400 } })
@@ -128,7 +162,7 @@ export async function getActArticle(path: string): Promise<ActArticle | null> {
       commentHtml: commentHtml ? localizeHtml(commentHtml) : undefined,
       prev: parseNeighbour(article, 'ml4cod-prec'),
       next: parseNeighbour(article, 'ml4cod-succ'),
-      siblings: { group: groups.at(-1), articles: siblingArticles },
+      siblings: (await siblingsByTitolo(path)) ?? { group: groups.at(-1), articles: siblingArticles },
     }
   } catch {
     return null

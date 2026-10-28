@@ -6,6 +6,7 @@ import { BackToTop } from '@/components/article/back-to-top'
 import { ShareButtons } from '@/components/article/share-buttons'
 import { CopyTextButton } from '@/components/content/copy-text-button'
 import { ListingSidebar } from '@/components/content/listing'
+import { ScrollToCurrentList } from '@/components/content/scroll-to-current'
 import { SITE } from '@/lib/site'
 import type { ActArticle, ActLink } from '@/lib/act-article'
 
@@ -142,7 +143,7 @@ export function ActArticleView({ article, parent }: { article: ActArticle; paren
 
         <div className="flex flex-col gap-8">
           {article.siblings.articles.length > 0 && <SiblingIndex article={article} />}
-          <ListingSidebar rectangleAfterDatabase />
+          <ListingSidebar rectangleAfterDatabase className="flex-1" />
         </div>
       </div>
 
@@ -177,7 +178,7 @@ function SiblingIndex({ article }: { article: ActArticle }) {
         {article.act.title || 'Indice'}
       </p>
       {article.siblings.group && <p className="mt-2 text-sm font-semibold leading-snug text-foreground text-pretty">{article.siblings.group}</p>}
-      <ul className="mt-3 flex max-h-96 flex-col overflow-y-auto">
+      <ScrollToCurrentList className="relative mt-3 flex max-h-96 flex-col overflow-y-auto">
         {article.siblings.articles.map((a) => (
           <li key={a.href}>
             <Link
@@ -192,7 +193,7 @@ function SiblingIndex({ article }: { article: ActArticle }) {
             </Link>
           </li>
         ))}
-      </ul>
+      </ScrollToCurrentList>
       <Link
         href={article.act.href}
         className="mt-4 flex items-center justify-between gap-2 rounded-md bg-primary px-4 py-2.5 text-base font-semibold text-primary-foreground hover:bg-primary/90"

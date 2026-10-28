@@ -71,10 +71,16 @@ export function Listing({
   )
 }
 
-export function ListingSidebar({ rectangleAfterDatabase = false }: { rectangleAfterDatabase?: boolean }) {
+export function ListingSidebar({
+  rectangleAfterDatabase = false,
+  className = '',
+}: {
+  rectangleAfterDatabase?: boolean
+  className?: string
+}) {
   const rectangle = <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR} />
   return (
-  <aside className="flex flex-col gap-8" aria-label="Barra laterale">
+  <aside className={`flex flex-col gap-8 ${className}`} aria-label="Barra laterale">
   {!rectangleAfterDatabase && rectangle}
       <nav aria-labelledby="sb-sections" className="rounded-lg border border-border bg-card p-5">
         <p id="sb-sections" className="text-sm font-mono font-medium uppercase tracking-wider text-muted-foreground">
