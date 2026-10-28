@@ -72,7 +72,7 @@ export function ActIndexView({ act, parent }: { act: ActIndex; parent: { href: s
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-site gap-10 px-4 lg:px-8 pb-10 pt-8 lg:grid-cols-[1fr_320px]">
+      <div className="mx-auto grid max-w-site gap-10 px-4 lg:px-8 pb-10 pt-8 lg:grid-cols-[minmax(0,1fr)_350px]">
         <div className="min-w-0">
           <ActTree root={act.root} />
 

@@ -58,7 +58,7 @@ export function ToolShell({
       <div className="mx-auto max-w-site px-4 lg:px-8 py-8">
         <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_TOP} className="mb-6" />
 
-      <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_350px]">
         <div className="min-w-0">
           {children}
           {resultAd && (

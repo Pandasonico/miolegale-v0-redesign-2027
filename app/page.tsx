@@ -123,7 +123,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      <div className="mx-auto grid max-w-site gap-8 px-4 lg:px-8 pt-12 lg:grid-cols-[1fr_320px]">
+      <div className="mx-auto grid max-w-site gap-8 px-4 lg:px-8 pt-12 lg:grid-cols-[minmax(0,1fr)_350px]">
         <div className="flex flex-col gap-8">
           <SectionBlock title="Ultime massime" href="/massime" posts={latestMassime} description="Principi di diritto dalla giurisprudenza." />
           <AdSlot variant="in-feed" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_FEED} />

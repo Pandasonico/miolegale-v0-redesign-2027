@@ -45,7 +45,7 @@ export function Listing({
         <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_LIST_TOP} />
       </div>
 
-      <div className="mx-auto grid max-w-site gap-10 px-4 lg:px-8 pt-8 lg:grid-cols-[1fr_320px]">
+      <div className="mx-auto grid max-w-site gap-10 px-4 lg:px-8 pt-8 lg:grid-cols-[minmax(0,1fr)_350px]">
         <div>
           {posts.length === 0 ? (
             <p className="rounded-lg border border-border bg-card p-8 text-center text-muted-foreground">{emptyText}</p>

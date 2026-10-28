@@ -91,7 +91,7 @@ export default async function ArticlePage({ params }: Props) {
         <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_ARTICLE_TOP} />
       </div>
 
-      <div className="mx-auto grid max-w-site gap-10 px-4 lg:px-8 pt-6 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12">
+      <div className="mx-auto grid max-w-site gap-10 px-4 lg:px-8 pt-6 lg:grid-cols-[minmax(0,1fr)_350px] lg:gap-12">
         <article className="min-w-0">
           <div className="mx-auto max-w-3xl lg:mx-0 lg:max-w-none">
             {cover && (

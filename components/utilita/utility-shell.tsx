@@ -29,7 +29,7 @@ export function UtilityShell({
 
       <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_TOOL_TOP} className="my-6" />
 
-      <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_350px]">
         <div className="min-w-0">{children}</div>
         <aside className="flex flex-col gap-8" aria-label="Altre utilità">
           <AdSlot variant="rectangle" slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR} />
