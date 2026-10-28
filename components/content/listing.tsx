@@ -77,13 +77,13 @@ export function ListingSidebar({ rectangleAfterDatabase = false }: { rectangleAf
   <aside className="flex flex-col gap-8" aria-label="Barra laterale">
   {!rectangleAfterDatabase && rectangle}
       <nav aria-labelledby="sb-sections" className="rounded-lg border border-border bg-card p-5">
-        <p id="sb-sections" className="text-xs font-mono font-medium uppercase tracking-wider text-muted-foreground">
+        <p id="sb-sections" className="text-sm font-mono font-medium uppercase tracking-wider text-muted-foreground">
           Banca dati
         </p>
         <ul className="mt-3 space-y-1">
           {DATABASE_MENU.map((s) => (
             <li key={s.href}>
-              <Link href={s.href} className="block py-1.5 text-sm font-medium text-foreground hover:text-primary hover:underline">
+              <Link href={s.href} className="block py-1.5 text-base font-medium text-foreground hover:text-primary hover:underline">
                 {s.label}
               </Link>
             </li>
@@ -91,7 +91,7 @@ export function ListingSidebar({ rectangleAfterDatabase = false }: { rectangleAf
         </ul>
         <a
           href={SITE.bancaDatiGiuridicaUrl}
-          className="mt-4 flex items-center justify-between gap-2 rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+          className="mt-4 flex items-center justify-between gap-2 rounded-md bg-primary px-3 py-2.5 text-base font-semibold text-primary-foreground hover:bg-primary/90"
         >
           Ricerca avanzata con filtri
           <ArrowUpRight className="size-4 shrink-0" aria-hidden />
@@ -99,13 +99,13 @@ export function ListingSidebar({ rectangleAfterDatabase = false }: { rectangleAf
       </nav>
       {rectangleAfterDatabase && rectangle}
       <nav aria-labelledby="sb-tools" className="rounded-lg border border-transparent bg-secondary p-5">
-        <p id="sb-tools" className="text-xs font-mono font-medium uppercase tracking-wider text-secondary-foreground">
+        <p id="sb-tools" className="text-sm font-mono font-medium uppercase tracking-wider text-secondary-foreground">
           Calcolatori
         </p>
         <ul className="mt-3 space-y-1">
           {POPULAR_TOOLS.slice(0, 6).map((t) => (
             <li key={t.slug}>
-              <Link href={`/calcolo/${t.slug}`} className="block py-1.5 text-sm font-medium text-primary hover:underline">
+              <Link href={`/calcolo/${t.slug}`} className="block py-1.5 text-base font-medium text-primary hover:underline">
                 {t.title}
               </Link>
             </li>
@@ -113,7 +113,7 @@ export function ListingSidebar({ rectangleAfterDatabase = false }: { rectangleAf
         </ul>
         <Link
           href="/calcolo"
-          className="mt-4 flex items-center justify-between gap-2 rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+          className="mt-4 flex items-center justify-between gap-2 rounded-md bg-primary px-3 py-2.5 text-base font-semibold text-primary-foreground hover:bg-primary/90"
         >
           Tutti i calcolatori
           <ArrowRight className="size-4 shrink-0" aria-hidden />
