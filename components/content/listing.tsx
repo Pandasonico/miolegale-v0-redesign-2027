@@ -83,7 +83,7 @@ export function ListingSidebar({ rectangleAfterDatabase = false }: { rectangleAf
         <ul className="mt-3 space-y-1">
           {DATABASE_MENU.map((s) => (
             <li key={s.href}>
-              <Link href={s.href} className="block rounded px-2 py-1.5 text-sm hover:bg-muted hover:text-primary">
+              <Link href={s.href} className="block py-1.5 text-sm font-medium text-foreground hover:text-primary hover:underline">
                 {s.label}
               </Link>
             </li>
@@ -98,7 +98,7 @@ export function ListingSidebar({ rectangleAfterDatabase = false }: { rectangleAf
         </a>
       </nav>
       {rectangleAfterDatabase && rectangle}
-      <nav aria-labelledby="sb-tools" className="rounded-lg bg-secondary p-5">
+      <nav aria-labelledby="sb-tools" className="rounded-lg border border-transparent bg-secondary p-5">
         <p id="sb-tools" className="text-xs font-mono font-medium uppercase tracking-wider text-secondary-foreground">
           Calcolatori
         </p>
