@@ -4,10 +4,17 @@ import { ShareButtons } from '@/components/article/share-buttons'
 import { ActTree } from '@/components/content/act-tree'
 import { ListingSidebar } from '@/components/content/listing'
 import { SITE } from '@/lib/site'
-import type { ActIndex } from '@/lib/act-index'
+import type { ActIndex, ActNode } from '@/lib/act-index'
+
+function collectArticleSlugs(node: ActNode, slugs: Set<string>) {
+  for (const article of node.articles) slugs.add(article.slug)
+  for (const child of node.children) collectArticleSlugs(child, slugs)
+  return slugs
+}
 
 export function ActIndexView({ act, parent }: { act: ActIndex; parent: { href: string; label: string } }) {
   const shortTitle = act.title.replace(/\s*\([^)]*\)\s*$/, '')
+  const articleCount = collectArticleSlugs(act.root, new Set()).size
 
   return (
     <>
@@ -37,13 +44,28 @@ export function ActIndexView({ act, parent }: { act: ActIndex; parent: { href: s
             <h1 className="font-sans text-3xl font-semibold leading-tight tracking-tight text-balance md:text-4xl lg:text-5xl">
               {act.title}
             </h1>
-            {act.estremi && <p className="mt-4 font-sans text-xl font-semibold md:text-2xl">{act.estremi}</p>}
             {act.officialTitle && (
-              <p className="mt-2 max-w-3xl text-lg italic leading-relaxed text-ink-foreground/80 text-pretty">
+              <p className="mt-4 max-w-3xl text-lg italic leading-relaxed text-ink-foreground/80 text-pretty">
                 {act.officialTitle}
               </p>
             )}
-            <div className="mt-8 flex justify-end border-t border-ink-foreground/15 pt-5">
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-ink-foreground/15 pt-5">
+              <dl className="flex flex-wrap items-center gap-x-6 gap-y-1 text-sm text-ink-foreground/80">
+                {act.estremi && (
+                  <div className="flex gap-1.5">
+                    <dt className="sr-only">Estremi dell&apos;atto</dt>
+                    <dd className="font-semibold text-ink-foreground">{act.estremi}</dd>
+                  </div>
+                )}
+                {articleCount > 0 && (
+                  <div className="flex gap-1.5">
+                    <dt className="sr-only">Numero di articoli</dt>
+                    <dd>
+                      {articleCount.toLocaleString('it-IT')} {articleCount === 1 ? 'articolo' : 'articoli'}
+                    </dd>
+                  </div>
+                )}
+              </dl>
               <ShareButtons url={`${SITE.url}/${act.path}/`} title={act.title} />
             </div>
           </div>
