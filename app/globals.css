@@ -128,6 +128,20 @@
   @apply text-sm text-muted-foreground mt-2;
 }
 
+.act-text {
+  font-family: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+  @apply flex flex-col gap-4 text-lg leading-relaxed text-foreground text-pretty;
+}
+.act-text p {
+  @apply relative pl-9;
+}
+.act-text .ml4cod-ncomma {
+  @apply absolute left-0 top-0 font-mono text-base font-semibold leading-[1.75] tabular-nums text-primary;
+}
+.act-text a {
+  @apply text-primary underline underline-offset-2 hover:no-underline;
+}
+
 .wp-content :is(h2, h3, h4) {
   scroll-margin-top: 6rem;
 }

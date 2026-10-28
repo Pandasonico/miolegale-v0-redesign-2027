@@ -1,3 +1,4 @@
+import { localHref } from './act-article'
 import { SITE } from './site'
 
 export type ActArticle = { slug: string; href: string; label: string; rubrica?: string; group?: string }
@@ -69,7 +70,7 @@ export async function getActIndex(path: string): Promise<ActIndex | null> {
         const rubrica = /<span>([\s\S]*?)<\/span>/.exec(liBody)?.[1]
         current.articles.push({
           slug: /data-slug="([^"]+)"/.exec(liAttrs)?.[1] ?? href,
-          href,
+          href: localHref(href),
           label,
           rubrica: rubrica ? clean(rubrica) : undefined,
           group: /data-c="([^"]+)"/.exec(liAttrs)?.[1],
