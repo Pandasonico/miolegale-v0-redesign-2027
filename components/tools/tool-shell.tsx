@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
+import { ArrowRight, ChevronRight } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { POPULAR_TOOLS, TOOLS } from '@/lib/site'
 
@@ -83,16 +83,18 @@ export function ToolShell({
                   </li>
                 ))}
               <li>
-                <Link href="/calcolo" className="block py-1.5 text-sm font-semibold text-primary hover:underline">
-                  Tutti i calcolatori
-                </Link>
-              </li>
-              <li>
                 <Link href="/assistente-ai" className="block py-1.5 text-sm font-medium text-primary hover:underline">
                   Assistente AI giuridico
                 </Link>
               </li>
             </ul>
+            <Link
+              href="/calcolo"
+              className="mt-4 flex items-center justify-between gap-2 rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+            >
+              Tutti i calcolatori
+              <ArrowRight className="size-4 shrink-0" aria-hidden />
+            </Link>
           </nav>
           <div className="sticky top-24">
             <AdSlot variant="skyscraper" slot={process.env.NEXT_PUBLIC_AD_SLOT_SIDEBAR_STICKY} />
