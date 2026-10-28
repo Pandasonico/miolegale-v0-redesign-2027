@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { ShareButtons } from '@/components/article/share-buttons'
 import { ActTree } from '@/components/content/act-tree'
+import { ListingSidebar } from '@/components/content/listing'
 import { SITE } from '@/lib/site'
 import type { ActIndex } from '@/lib/act-index'
 
@@ -11,7 +12,7 @@ export function ActIndexView({ act, parent }: { act: ActIndex; parent: { href: s
   return (
     <>
       <header className="bg-ink text-ink-foreground">
-        <div className="mx-auto max-w-5xl px-4 pb-10 pt-8 lg:pb-12">
+        <div className="mx-auto max-w-7xl px-4 pb-10 pt-8 lg:pb-12">
           <nav aria-label="Percorso" className="text-sm text-ink-foreground/70">
             <ol className="flex flex-wrap items-center gap-2">
               <li>
@@ -49,10 +50,13 @@ export function ActIndexView({ act, parent }: { act: ActIndex; parent: { href: s
         </div>
       </header>
 
-      <div className="mx-auto max-w-5xl px-4 pb-10">
-        <ActTree root={act.root} />
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 pb-10 pt-8 lg:grid-cols-[1fr_320px]">
+        <div className="min-w-0">
+          <ActTree root={act.root} />
 
-        <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_LIST_TOP} className="mt-10" />
+          <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_LIST_TOP} className="mt-10" />
+        </div>
+        <ListingSidebar />
       </div>
     </>
   )
