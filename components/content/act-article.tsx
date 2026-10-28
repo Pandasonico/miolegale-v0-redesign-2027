@@ -178,7 +178,7 @@ function SiblingIndex({ article }: { article: ActArticle }) {
         {article.act.title || 'Indice'}
       </p>
       {article.siblings.group && <p className="mt-2 text-sm font-semibold leading-snug text-foreground text-pretty">{article.siblings.group}</p>}
-      <ScrollToCurrentList className="relative mt-3 flex max-h-96 flex-col overflow-y-auto">
+      <ScrollToCurrentList className="relative mt-3 flex max-h-[484px] flex-col overflow-y-auto">
         {article.siblings.articles.map((a) => (
           <li key={a.href}>
             <Link
