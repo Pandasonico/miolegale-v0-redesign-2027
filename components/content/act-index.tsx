@@ -43,7 +43,7 @@ export function ActIndexView({ act, parent }: { act: ActIndex; parent: { href: s
                 {act.officialTitle}
               </p>
             )}
-            <div className="mt-6">
+            <div className="mt-8 flex justify-end border-t border-ink-foreground/15 pt-5">
               <ShareButtons url={`${SITE.url}/${act.path}/`} title={act.title} />
             </div>
           </div>

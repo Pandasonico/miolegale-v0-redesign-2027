@@ -40,13 +40,13 @@ export function NewsletterForm() {
         <button
           type="submit"
           disabled={pending}
-          className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-ink-foreground px-5 text-sm font-semibold text-ink hover:bg-ink-foreground/90 disabled:opacity-70"
+          className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-md border border-ink-foreground/25 px-5 text-sm font-semibold text-ink-foreground hover:bg-ink-foreground/10 disabled:opacity-70"
         >
           {pending ? <Loader2 className="size-4 animate-spin" aria-hidden /> : <ArrowRight className="size-4" aria-hidden />}
           Iscriviti
         </button>
       </div>
-      <p className="text-xs leading-relaxed text-ink-foreground/70">
+      <p className="text-sm leading-relaxed text-ink-foreground/70">
         L&rsquo;email sar&agrave; utilizzata esclusivamente per l&rsquo;invio della newsletter giuridica. Cancellazione in qualsiasi
         momento.
       </p>
