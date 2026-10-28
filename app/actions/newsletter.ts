@@ -8,13 +8,9 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 export async function subscribeNewsletter(_prev: NewsletterState, formData: FormData): Promise<NewsletterState> {
   const email = String(formData.get('email') ?? '').trim().toLowerCase()
-  const consent = formData.get('privacy') === 'on'
 
   if (!EMAIL_RE.test(email) || email.length > 254) {
     return { status: 'error', message: 'Inserisci un indirizzo email valido.' }
-  }
-  if (!consent) {
-    return { status: 'error', message: 'Per iscriverti devi accettare l’informativa privacy.' }
   }
   // Honeypot: real users never fill this hidden field.
   if (String(formData.get('website') ?? '') !== '') {

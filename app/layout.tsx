@@ -1,23 +1,24 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google'
+import { IBM_Plex_Sans, Public_Sans } from 'next/font/google'
 import Script from 'next/script'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SiteFooter } from '@/components/layout/site-footer'
+import { AiFab } from '@/components/layout/ai-fab'
 import { MobileTabBar } from '@/components/layout/mobile-tab-bar'
 import { SITE } from '@/lib/site'
 import './globals.css'
 
 const plexSans = IBM_Plex_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
   variable: '--font-plex-sans',
   display: 'swap',
 })
-const plexMono = IBM_Plex_Mono({
+
+const publicSans = Public_Sans({
   subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-plex-mono',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-public-sans',
   display: 'swap',
 })
 
@@ -46,7 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html
       lang="it"
-      className={`${plexSans.variable} ${plexMono.variable} bg-background`}
+      className={`${plexSans.variable} ${publicSans.variable} bg-background`}
       suppressHydrationWarning
     >
       <body
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <main className="flex-1">{children}</main>
         <SiteFooter />
         <MobileTabBar />
+        <AiFab />
         {ADSENSE_CLIENT && (
           <Script
             id="adsense"

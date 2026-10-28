@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
+import { BancaDatiSearchForm } from '@/components/banca-dati/search-form'
 import { MATERIE, SECTIONS, SOURCE_ARCHIVES } from '@/lib/site'
 import { getCategories } from '@/lib/wp'
 
@@ -14,13 +16,41 @@ export default async function BancaDatiPage() {
   const count = (slug: string) => categories.find((c) => c.slug === slug)?.count ?? 0
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10">
-      <p className="text-sm font-mono font-medium uppercase tracking-widest text-primary">Banca dati</p>
-      <h1 className="mt-2 font-sans tracking-tight text-4xl font-semibold">Tutta la banca dati giuridica</h1>
-      <p className="mt-3 max-w-2xl text-muted-foreground">Consulta i contenuti per tipologia o per materia.</p>
+    <>
+    <header id="ricerca" className="scroll-mt-24 bg-ink text-ink-foreground">
+      <div className="mx-auto max-w-site px-4 lg:px-8 pb-10 pt-8 lg:pb-12">
+        <nav aria-label="Percorso" className="text-sm text-ink-foreground/70">
+          <ol className="flex flex-wrap items-center gap-1">
+            <li>
+              <Link href="/" className="hover:text-ink-foreground">
+                Home
+              </Link>
+            </li>
+            <li aria-hidden>
+              <ChevronRight className="size-3.5" />
+            </li>
+            <li aria-current="page">Banca dati</li>
+          </ol>
+        </nav>
+        <h1 className="mt-6 font-sans text-3xl font-semibold leading-tight tracking-tight text-balance md:text-4xl lg:text-[2.5rem]">
+          Banca dati giuridica gratuita
+        </h1>
+        <p className="mt-3 max-w-3xl leading-relaxed text-ink-foreground/80 text-pretty">
+          Interroga in un&apos;unica ricerca massime, sentenze, leggi, guide, notizie, formulari e brocardi: scegli l&apos;archivio e inserisci uno o più termini.
+        </p>
+        <div className="mt-8">
+          <BancaDatiSearchForm />
+        </div>
+      </div>
+    </header>
 
-      <ul className="mt-8 grid gap-4 md:grid-cols-2">
-        {SOURCE_ARCHIVES.map((a) => (
+    <div className="mx-auto max-w-site px-4 lg:px-8 py-10">
+      <h2 className="font-sans tracking-tight text-3xl font-semibold">Sfoglia per archivio</h2>
+      <ul className="mt-6 grid gap-4 md:grid-cols-2">
+          {[
+            ...SOURCE_ARCHIVES,
+            { slug: 'massime', label: 'Giurisprudenza', description: 'Massime giurisprudenziali e sentenze correlate' },
+          ].map((a) => (
           <li key={a.slug}>
             <Link href={`/${a.slug}`} className="flex h-full flex-col rounded-lg bg-primary p-5 text-primary-foreground hover:bg-primary/90">
               <span className="font-sans tracking-tight text-2xl font-semibold">{a.label}</span>
@@ -61,5 +91,6 @@ export default async function BancaDatiPage() {
         ))}
       </ul>
     </div>
+    </>
   )
 }

@@ -3,7 +3,6 @@
 import { useActionState, useId } from 'react'
 import { ArrowRight, CheckCircle2, Loader2 } from 'lucide-react'
 import { subscribeNewsletter, type NewsletterState } from '@/app/actions/newsletter'
-import { STUDIO } from '@/lib/site'
 
 const initialState: NewsletterState = { status: 'idle', message: '' }
 
@@ -41,22 +40,16 @@ export function NewsletterForm() {
         <button
           type="submit"
           disabled={pending}
-          className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-ink-foreground px-5 text-sm font-semibold text-ink hover:bg-ink-foreground/90 disabled:opacity-70"
+          className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-md border border-ink-foreground/25 px-5 text-sm font-semibold text-ink-foreground hover:bg-ink-foreground/10 disabled:opacity-70"
         >
           {pending ? <Loader2 className="size-4 animate-spin" aria-hidden /> : <ArrowRight className="size-4" aria-hidden />}
           Iscriviti
         </button>
       </div>
-      <label className="flex items-start gap-2 text-xs leading-relaxed text-ink-foreground/70">
-        <input type="checkbox" name="privacy" required className="mt-0.5 size-4 shrink-0 accent-accent" />
-        <span className="lg:whitespace-nowrap">
-          Accetto l&apos;
-          <a href={STUDIO.privacyUrl} className="underline hover:text-ink-foreground">
-            informativa sul trattamento dei dati
-          </a>
-          . Puoi cancellarti in qualsiasi momento.
-        </span>
-      </label>
+      <p className="text-sm leading-relaxed text-ink-foreground/70">
+        L&rsquo;email sar&agrave; utilizzata esclusivamente per l&rsquo;invio della newsletter giuridica. Cancellazione in qualsiasi
+        momento.
+      </p>
       {state.status === 'error' && (
         <p id={`${id}-msg`} role="alert" className="text-sm font-medium text-accent">
           {state.message}

@@ -13,7 +13,7 @@ type Props = { searchParams: Promise<{ q?: string }> }
 export default async function AssistentePage({ searchParams }: Props) {
   const { q } = await searchParams
   return (
-    <div className="mx-auto grid max-w-7xl gap-10 px-4 py-8 lg:grid-cols-[1fr_320px]">
+    <div className="mx-auto grid max-w-site gap-10 px-4 lg:px-8 py-8 lg:grid-cols-[minmax(0,1fr)_350px]">
       <div className="min-w-0">
         <p className="text-sm font-mono font-medium uppercase tracking-widest text-primary">Assistente AI</p>
         <h1 className="mt-2 font-sans tracking-tight text-4xl font-semibold text-balance">Chiedi all&apos;assistente giuridico</h1>

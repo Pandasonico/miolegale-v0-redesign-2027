@@ -2,20 +2,21 @@ import Link from 'next/link'
 import { ArrowRight, Landmark } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
 import { ImageCard, PostRow, SectionBlock } from '@/components/content/post-list'
+import { HomeTools } from '@/components/home/home-tools'
 import { Omnibox } from '@/components/home/omnibox'
 import { ConsulenzaBand } from '@/components/studio/consulenza-cta'
-import { ToolsGrid } from '@/components/tools/tools-grid'
 import { MATERIE, SOURCE_ARCHIVES } from '@/lib/site'
-import { getCategories, getLongExcerpt, getPosts } from '@/lib/wp'
+import { getCategories, getLongExcerpt, getPosts, getUtilityPages } from '@/lib/wp'
 
 export default async function HomePage() {
-  const [categories, massime, norme, notizie, guide, brocardi] = await Promise.all([
+  const [categories, massime, norme, notizie, guide, brocardi, utilities] = await Promise.all([
     getCategories(),
     getPosts({ categorySlug: 'massime', perPage: 9, withImages: true }),
     getPosts({ categorySlug: 'norme', perPage: 10, withImages: true }),
     getPosts({ categorySlug: 'notizie', perPage: 10, withImages: true }),
     getPosts({ categorySlug: 'guide', perPage: 4, withImages: true }),
     getPosts({ categorySlug: 'brocardi', perPage: 1 }),
+    getUtilityPages(),
   ])
 
   const byDateDesc = (a: { date: string }, b: { date: string }) => b.date.localeCompare(a.date)
@@ -39,11 +40,11 @@ export default async function HomePage() {
   return (
     <>
       <section className="bg-ink text-ink-foreground">
-        <div className="mx-auto max-w-7xl px-4 pb-14 pt-14 text-center lg:pt-20">
-          <h1 className="font-sans tracking-tight text-4xl font-semibold leading-tight text-balance md:text-5xl xl:whitespace-nowrap xl:text-4xl">
+        <div className="mx-auto max-w-site px-4 lg:px-8 pb-14 pt-14 text-center lg:pt-20">
+          <h1 className="font-sans tracking-tight text-2xl font-semibold leading-tight text-balance md:whitespace-nowrap">
             Trova la norma, la sentenza o la risposta che ti serve.
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-pretty text-ink-foreground/75 lg:max-w-none lg:whitespace-nowrap lg:text-[17px]">
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-pretty text-ink-foreground/75 lg:max-w-none lg:whitespace-nowrap">
             La banca dati giuridica gratuita con massime, sentenze e norme, calcolatori legali e un Avvocato AI che cita le fonti.
           </p>
           <div className="mx-auto mt-8 max-w-[950px] text-left">
@@ -52,11 +53,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 pt-6">
+      <div className="mx-auto max-w-site px-4 lg:px-8 pt-6">
         <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_TOP} />
       </div>
 
-      <section aria-labelledby="fonti-title" className="mx-auto max-w-7xl px-4 pt-10">
+      <section aria-labelledby="fonti-title" className="mx-auto max-w-site px-4 lg:px-8 pt-10">
         <h2 id="fonti-title" className="font-sans tracking-tight text-3xl font-semibold">
           Fonti del diritto
         </h2>
@@ -72,7 +73,7 @@ export default async function HomePage() {
                   <Landmark className="size-5 text-primary" aria-hidden />
                   {a.label}
                 </span>
-                <span className="text-sm leading-relaxed text-muted-foreground">{a.description}</span>
+                <span className="hidden text-sm leading-relaxed text-muted-foreground sm:block">{a.description}</span>
                 <span className="mt-auto flex items-center gap-1 pt-2 text-sm font-medium text-primary">
                   Consulta <ArrowRight className="size-3.5" aria-hidden />
                 </span>
@@ -82,7 +83,7 @@ export default async function HomePage() {
         </ul>
       </section>
 
-      <section aria-labelledby="tools-title" className="mx-auto max-w-7xl px-4 pt-12">
+      <section aria-labelledby="tools-title" className="mx-auto max-w-site px-4 lg:px-8 pt-12">
         <div className="mb-6 flex items-end justify-between">
           <div>
             <h2 id="tools-title" className="font-sans tracking-tight text-3xl font-semibold">
@@ -90,34 +91,39 @@ export default async function HomePage() {
             </h2>
             <p className="mt-1 text-muted-foreground">Gratuiti, aggiornati e pronti per lo studio legale.</p>
           </div>
-          <Link href="/calcolatori" className="hidden text-sm font-medium text-primary hover:underline sm:block">
-            Tutti gli strumenti
-          </Link>
+          <div className="hidden items-center gap-5 text-base font-medium text-primary sm:flex">
+            <Link href="/calcolo" className="hover:underline">
+              Tutti i calcolatori
+            </Link>
+            <Link href="/utilita" className="hover:underline">
+              Tutte le utilità
+            </Link>
+          </div>
         </div>
-        <ToolsGrid />
+        <HomeTools utilities={utilities} />
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 pt-12">
+      <div className="mx-auto max-w-site px-4 lg:px-8 pt-12">
         <AdSlot variant="leaderboard" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_MIDDLE} />
       </div>
 
       {leadNews && (
-        <section aria-labelledby="featured-title" className="mx-auto max-w-7xl px-4 pt-14">
+        <section aria-labelledby="featured-title" className="mx-auto max-w-site px-4 lg:px-8 pt-14">
           <div className="mb-6 flex items-end justify-between">
-            <h2 id="featured-title" className="font-sans tracking-tight text-3xl font-semibold">
+            <h2 id="featured-title" className="font-sans tracking-tight text-[28px] font-semibold">
               In primo piano
             </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <ImageCard post={leadNews} featured />
-            {otherNews.map((p) => (
-              <ImageCard key={p.id} post={p} />
+            <ImageCard post={leadNews} featured titleSize="text-[23px]" />
+            {otherNews.map((p, i) => (
+              <ImageCard key={p.id} post={p} titleSize={i === 1 || i === 3 ? 'text-base' : undefined} />
             ))}
           </div>
         </section>
       )}
 
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 pt-12 lg:grid-cols-[1fr_320px]">
+      <div className="mx-auto grid max-w-site gap-8 px-4 lg:px-8 pt-12 lg:grid-cols-[minmax(0,1fr)_350px]">
         <div className="flex flex-col gap-8">
           <SectionBlock title="Ultime massime" href="/massime" posts={latestMassime} description="Principi di diritto dalla giurisprudenza." />
           <AdSlot variant="in-feed" slot={process.env.NEXT_PUBLIC_AD_SLOT_HOME_FEED} />
@@ -157,7 +163,7 @@ export default async function HomePage() {
       </div>
 
       {guide.posts.length > 0 && (
-        <section aria-labelledby="guide-title" className="mx-auto max-w-7xl px-4 pt-14">
+        <section aria-labelledby="guide-title" className="mx-auto max-w-site px-4 lg:px-8 pt-14">
           <div className="mb-6 flex items-end justify-between">
             <div>
               <h2 id="guide-title" className="font-sans tracking-tight text-3xl font-semibold">
@@ -179,7 +185,7 @@ export default async function HomePage() {
 
       <ConsulenzaBand />
 
-      <section aria-labelledby="materie-title" className="mx-auto max-w-7xl px-4 pt-14">
+      <section aria-labelledby="materie-title" className="mx-auto max-w-site px-4 lg:px-8 pt-14">
         <h2 id="materie-title" className="font-sans tracking-tight text-3xl font-semibold">
           Sfoglia per materia
         </h2>
