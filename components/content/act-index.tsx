@@ -54,7 +54,7 @@ export function ActIndexView({ act, parent }: { act: ActIndex; parent: { href: s
                 {act.estremi && (
                   <div className="flex gap-1.5">
                     <dt className="sr-only">Estremi dell&apos;atto</dt>
-                    <dd className="font-semibold text-ink-foreground">{act.estremi}</dd>
+                    <dd className="text-base font-semibold text-ink-foreground">{act.estremi}</dd>
                   </div>
                 )}
                 {articleCount > 0 && (
