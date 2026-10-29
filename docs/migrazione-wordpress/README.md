@@ -28,7 +28,7 @@ Il prototipo è la **fonte di verità per la grafica**: in caso di dubbio, confr
 2. Header, footer, barra mobile e pulsante «Avvocato AI»: tutte le pagine li condividono.
 3. Template singolo articolo (`single.php`) e archivio di categoria: coprono la maggior parte del traffico.
 4. Codici, testi unici e Costituzione: indice dell'atto e pagina del singolo articolo.
-5. Calcolatori e utilità.
+5. Calcolatori e utilità: restano normali pagine WordPress, il tema fornisce solo la cornice. Non riscrivere i form.
 6. Home, Banca dati, ricerca, tag, contatti e consulenza.
 7. Annunci, newsletter, assistente AI.
 8. Checklist finale e confronto visivo pagina per pagina con il prototipo.

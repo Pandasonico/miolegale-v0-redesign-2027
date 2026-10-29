@@ -13,7 +13,7 @@ Nel prototipo i dati arrivano da miolegale.it **via rete**. Nel tema sono già d
 | Indice di codici, testi unici, Costituzione | `lib/act-index.ts`: legge l'HTML pubblico della pagina dell'atto | dati del plugin che genera oggi codici e testi unici (classi HTML `ml4cod-*`): leggerli dalla sorgente del plugin, non riparsare l'HTML |
 | Singolo articolo dell'atto (commi, rubrica, precedente/successivo, elenco del titolo) | `lib/act-article.ts` | come sopra; mantenere la stessa struttura dati (`ActArticle`, `ActLink`) |
 | Elenco atti (`/codici`, `/testi-unici`) | `lib/archives.ts` | pagine esistenti; ricostruire le sezioni con lo stesso raggruppamento |
-| Calcolatori e utilità | `getCalcPageList`, `getCalcPage`, `getUtilityPages` in `lib/wp.ts`; campi `categoria_calcolatore` e `categoria_utilita` | pagine figlie di `calcolo` / `utilita` e i loro campi personalizzati (ACF o meta, da verificare) |
+| Calcolatori e utilità | `getCalcPageList`, `getCalcPage`, `getUtilityPages` in `lib/wp.ts`; campi `categoria_calcolatore` e `categoria_utilita` | pagine WordPress esistenti, figlie di `calcolo` / `utilita`: il loro contenuto (form compresi) resta invariato e viene stampato con `the_content()` |
 | Registro calcolatori, categorie, popolari | `TOOLS`, `TOOL_CATEGORIES`, `POPULAR_TOOLS` in `lib/site.ts` | campo per la categoria e campo «popolare» sulle pagine, oppure un file `inc/tools.php` con lo stesso registro |
 | Menu, materie, sezioni | `lib/site.ts` | menu WordPress registrati (vedi `mappa-template.md`) |
 | Opzioni della ricerca avanzata | `lib/banca-dati-options.ts` | `get_terms` sulle tassonomie corrispondenti |
@@ -26,6 +26,7 @@ Nel prototipo i dati arrivano da miolegale.it **via rete**. Nel tema sono già d
 - **Assistente AI** (`/assistente-ai`, `app/api/chat/route.ts`): usa AI SDK su Vercel e **non va riscritto in PHP**. Opzione consigliata: lasciare l'endpoint `/api/chat` su un progetto Vercel e chiamarlo dal tema via `fetch` in streaming, con CORS limitato a miolegale.it e un rate limit. In alternativa, un endpoint REST WordPress che fa da proxy.
 - **Recensioni:** `components/contacts/reviews-widget.tsx`, da collegare alla stessa sorgente attuale.
 - **Form di consulenza:** mantiene il plugin o l'endpoint attuale; cambia solo la grafica.
+- **Calcolatori e utilità:** sono normali pagine WordPress con form e contenuti già revisionati. Non vanno migrati né riscritti. Lo stile dei loro form (campi, etichette, pulsanti, risultati) sarà adeguato in seguito dal proprietario via CSS; il tema deve solo offrire classi e token (`--primary`, `--border`, `--radius`...) coerenti con il design system, così che basti un foglio di stile dedicato.
 
 ## Variabili d'ambiente del prototipo
 

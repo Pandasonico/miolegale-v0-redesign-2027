@@ -34,8 +34,8 @@ Menu: header, footer e barra mobile oggi sono costanti in `lib/site.ts` (`DATABA
 | `/testi-unici/`, `/testi-unici/{tu}/`, `/testi-unici/{tu}/{art-n}/` | `app/testi-unici/**` (stessi componenti dei codici) | stessi template dei codici |
 | `/costituzione/`, `/costituzione/{art-n}/` | `app/costituzione/**` (stessi componenti) | stessi template dei codici |
 | `/calcolo/` | `app/calcolo/page.tsx`, `components/tools/tools-index.tsx`, `tools-grid.tsx` | `page-calcolo.php` |
-| `/calcolo/{slug}/` | `app/calcolo/[slug]/page.tsx`, `components/tools/tool-shell.tsx`, `wp-calculator.tsx` | template delle pagine figlie di `calcolo` |
-| `/utilita/`, `/utilita/{slug}/` | `app/utilita/**`, `components/utilita/*` | come i calcolatori |
+| `/calcolo/{slug}/` | `app/calcolo/[slug]/page.tsx`, `components/tools/tool-shell.tsx` (solo per la cornice) | normale `page.php`: sono pagine WordPress con form e contenuti già revisionati. **Non riscrivere i calcolatori**, il tema fornisce solo cornice (header, breadcrumb, barra laterale) |
+| `/utilita/`, `/utilita/{slug}/` | `app/utilita/**` (solo per la cornice) | come i calcolatori: normali pagine WordPress |
 | `/assistente-ai` | `app/assistente-ai/page.tsx`, `components/ai/legal-chat.tsx` | `page-assistente-ai.php` + `assets/js/legal-chat.js` |
 | `/consulenza-legale` | `app/consulenza-legale/page.tsx`, `components/consulenza/consulenza-form.tsx`, `components/studio/consulenza-cta.tsx` | `page-consulenza-legale.php` (il form resta quello del plugin attuale) |
 | `/info/contatti` | `app/info/contatti/page.tsx`, `components/contacts/reviews-widget.tsx`, `lib/contacts.ts` | `page-contatti.php` |
