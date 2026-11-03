@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { NewsletterForm } from '@/components/newsletter/newsletter-form'
+import { CookieConsentLink } from '@/components/layout/cookie-consent-link'
 import { DATABASE_MENU, MATERIE, POPULAR_TOOLS, SITE, STUDIO } from '@/lib/site'
 
 export function SiteFooter() {
@@ -59,6 +60,9 @@ export function SiteFooter() {
             informativa e non costituiscono consulenza legale.
           </p>
           <ul className="flex shrink-0 items-center gap-4">
+            <li>
+              <CookieConsentLink className="hover:text-ink-foreground hover:underline" />
+            </li>
             <li>
               <a href={STUDIO.privacyUrl} className="hover:text-ink-foreground hover:underline">
                 Note legali e privacy
