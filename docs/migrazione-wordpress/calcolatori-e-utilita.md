@@ -5,12 +5,15 @@ Questo documento sostituisce ogni indicazione precedente sull'organizzazione di 
 ## Regole generali (valide per entrambe le sezioni)
 
 1. **Le singole pagine non si toccano.** Ogni calcolatore e ogni utilità è una normale pagina WordPress, figlia di `calcolo` o `utilita`, con form e contenuti già revisionati. Il tema le stampa con `the_content()` dentro la cornice (header, breadcrumb, barra laterale). Non riscrivere, spostare o rinominare nessuna pagina e non cambiare nessun URL.
-2. **Cambia solo la pagina indice** (`page-calcolo.php`, `page-utilita.php`): come sono raggruppati i link, in che ordine e con quali titoli.
-3. **Fonte di verità nel prototipo:**
+2. **I CSS dei calcolatori e delle utilità restano quelli attuali.** I fogli di stile specifici dei form (e gli eventuali JS) vanno caricati sul nuovo tema esattamente come oggi, con gli stessi handle, file e condizioni di caricamento. Non riscriverli, non unirli a `main.css`, non convertirli in Tailwind. Se in seguito vanno adeguati al nuovo tema, lo decido io.
+   - Il CSS del tema non deve alterare i form: il preflight di Tailwind e le regole di `.wp-content` (tabelle, liste, titoli, margini) non devono cambiare l'aspetto di `input`, `select`, `textarea`, `button`, `label`, `fieldset` e delle tabelle dei risultati. Escludi il contenuto di queste pagine dalle regole del tema o limita lo scope (per esempio con `:where()` o un contenitore dedicato), senza toccare i CSS dei form.
+   - Prima di procedere, elenca i CSS/JS dei calcolatori e delle utilità che trovi registrati nel tema o nei plugin attuali e come vengono caricati, e mostrameli.
+3. **Cambia solo la pagina indice** (`page-calcolo.php`, `page-utilita.php`): come sono raggruppati i link, in che ordine e con quali titoli.
+4. **Fonte di verità nel prototipo:**
    - calcolatori: `TOOL_CATEGORIES` e `TOOLS` in `lib/site.ts`; griglia in `components/tools/tools-index.tsx` e `components/tools/tools-grid.tsx`
    - utilità: `UTILITY_CATEGORIES`, `LIVE_UTILITY_GROUPS`, `LIVE_FORMULARI` e `getUtilityPages()` in `lib/wp.ts`; impaginazione in `components/utilita/utilita-index.tsx`
    - Se questo documento e il codice non coincidono, vale il codice. Segnalami la differenza.
-4. **Implementazione consigliata:** un file `inc/tools.php` con gli stessi due registri sotto forma di array PHP, nello stesso ordine. Lascia i campi ACF `categoria_calcolatore` / `categoria_utilita` solo come override per le pagine nuove (vedi più sotto). Non usare tassonomie nuove.
+5. **Implementazione consigliata:** un file `inc/tools.php` con gli stessi due registri sotto forma di array PHP, nello stesso ordine. Lascia i campi ACF `categoria_calcolatore` / `categoria_utilita` solo come override per le pagine nuove (vedi più sotto). Non usare tassonomie nuove.
 
 ## Calcolatori (`/calcolo/`)
 
@@ -170,6 +173,7 @@ Regole:
 
 ## Da fare
 
+0. Elenca i CSS/JS attuali dei calcolatori e delle utilità e mantienine il caricamento invariato nel nuovo tema (regola 2). Verifica su 3 calcolatori e 3 utilità che i form abbiano lo stesso aspetto di oggi.
 1. Crea o aggiorna `inc/tools.php` con i due registri qui sopra (calcolatori con `category` e `also_in`, utilità con slug e titolo per sezione, formulari come link fissi).
 2. Aggiorna `page-calcolo.php` e `page-utilita.php` perché leggano solo da quel file, nello stesso ordine.
 3. Nella pagina singola di un calcolatore usa la categoria principale per breadcrumb e correlati.
