@@ -11,6 +11,7 @@ Il prototipo è la **fonte di verità per la grafica**: in caso di dubbio, confr
 | [mappa-template.md](mappa-template.md) | Ogni pagina del prototipo e il template WordPress corrispondente; componenti e template part |
 | [dati-e-integrazioni.md](dati-e-integrazioni.md) | Da dove arrivano i dati, plugin, campi personalizzati, newsletter, annunci, assistente AI |
 | [design-system.md](design-system.md) | Colori, font, spaziature, layout e regole tipografiche |
+| [calcolatori-e-utilita.md](calcolatori-e-utilita.md) | Sezioni, ordine e link degli indici `/calcolo/` e `/utilita/` (aggiornato: prevale su ogni indicazione precedente) |
 | [theme.json](theme.json) | Bozza di `theme.json` con palette, font e larghezze già impostati |
 | [checklist.md](checklist.md) | Controlli da superare prima di andare online |
 
@@ -28,7 +29,7 @@ Il prototipo è la **fonte di verità per la grafica**: in caso di dubbio, confr
 2. Header, footer, barra mobile e pulsante «Avvocato AI»: tutte le pagine li condividono.
 3. Template singolo articolo (`single.php`) e archivio di categoria: coprono la maggior parte del traffico.
 4. Codici, testi unici e Costituzione: indice dell'atto e pagina del singolo articolo.
-5. Calcolatori e utilità: restano normali pagine WordPress, il tema fornisce solo la cornice. Non riscrivere i form.
+5. Calcolatori e utilità: restano normali pagine WordPress, il tema fornisce solo la cornice. Non riscrivere i form. Gli indici seguono [calcolatori-e-utilita.md](calcolatori-e-utilita.md).
 6. Home, Banca dati, ricerca, tag, contatti e consulenza.
 7. Annunci, newsletter, assistente AI.
 8. Checklist finale e confronto visivo pagina per pagina con il prototipo.

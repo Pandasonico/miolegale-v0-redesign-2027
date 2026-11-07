@@ -81,13 +81,12 @@ export type UtilityPage = {
 export const UTILITY_CATEGORY_FIELD = 'categoria_utilita'
 
 export const UTILITY_CATEGORIES = [
-  { slug: 'avvocati', label: 'Utilità per avvocati' },
-  { slug: 'tassi-istat', label: 'Tassi di interesse e indici Istat' },
-  { slug: 'medicina-legale', label: 'Medicina legale' },
-  { slug: 'codice-strada', label: 'Codice della strada' },
-  { slug: 'proprieta-catasto', label: 'Proprietà e catasto' },
-  { slug: 'formulari-civili-penali', label: 'Formulario civile e penale' },
-  { slug: 'altre-utilita', label: 'Altre utilità' },
+  { slug: 'tassi-indici', label: 'Tassi e indici' },
+  { slug: 'compensi-spese', label: 'Compensi e spese di giustizia' },
+  { slug: 'danno-persona', label: 'Danno alla persona' },
+  { slug: 'proprieta-catasto', label: 'Immobili e usufrutto' },
+  { slug: 'codice-strada', label: 'Circolazione stradale' },
+  { slug: 'formulari', label: 'Formulari' },
 ] as const
 
 const POPULAR_UTILITY_SLUGS = new Set([
@@ -101,44 +100,34 @@ const POPULAR_UTILITY_SLUGS = new Set([
   'tabelle-tribunale-roma',
 ])
 
-/* Copia della suddivisione pubblicata su miolegale.it/utilita/, nello stesso ordine. */
-const LIVE_UTILITY_GROUPS: Record<string, string[]> = {
-  avvocati: ['parametri-forensi', 'tabella-contributo-unificato', 'tabella-diritti-di-copia', 'riforma-cartabia-civile', 'codici-iscrizione-ruolo'],
-  'tassi-istat': ['ultimo-indice-istat', 'tasso-interesse-legale', 'tabella-tassi-soglia-usura', 'tasso-interessi-moratori', 'tabella-interessi-moratori-appalti-pubblici'],
-  'medicina-legale': [
-    'tabelle-tribunale-milano',
-    'tabella-menomazioni-inail',
-    'tabelle-indennizzo-danno-biologico-inail',
-    'tabella-lesioni-micropermanenti',
-    'lesioni-infermita-causa-servizio',
-    'tabella-risarcimento-micropermanenti',
-    'tabelle-tribunale-roma',
+/* Copia della suddivisione pubblicata su miolegale.it/utilita/: stesse sezioni, stesso ordine, stessi titoli. */
+const LIVE_UTILITY_GROUPS: Record<string, [slug: string, title: string][]> = {
+  'tassi-indici': [
+    ['tasso-interesse-legale', 'Tasso di interesse legale'], ['tasso-interessi-moratori', 'Tasso degli interessi moratori'],
+    ['tabella-tassi-soglia-usura', 'Tassi soglia d’usura'], ['ultimo-indice-istat', 'Ultimo indice Istat'],
   ],
-  'codice-strada': ['tabella-punti-patente', 'tabelle-alcolemiche'],
-  'proprieta-catasto': ['coefficienti-calcolo-usufrutto', 'categorie-catastali'],
+  'compensi-spese': [
+    ['parametri-forensi', 'Parametri forensi'], ['parametri-forensi-penali', 'Parametri forensi penali'],
+    ['tabella-contributo-unificato', 'Tabella del contributo unificato'], ['tabella-diritti-di-copia', 'Diritti di copia'],
+    ['tariffe-mediazione-civile', 'Tariffe della mediazione'], ['codici-iscrizione-ruolo', 'Codici di iscrizione a ruolo'],
+  ],
+  'danno-persona': [
+    ['tabelle-tribunale-milano', 'Tabelle del Tribunale di Milano'], ['tabelle-tribunale-roma', 'Tabelle del Tribunale di Roma'],
+    ['tabella-lesioni-micropermanenti', 'Tabella delle lesioni micropermanenti'], ['tabella-risarcimento-micropermanenti', 'Risarcimento delle micropermanenti'],
+    ['tabelle-indennizzo-danno-biologico-inail', 'Indennizzo INAIL del danno biologico'], ['tabella-menomazioni-inail', 'Tabella delle menomazioni INAIL'],
+    ['causa-di-servizio', 'Causa di servizio'],
+  ],
+  'proprieta-catasto': [['categorie-catastali', 'Categorie catastali'], ['coefficienti-calcolo-usufrutto', 'Coefficienti dell’usufrutto']],
+  'codice-strada': [['tabella-punti-patente', 'Tabella dei punti patente'], ['tabelle-alcolemiche', 'Tabelle alcolemiche']],
 }
 
 const LIVE_UTILITY_ORDER = new Map(
-  Object.entries(LIVE_UTILITY_GROUPS).flatMap(([category, slugs]) => slugs.map((slug, index) => [slug, { category, index }] as const)),
+  Object.entries(LIVE_UTILITY_GROUPS).flatMap(([category, entries]) => entries.map(([slug, title], index) => [slug, { category, index, title }] as const)),
 )
 
 const LIVE_FORMULARI: { title: string; href: string }[] = [
-  { title: 'Dichiarazione ex art. 137, comma 7 c.p.c.', href: 'https://miolegale.it/formulario-civile/dichiarazione-137-cpc/' },
-  { title: 'Rinuncia al mandato difensivo avvocato', href: 'https://miolegale.it/formulario-civile/rinuncia-al-mandato-difensivo/' },
-  { title: 'Verbale di rinuncia al mandato difensivo', href: 'https://miolegale.it/formulario-civile/verbale-rinuncia-al-mandato-difensivo/' },
-  { title: 'Revoca mandato avvocato', href: 'https://miolegale.it/formulario-civile/revoca-mandato-avvocato/' },
-  { title: 'Ricorso congiunto di divorzio', href: 'https://miolegale.it/formulario-civile/ricorso-congiunto-divorzio/' },
-  { title: 'Atto di citazione Tribunale (riforma Cartabia)', href: 'https://miolegale.it/formulario-civile/atto-di-citazione-tribunale/' },
-  {
-    title: 'Istanza ex art. 492 bis c.p.c. per l’accesso ai dati contenuti nelle banche dati delle pubbliche amministrazioni',
-    href: 'https://miolegale.it/formulario-civile/istanza-art-492-bis-cpc/',
-  },
-  { title: 'Istanza ex art. 335, comma 3 ter c.p.p. della persona offesa dal reato', href: 'https://miolegale.it/formulario-penale/istanza-335-comma-3-ter/' },
-  { title: 'Avviso iscrizione al ruolo pignoramento ex art 543, 5 comma c.p.c.', href: 'https://miolegale.it/formulario-civile/avviso-iscrizione-al-ruolo-pignoramento/' },
-  {
-    title: 'Comparsa di costituzione e richiesta di prosecuzione del processo interrotto',
-    href: 'https://miolegale.it/formulario-civile/costituzione-processo-interrotto/',
-  },
+  { title: 'Formulario civile', href: 'https://miolegale.it/formulario-civile/' },
+  { title: 'Formulario penale', href: 'https://miolegale.it/formulario-penale/' },
 ]
 
 function utilitySlug(href: string) {
@@ -153,13 +142,13 @@ function utilityCategory(href: string): string {
   const live = LIVE_UTILITY_ORDER.get(utilitySlug(href))
   if (live) return live.category
   const path = href.toLowerCase()
-  if (path.includes('/parametri-forensi')) return 'avvocati'
-  if (path.includes('tasso') || path.includes('interess') || path.includes('istat') || path.includes('usura')) return 'tassi-istat'
-  if (path.includes('inail') || path.includes('lesion') || path.includes('menomaz') || path.includes('biologic') || path.includes('medicina')) return 'medicina-legale'
-  if (path.includes('codice-strada') || path.includes('patente') || path.includes('autovelox')) return 'codice-strada'
-  if (path.includes('catast') || path.includes('usufrutto') || path.includes('propriet') || path.includes('immobil')) return 'proprieta-catasto'
-  if (path.includes('formulario') || path.includes('atto-') || path.includes('ricorso') || path.includes('istanza')) return 'formulari-civili-penali'
-  return 'altre-utilita'
+  if (path.includes('formulario')) return 'formulari'
+  if (path.includes('tasso') || path.includes('interess') || path.includes('istat') || path.includes('usura')) return 'tassi-indici'
+  if (path.includes('parametri') || path.includes('contributo') || path.includes('diritti') || path.includes('mediazione') || path.includes('ruolo')) return 'compensi-spese'
+  if (path.includes('inail') || path.includes('lesion') || path.includes('menomaz') || path.includes('biologic') || path.includes('tribunale') || path.includes('servizio')) return 'danno-persona'
+  if (path.includes('catast') || path.includes('usufrutto')) return 'proprieta-catasto'
+  if (path.includes('patente') || path.includes('alcol')) return 'codice-strada'
+  return 'tassi-indici'
 }
 
 function utilityCategoryFromAcf(raw: unknown): string | undefined {
@@ -188,7 +177,7 @@ export async function getUtilityPages(): Promise<UtilityPage[]> {
     const utilityPages = data.filter((page) => {
       try {
         const segments = new URL(page.link).pathname.split('/').filter(Boolean)
-        return segments.length === 2 && segments[0] === 'utilita'
+        return segments.length === 2 && segments[0] === 'utilita' && LIVE_UTILITY_ORDER.has(utilitySlug(page.link))
       } catch {
         return false
       }
@@ -196,7 +185,7 @@ export async function getUtilityPages(): Promise<UtilityPage[]> {
     /* The ACF value overrides the URL heuristic, so new pages can be categorized from WordPress. */
     const pages = utilityPages.map((p) => ({
       id: p.id,
-      title: decodeEntities(p.title.rendered),
+      title: LIVE_UTILITY_ORDER.get(utilitySlug(p.link))?.title ?? decodeEntities(p.title.rendered),
       excerpt: decodeEntities(p.excerpt.rendered),
       href: p.link,
       modified: p.modified,
@@ -204,13 +193,14 @@ export async function getUtilityPages(): Promise<UtilityPage[]> {
       popular: POPULAR_UTILITY_SLUGS.has(utilitySlug(p.link)),
     }))
     const knownLinks = new Set(pages.map((page) => page.href))
-    const formulari = LIVE_FORMULARI.filter((item) => !knownLinks.has(item.href)).map((item, index) => ({
+    const staticLinks = LIVE_FORMULARI.map((item) => ({ ...item, category: 'formulari' }))
+    const formulari = staticLinks.filter((item) => !knownLinks.has(item.href)).map((item, index) => ({
       id: -(index + 1),
       title: item.title,
       excerpt: '',
       href: item.href,
       modified: '',
-      category: 'formulari-civili-penali',
+      category: item.category,
       popular: false,
     }))
     const rank = (page: UtilityPage) => LIVE_UTILITY_ORDER.get(utilitySlug(page.href))?.index ?? Number.MAX_SAFE_INTEGER
