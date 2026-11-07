@@ -22,8 +22,8 @@ Nessun colore diretto nei template: usa solo i token (`bg-primary`, `text-ink`..
 ## Font
 
 - **IBM Plex Sans** (`--font-sans`): interfaccia, titoli, menu, pulsanti.
-- **Public Sans** pesi 400/500/600/700: testo degli articoli (`.wp-content`) e degli atti (`.act-text`).
-- Monospazio di sistema (`--font-mono`): etichette in maiuscolo («BANCA DATI», «CALCOLATORI») e numeri dei commi.
+- **Public Sans**, un solo file variabile (pesi 400–700): testo degli articoli (`.wp-content`) e degli atti (`.act-text`).
+- Monospazio **di sistema** (`--font-mono: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace`): etichette in maiuscolo («BANCA DATI», «CALCOLATORI») e numeri dei commi. Non caricare font monospazio (niente IBM Plex Mono).
 
 Ospita i font nel tema (woff2 in `assets/fonts/`, `font-display: swap`). Non caricarli da Google Fonts.
 

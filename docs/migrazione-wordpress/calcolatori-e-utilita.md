@@ -13,7 +13,7 @@ Questo documento sostituisce ogni indicazione precedente sull'organizzazione di 
    - calcolatori: `TOOL_CATEGORIES` e `TOOLS` in `lib/site.ts`; griglia in `components/tools/tools-index.tsx` e `components/tools/tools-grid.tsx`
    - utilità: `UTILITY_CATEGORIES`, `LIVE_UTILITY_GROUPS`, `LIVE_FORMULARI` e `getUtilityPages()` in `lib/wp.ts`; impaginazione in `components/utilita/utilita-index.tsx`
    - Se questo documento e il codice non coincidono, vale il codice. Segnalami la differenza.
-5. **Implementazione consigliata:** un file `inc/tools.php` con gli stessi due registri sotto forma di array PHP, nello stesso ordine. Lascia i campi ACF `categoria_calcolatore` / `categoria_utilita` solo come override per le pagine nuove (vedi più sotto). Non usare tassonomie nuove.
+5. **Implementazione consigliata:** un file `inc/tools.php` con gli stessi due registri sotto forma di array PHP, nello stesso ordine. I campi ACF hanno ruoli diversi: `categoria_calcolatore` assegna la categoria ai calcolatori nuovi non ancora nel registro; `categoria_utilita` può solo spostare in un'altra sezione un'utilità già presente nel registro (un'utilità nuova entra nell'indice solo quando la aggiungo io al registro). Non usare tassonomie nuove.
 
 ## Calcolatori (`/calcolo/`)
 
@@ -122,13 +122,15 @@ Ordine delle categorie e dei calcolatori: quello qui sotto, identico a `lib/site
 - Quote e percentuali: `/calcolo/quote-percentuali/`
 
 Note:
-- 18 di questi calcolatori sono pubblicati ma oggi non sono linkati dall'indice di produzione: bollo auto, codice fiscale e codice fiscale inverso, conversione della pena pecuniaria, forfettario, imposte di successione, IRPEF, legge Pinto, lesioni macropermanenti, misure alternative, patteggiamento, pena sostitutiva, punti patente, ravvedimento operoso, ripartizione delle spese condominiali, sospensione condizionale, stipendio netto, tasso alcolemico. Nel nuovo indice vanno mostrati tutti.
+- 18 di questi calcolatori sono pubblicati ma oggi non sono linkati dall'indice di produzione (codice fiscale e codice fiscale inverso sono due pagine distinte): bollo auto, codice fiscale, codice fiscale inverso, conversione della pena pecuniaria, forfettario, imposte di successione, IRPEF, legge Pinto, lesioni macropermanenti, misure alternative, patteggiamento, pena sostitutiva, punti patente, ravvedimento operoso, ripartizione delle spese condominiali, sospensione condizionale, stipendio netto, tasso alcolemico. Nel nuovo indice vanno mostrati tutti.
 - Il calcolatore TAN/TAEG ha slug `taeg` (la chiave icona in `tools-grid.tsx` è `taeg`, non più `tasso-interesse-calcolo-taeg`).
 - Le icone dei calcolatori seguono la mappa `ICONS` in `components/tools/tools-grid.tsx`. Esporta le icone Lucide usate come SVG inline nel tema.
 
 ## Utilità (`/utilita/`)
 
 L'indice riproduce **esattamente** l'elenco pubblicato oggi su miolegale.it/utilita: 6 sezioni, stesso ordine, stessi titoli. I titoli mostrati nell'indice sono quelli qui sotto, **non** il titolo della pagina WordPress, che spesso è più lungo.
+
+In testa all'indice, prima delle sezioni, c'è il blocco **«Utilità più consultate»** con tre schede, come nel prototipo (`POPULAR_UTILITY_SLUGS` in `lib/wp.ts`, impaginazione in `components/utilita/utilita-index.tsx`): Tabella del contributo unificato, Ultimo indice Istat, Coefficienti dell’usufrutto. Riproducilo così.
 
 **Tassi e indici** (`tassi-indici`)
 - Tasso di interesse legale: `/utilita/tasso-interesse-legale/`
