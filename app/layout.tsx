@@ -17,7 +17,6 @@ const plexSans = IBM_Plex_Sans({
 
 const publicSans = Public_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
   variable: '--font-public-sans',
   display: 'swap',
 })
@@ -42,6 +41,15 @@ export const viewport: Viewport = {
 }
 
 const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT
+
+/**
+ * MioLegale.it - Gestione widget Google Funding Choices
+ * Nasconde:
+ * - Widget flottante desktop (#ft-floating-toolbar)
+ * - Link automatico mobile (.ipr-container)
+ * Utilizza MutationObserver, senza polling.
+ */
+const FC_WIDGET_HIDER = `(()=>{"use strict";const s="#ft-floating-toolbar, .ipr-container",r=new WeakSet,f=new WeakSet;function a(e){try{e.contentDocument&&o(e.contentDocument)}catch(t){}}function n(e){if(!e||![1,9,11].includes(e.nodeType))return;if(e.nodeType===1&&e.matches(s)){e.remove();return}if(!e.querySelectorAll)return;e.querySelectorAll(s).forEach(t=>t.remove());function i(t){t.shadowRoot&&o(t.shadowRoot);if(t.tagName==="IFRAME"){if(!f.has(t)){f.add(t);t.addEventListener("load",()=>a(t))}a(t)}}e.nodeType===1&&i(e);e.querySelectorAll("*").forEach(i)}function o(e){if(r.has(e))return;r.add(e);new MutationObserver(t=>{for(const c of t)for(const d of c.addedNodes)n(d)}).observe(e,{childList:true,subtree:true});n(e)}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",()=>o(document),{once:true}):o(document)})();`
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -69,6 +77,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           />
         )}
         {process.env.NODE_ENV === 'production' && <Analytics />}
+        <Script id="fc-widget-hider" strategy="afterInteractive">
+          {FC_WIDGET_HIDER}
+        </Script>
       </body>
     </html>
   )
