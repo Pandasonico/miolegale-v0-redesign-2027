@@ -26,6 +26,7 @@ Spunta ogni voce in staging prima di attivare il tema in produzione.
 - [ ] Iscrizione alla newsletter (conferma reale ricevuta)
 - [ ] Form di consulenza inviato e ricevuto
 - [ ] Le pagine dei calcolatori e delle utilità mostrano il loro contenuto originale, invariato, dentro la nuova cornice (lo stile dei form è fuori dal perimetro della migrazione)
+- [ ] I CSS/JS specifici dei calcolatori e delle utilità sono caricati come prima e i form hanno lo stesso aspetto di oggi (il CSS del tema non li altera)
 - [ ] Assistente AI risponde in streaming dal tema
 - [ ] Copia testo, stampa, condivisione, torna su, sommario
 - [ ] Annunci visibili nei formati 350x250, 350x600 e in-article, senza spostamenti del layout
