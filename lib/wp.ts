@@ -182,7 +182,7 @@ export async function getUtilityPages(): Promise<UtilityPage[]> {
         return false
       }
     })
-    /* The ACF value overrides the URL heuristic, so new pages can be categorized from WordPress. */
+    /* Il campo ACF può solo spostare in un'altra sezione una pagina già presente in LIVE_UTILITY_GROUPS. */
     const pages = utilityPages.map((p) => ({
       id: p.id,
       title: LIVE_UTILITY_ORDER.get(utilitySlug(p.link))?.title ?? decodeEntities(p.title.rendered),
