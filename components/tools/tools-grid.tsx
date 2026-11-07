@@ -13,7 +13,7 @@ const ICONS: Record<string, typeof Percent> = {
   'fattura-scorporo': FileText,
   'eta-anagrafica': UserRound,
   percentuale: Percent,
-  'tasso-interesse-calcolo-taeg': Banknote,
+  taeg: Banknote,
   data: CalendarPlus,
   'prezzo-iniziale': Tag,
   'sconto-ricarico': Tag,

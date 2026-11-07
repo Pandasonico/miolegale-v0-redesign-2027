@@ -103,14 +103,14 @@ const POPULAR_UTILITY_SLUGS = new Set([
 
 /* Copia della suddivisione pubblicata su miolegale.it/utilita/, nello stesso ordine. */
 const LIVE_UTILITY_GROUPS: Record<string, string[]> = {
-  avvocati: ['parametri-forensi', 'tabella-contributo-unificato', 'tabella-diritti-di-copia', 'riforma-cartabia-civile', 'codici-iscrizione-ruolo'],
-  'tassi-istat': ['ultimo-indice-istat', 'tasso-interesse-legale', 'tabella-tassi-soglia-usura', 'tasso-interessi-moratori', 'tabella-interessi-moratori-appalti-pubblici'],
+  avvocati: ['parametri-forensi', 'tabella-contributo-unificato', 'tabella-diritti-di-copia', 'tariffe-mediazione-civile', 'codici-iscrizione-ruolo'],
+  'tassi-istat': ['ultimo-indice-istat', 'tasso-interesse-legale', 'tabella-tassi-soglia-usura', 'tasso-interessi-moratori'],
   'medicina-legale': [
     'tabelle-tribunale-milano',
     'tabella-menomazioni-inail',
     'tabelle-indennizzo-danno-biologico-inail',
     'tabella-lesioni-micropermanenti',
-    'lesioni-infermita-causa-servizio',
+    'causa-di-servizio',
     'tabella-risarcimento-micropermanenti',
     'tabelle-tribunale-roma',
   ],
