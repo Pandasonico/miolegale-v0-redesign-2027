@@ -201,7 +201,7 @@ export async function getUtilityPages(): Promise<UtilityPage[]> {
       href: item.href,
       modified: '',
       category: item.category,
-      popular: item.href.endsWith('/testimonianza-scritta/'),
+      popular: false,
     }))
     const rank = (page: UtilityPage) => LIVE_UTILITY_ORDER.get(utilitySlug(page.href))?.index ?? Number.MAX_SAFE_INTEGER
     return [...pages, ...formulari].sort((a, b) => rank(a) - rank(b))
