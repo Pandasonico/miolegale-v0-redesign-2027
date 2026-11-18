@@ -45,6 +45,41 @@ export function ImageCard({ post, featured = false, titleSize }: { post: PostCar
   )
 }
 
+export function LeadCard({ post }: { post: PostCard }) {
+  const section = sectionBySlug(post.section)
+  return (
+    <article className="group relative grid overflow-hidden rounded-lg border border-border bg-card md:grid-cols-[minmax(0,1fr)_minmax(0,40%)]">
+      <div className="order-2 flex flex-col p-5 md:order-1 lg:p-8">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          {section && <span className="font-mono font-medium uppercase tracking-wider text-primary">{section.short}</span>}
+          <time dateTime={post.date}>{formatDate(post.date)}</time>
+        </div>
+        <h3 className="mt-2 line-clamp-3 font-sans text-2xl font-semibold leading-snug tracking-tight text-pretty lg:text-[28px]">
+          <Link href={post.href} className="after:absolute after:inset-0 group-hover:text-primary">
+            {post.title}
+          </Link>
+        </h3>
+        {post.excerpt && <p className="mt-3 line-clamp-4 leading-relaxed text-muted-foreground">{post.excerpt}</p>}
+        <span className="mt-auto flex items-center gap-1 pt-5 text-sm font-medium text-primary">
+          Leggi l&apos;articolo <ArrowRight className="size-4" aria-hidden />
+        </span>
+      </div>
+      <div className="relative order-1 aspect-[16/10] overflow-hidden bg-secondary md:order-2">
+        {post.image && (
+          <Image
+            src={post.image}
+            alt={post.imageAlt ?? ''}
+            fill
+            priority
+            sizes="(min-width: 768px) 40vw, 100vw"
+            className="object-cover"
+          />
+        )}
+      </div>
+    </article>
+  )
+}
+
 export function PostRow({ post, showExcerpt = true }: { post: PostCard; showExcerpt?: boolean }) {
   const section = sectionBySlug(post.section)
   return (

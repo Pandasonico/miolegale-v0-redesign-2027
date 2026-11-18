@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, Landmark } from 'lucide-react'
 import { AdSlot } from '@/components/ads/ad-slot'
-import { ImageCard, PostRow, SectionBlock } from '@/components/content/post-list'
+import { ImageCard, LeadCard, PostRow, SectionBlock } from '@/components/content/post-list'
 import { HomeTools } from '@/components/home/home-tools'
 import { Omnibox } from '@/components/home/omnibox'
 import { ConsulenzaBand } from '@/components/studio/consulenza-cta'
@@ -114,11 +114,15 @@ export default async function HomePage() {
               In primo piano
             </h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <ImageCard post={leadNews} featured titleSize="text-[23px]" />
-            {otherNews.map((p, i) => (
-              <ImageCard key={p.id} post={p} titleSize={i === 1 || i === 3 ? 'text-base' : undefined} />
-            ))}
+          <div className="flex flex-col gap-4">
+            <LeadCard post={leadNews} />
+            {otherNews.length > 0 && (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {otherNews.map((p) => (
+                  <ImageCard key={p.id} post={p} titleSize="text-base" />
+                ))}
+              </div>
+            )}
           </div>
         </section>
       )}
