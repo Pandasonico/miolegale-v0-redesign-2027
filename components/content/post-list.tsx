@@ -45,6 +45,42 @@ export function ImageCard({ post, featured = false, titleSize }: { post: PostCar
   )
 }
 
+export function LeadCard({ post }: { post: PostCard }) {
+  const section = sectionBySlug(post.section)
+  return (
+    <article className="group relative grid gap-5 rounded-lg border border-border bg-card p-4 md:grid-cols-[minmax(0,34%)_minmax(0,1fr)] md:gap-6 lg:grid-cols-[minmax(0,28%)_minmax(0,1fr)] lg:gap-8 lg:p-5">
+      <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-secondary">
+        {post.image && (
+          <Image
+            src={post.image}
+            alt={post.imageAlt ?? ''}
+            fill
+            priority
+            sizes="(min-width: 1024px) 28vw, (min-width: 768px) 34vw, 100vw"
+            className="object-cover"
+          />
+        )}
+      </div>
+      {/* md:h-0 + min-h-full: the row height comes from the image, so the text never makes the card taller */}
+      <div className="flex flex-col md:h-0 md:min-h-full md:overflow-hidden md:py-2 md:pr-4">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          {section && <span className="font-mono font-medium uppercase tracking-wider text-primary">{section.short}</span>}
+          <time dateTime={post.date}>{formatDate(post.date)}</time>
+        </div>
+        <h3 className="mt-2 line-clamp-3 font-sans text-2xl font-semibold leading-snug tracking-tight text-pretty md:line-clamp-2 md:text-lg lg:text-2xl">
+          <Link href={post.href} className="after:absolute after:inset-0 group-hover:text-primary">
+            {post.title}
+          </Link>
+        </h3>
+        {post.excerpt && <p className="mt-2 line-clamp-3 leading-relaxed text-muted-foreground md:line-clamp-1 lg:line-clamp-3">{post.excerpt}</p>}
+        <span className="mt-auto flex items-center gap-1 pt-4 text-sm font-medium text-primary">
+          Leggi l&apos;articolo <ArrowRight className="size-4" aria-hidden />
+        </span>
+      </div>
+    </article>
+  )
+}
+
 export function PostRow({ post, showExcerpt = true }: { post: PostCard; showExcerpt?: boolean }) {
   const section = sectionBySlug(post.section)
   return (
